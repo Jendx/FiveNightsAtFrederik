@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://btq6y6cvl11kx"]
+
+[ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
+[ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
+[ext_resource type="AudioStream" uid="uid://dfv6kkfjigy2k" path="res://scenes/level/sound/Factory.ogg" id="3_83qj5"]
+
+[sub_resource type="Environment" id="Environment_rp7tx"]
+background_mode = 1
+ambient_light_source = 1
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+
+[node name="lvl1" type="Node3D"]
+
+[node name="Enviroment" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment"]
+environment = SubResource("Environment_rp7tx")
+
+[node name="ambiance" type="AudioStreamPlayer" parent="Enviroment"]
+stream = ExtResource("3_83qj5")
+volume_db = -7.518
+pitch_scale = 0.86
+autoplay = true
+
+[node name="player" parent="." instance=ExtResource("1_2vk4x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0171601, 0)
+
+[node name="map" parent="." instance=ExtResource("2_ledho")]
