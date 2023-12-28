@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dftxggsxjil1n"
-path="res://.godot/imported/ground_lvl_1.glb-40f60cd91123a33b6a320ba774f5e2c4.scn"
+path="res://.godot/imported/ground_lvl_1.glb-71844032457ca4a95e6c9999e576a345.scn"
 
 [deps]
 
-source_file="res://scenes/levels/props/props_lvl_1/ground_lvl_1/3D/ground_lvl_1.glb"
-dest_files=["res://.godot/imported/ground_lvl_1.glb-40f60cd91123a33b6a320ba774f5e2c4.scn"]
+source_file="res://scenes/level/props/ground/3D/ground_lvl_1.glb"
+dest_files=["res://.godot/imported/ground_lvl_1.glb-71844032457ca4a95e6c9999e576a345.scn"]
 
 [params]
 
