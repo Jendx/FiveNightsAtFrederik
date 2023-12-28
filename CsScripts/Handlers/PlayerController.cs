@@ -1,13 +1,14 @@
+using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 
 namespace FiveNightsAtFrederik.CsScripts.Handlers;
 
-public class PlayerMovementHandler
+public class PlayerController
 {
     private Player _player;
     private Vector3 _velocity = new Vector3();
 
-    public PlayerMovementHandler(Player player)
+    public PlayerController(Player player)
     {
         _player = player;
     }
@@ -35,18 +36,6 @@ public class PlayerMovementHandler
         _player.MoveAndSlide();
     }
 
-    private Vector2 HandleJump()
-    {
-        //// Add the gravity.
-        //if (!IsOnFloor())
-        //    velocity.Y -= gravity * (float)delta;
-
-        //// Handle Jump.
-        //if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-        //    velocity.Y = JumpVelocity;
-        return Vector2.Zero;
-    }
-
     /// <summary>
     /// Rotates Player model & camera
     /// </summary>
@@ -63,5 +52,21 @@ public class PlayerMovementHandler
         // Clamp the camera's rotation so you can't look too far up or down
         float cameraRotation = Mathf.Clamp(camera.RotationDegrees.X, -70, 70);
         camera.RotationDegrees = new Vector3(cameraRotation, 0, 0);
+    }
+
+    public void UseRayCast(RayCast3D rayCast)
+    {
+        var colidedObject = rayCast.GetCollider();
+
+        if (colidedObject is null || colidedObject is not StaticBody3D)
+        {
+            return;
+        }
+
+        var staticBody = (StaticBody3D)colidedObject;
+        if (staticBody.Owner.HasMethod(nameof(IUsableNode.OnBeginUse)))
+        {
+            staticBody.Owner.Call(nameof(IButton.OnBeginUse));
+        }
     }
 }

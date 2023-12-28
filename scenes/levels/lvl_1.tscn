@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=7 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://dftxggsxjil1n" path="res://scenes/levels/props/props_lvl_1/ground_lvl_1/3D/ground_lvl_1.glb" id="1_0ypju"]
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_oenxj"]
+[ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/levels/props/props_lvl_1/Button/button.tscn" id="3_s1f5a"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tjwcr"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -31,3 +32,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01716, 0)
 
 [node name="ground_lvl_1" parent="." instance=ExtResource("1_0ypju")]
+
+[node name="Button" parent="." instance=ExtResource("3_s1f5a")]
+transform = Transform3D(0.347715, 0, 0, 0, -1.51991e-08, 0.347715, 0, -0.347715, -1.51991e-08, 0, 1.34506, 3)
+DelayLength = 1.0

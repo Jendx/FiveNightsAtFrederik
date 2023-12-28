@@ -19,3 +19,6 @@ mesh = SubResource("CapsuleMesh_ejgkg")
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.512434, -0.49964)
 fov = 90.0
+
+[node name="RayCast" type="RayCast3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, -1.17823e-07, -1, 0, 2.69547, -4.37114e-08, 0, 0, -0.0637127)
