@@ -19,7 +19,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public readonly PlayerMovementHandler PlayerMovementHandler;
 	private Camera3D _camera;
 
-	public Player() 
+	public Player()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 
