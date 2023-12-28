@@ -1,4 +1,5 @@
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 
 namespace FiveNightsAtFrederik.CsScripts.Handlers;
@@ -7,6 +8,7 @@ public class PlayerController
 {
     private Player _player;
     private Vector3 _velocity = new Vector3();
+    private StaticBody3D usableObject;
 
     public PlayerController(Player player)
     {
@@ -63,10 +65,19 @@ public class PlayerController
             return;
         }
 
-        var staticBody = (StaticBody3D)colidedObject;
-        if (staticBody.Owner.HasMethod(nameof(IUsableNode.OnBeginUse)))
+        usableObject = (StaticBody3D)colidedObject;
+        if (usableObject.Owner.HasMethod(nameof(IUsableNode.OnBeginUse)))
         {
-            staticBody.Owner.Call(nameof(IButton.OnBeginUse));
+            usableObject.Owner.Call(nameof(IButton.OnBeginUse));
+        }
+    }
+
+    public void StopUsingRayCast()
+    {
+        if (usableObject is not null && usableObject.Owner.HasMethod(nameof(IUsableNode.OnEndUse)))
+        {
+            usableObject.Owner.Call(nameof(IButton.OnEndUse));
+            usableObject = null;
         }
     }
 }

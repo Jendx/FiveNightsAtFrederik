@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvvc33rg6d3ll"
-path.s3tc="res://.godot/imported/Button_Button_D.png-c91c7159418d099844cd35952e80e1c6.s3tc.ctex"
+uid="uid://dr3e2rxbryeav"
+path.s3tc="res://.godot/imported/Button_Button_R.png-4f229b2da5b53a68ecc8f8d8d3ab0ba8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://scenes/levels/props/props_lvl_1/Button/Button_Button_D.png"
-dest_files=["res://.godot/imported/Button_Button_D.png-c91c7159418d099844cd35952e80e1c6.s3tc.ctex"]
+source_file="res://scenes/level/props/Button/Button_Button_R.png"
+dest_files=["res://.godot/imported/Button_Button_R.png-4f229b2da5b53a68ecc8f8d8d3ab0ba8.s3tc.ctex"]
 
 [params]
 

@@ -9,4 +9,7 @@ public interface IButton : IUsableNode
     public float DelayLength { get; set; }
 
     public Node3D UsableNode { get; set; }
+
+    public AudioStreamOggVorbis SwitchOnAudio { get; set; }
+    public AudioStreamOggVorbis SwitchOffAudio { get; set; }
 }

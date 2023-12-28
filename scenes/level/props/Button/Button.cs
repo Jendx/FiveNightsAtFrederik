@@ -2,7 +2,7 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System;
 
-namespace FiveNightsAtFrederik.CsScripts.Scenes.Levels.Props.Props_lvl_1.Button;
+namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Button;
 
 public partial class Button : Node, IButton
 {
@@ -15,15 +15,24 @@ public partial class Button : Node, IButton
 	[Export]
 	public Node3D UsableNode { get; set; }
 
+	[Export]
+	public AudioStreamOggVorbis SwitchOnAudio { get; set; }
+
+	[Export]
+	public AudioStreamOggVorbis SwitchOffAudio { get; set; }
+
 	private bool isOnCoolDown;
+	private AudioStreamPlayer audioPlayer;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		if (UsableNode is null)
 		{
-			GD.PrintErr($"{this.Name} UsableNode Is null and won't be executed");
+			GD.PrintErr($"{Name} UsableNode Is null and won't be executed");
 		}
+
+		audioPlayer = GetNode<AudioStreamPlayer>("UseAudio");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,7 +48,10 @@ public partial class Button : Node, IButton
 		}
 
 		isOnCoolDown = true;
-		if (UsableNode.HasMethod(nameof(IUsableNode.OnBeginUse)))
+		audioPlayer.Stream = SwitchOnAudio;
+		audioPlayer.Play();
+
+		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsableNode.OnBeginUse)))
 		{
 			UsableNode.Call(nameof(IUsableNode.OnBeginUse), IsToggle);
 		}
@@ -53,25 +65,15 @@ public partial class Button : Node, IButton
 		isOnCoolDown = false;
 	}
 
-	public async void OnEndUse()
+	public void OnEndUse()
 	{
-		if (isOnCoolDown)
-		{
-			return;
-		}
+		audioPlayer.Stream = SwitchOffAudio;
+		audioPlayer.Play();
 
-		isOnCoolDown = true;
-		if (UsableNode.HasMethod(nameof(IUsableNode.OnEndUse)))
+		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsableNode.OnEndUse)))
 		{
 			UsableNode.Call(nameof(IUsableNode.OnEndUse), IsToggle);
 		}
 
-		if (DelayLength != default)
-		{
-			var timer = GetTree().CreateTimer(DelayLength);
-			await ToSignal(timer, "timeout");
-		}
-
-		isOnCoolDown = false;
 	}
 }

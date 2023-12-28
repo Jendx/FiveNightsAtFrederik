@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cu5p7d66niv6h"
+path="res://.godot/imported/Switch On.ogg-8b6a5468b98a31b274ced1ba67ab0d5d.oggvorbisstr"
+
+[deps]
+
+source_file="res://scenes/level/Switch On.ogg"
+dest_files=["res://.godot/imported/Switch On.ogg-8b6a5468b98a31b274ced1ba67ab0d5d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

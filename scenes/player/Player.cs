@@ -2,6 +2,8 @@ using FiveNightsAtFrederik.CsScripts.Handlers;
 using FiveNightsAtFrederik.CsScripts.Controllers.Interfaces;
 using Godot;
 
+namespace FiveNightsAtFrederik.Scenes.Player;
+
 public partial class Player : CharacterBody3D, IMovableCharacter
 {
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -42,6 +44,11 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		if (Input.IsActionJustPressed("Use"))
 		{
 			PlayerController.UseRayCast(_rayCast);
+		}
+
+		if (Input.IsActionJustReleased("Use"))
+		{
+			PlayerController.StopUsingRayCast();
 		}
 	}
 

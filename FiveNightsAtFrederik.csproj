@@ -14,7 +14,4 @@
   <ItemGroup>
     <Folder Include="Scenes\player\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Scenes\UsableNode.gd" />
-  </ItemGroup>
 </Project>
