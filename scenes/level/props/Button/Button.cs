@@ -4,7 +4,7 @@ using System;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Button;
 
-public partial class Button : Node, IButton
+public partial class Button : Node, IButton, IUsable
 {
 	[Export]
 	public bool IsToggle { get; set; } = false;
@@ -40,7 +40,7 @@ public partial class Button : Node, IButton
 	{
 	}
 
-	public async void OnBeginUse()
+	public async void OnBeginUse(bool isToggle)
 	{
 		if (isOnCoolDown)
 		{
@@ -51,9 +51,9 @@ public partial class Button : Node, IButton
 		audioPlayer.Stream = SwitchOnAudio;
 		audioPlayer.Play();
 
-		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsableNode.OnBeginUse)))
+		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsable.OnBeginUse)))
 		{
-			UsableNode.Call(nameof(IUsableNode.OnBeginUse), IsToggle);
+			UsableNode.Call(nameof(IUsable.OnBeginUse), IsToggle);
 		}
 
 		if (DelayLength != default)
@@ -65,14 +65,14 @@ public partial class Button : Node, IButton
 		isOnCoolDown = false;
 	}
 
-	public void OnEndUse()
+	public void OnEndUse(bool isToggle)
 	{
 		audioPlayer.Stream = SwitchOffAudio;
 		audioPlayer.Play();
 
-		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsableNode.OnEndUse)))
+		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsable.OnEndUse)))
 		{
-			UsableNode.Call(nameof(IUsableNode.OnEndUse), IsToggle);
+			UsableNode.Call(nameof(IUsable.OnEndUse), IsToggle);
 		}
 
 	}
