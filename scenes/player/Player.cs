@@ -1,6 +1,7 @@
-using FiveNightsAtFrederik.CsScripts.Handlers;
 using FiveNightsAtFrederik.CsScripts.Controllers.Interfaces;
 using Godot;
+using FiveNightsAtFrederik.CsScripts;
+using FiveNightsAtFrederik.CsScripts.Controllers;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 
@@ -31,8 +32,8 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	public override void _Ready()
 	{
-		_camera = this.GetNode<Camera3D>("Camera");
-		_rayCast = _camera.GetNode<RayCast3D>("RayCast");
+		_camera = this.GetNode<Camera3D>(StringNames.Camera.ToString());
+		_rayCast = _camera.GetNode<RayCast3D>(StringNames.RayCast.ToString());
 
 		base._Ready();
 	}

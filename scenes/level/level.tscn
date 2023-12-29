@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=7 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
 [ext_resource type="AudioStream" uid="uid://dfv6kkfjigy2k" path="res://scenes/level/sound/Factory.ogg" id="3_83qj5"]
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
+[ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_lewj8"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -33,3 +34,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0171601, 0)
 
 [node name="Button" parent="." instance=ExtResource("4_ec2ve")]
 transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09, 1.13944, 1.17166, -2.36193)
+
+[node name="Camera_System" parent="." node_paths=PackedStringArray("_cameras") instance=ExtResource("5_lewj8")]
+transform = Transform3D(-9.21463e-09, 0, -0.0194788, 0, 0.273548, 0, 0.210806, 0, -8.51444e-10, 1.87261, 1.25778, 0.0501566)
+_cameras = [NodePath("C_OfficeLeft"), NodePath("C_OfficeRight")]
+
+[node name="C_OfficeLeft" type="Camera3D" parent="Camera_System"]
+transform = Transform3D(0.245243, -2.83091, 3.79848, -1.15405, 2.74516, 2.12041, -48.6403, -14.517, -7.67873, -3.62325, 2.71271, 28.71)
+
+[node name="C_OfficeRight" type="Camera3D" parent="Camera_System"]
+transform = Transform3D(-6.94388e-07, 1.26048, -4.57317, 8.93439e-06, 3.52425, 0.971368, 51.3379, -0.000118962, -4.05839e-05, 4.2427, 1.78395, 51.3378)
+
+[node name="CameraSwitchTemp" parent="." node_paths=PackedStringArray("UsableNode") instance=ExtResource("4_ec2ve")]
+transform = Transform3D(0.217367, 0, 0, 0, 0.217367, 0, 0, 0, 0.217367, 1.89846, 0.842981, -0.735606)
+UsableNode = NodePath("../Camera_System")

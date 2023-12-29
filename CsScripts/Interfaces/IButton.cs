@@ -2,7 +2,7 @@
 
 namespace FiveNightsAtFrederik.CsScripts.Interfaces;
 
-public interface IButton : IUsableNode
+public interface IButton
 {
     public bool IsToggle { get; set; }
 

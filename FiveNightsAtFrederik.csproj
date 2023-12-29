@@ -12,6 +12,7 @@
     <EmbeddedResource Remove="Scripts\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CsScripts\Handlers\" />
     <Folder Include="Scenes\player\" />
   </ItemGroup>
 </Project>
