@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqmuhi78lc7mt"]
+[gd_scene load_steps=6 format=3 uid="uid://bqmuhi78lc7mt"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_khwmd"]
+[ext_resource type="PackedScene" uid="uid://vps54mweee7u" path="res://scenes/player/2D/Hud.tscn" id="2_xb5ik"]
+[ext_resource type="Texture2D" uid="uid://dl0wh0456p8wv" path="res://scenes/player/Textures/Crosshair_Default.png" id="3_wstii"]
+[ext_resource type="Texture2D" uid="uid://chrlsc2kgmf8y" path="res://scenes/player/Textures/Crosshair_Use.jpg" id="4_ks7x4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6nyor"]
 radius = 0.357074
@@ -23,4 +26,12 @@ spot_range = 6.73753
 spot_angle = 76.6246
 
 [node name="RayCast" type="RayCast3D" parent="Camera"]
-transform = Transform3D(1, 0, 0, 0, -1.17823e-07, -1, 0, 2.69547, -4.37114e-08, 0, 0, -0.0637127)
+transform = Transform3D(1, 0, 0, 0, -4.46947e-08, -1, 0, 1.02249, -4.37114e-08, 0, 0, -0.0637127)
+debug_shape_custom_color = Color(1, 0.219608, 0.462745, 1)
+
+[node name="HUD" parent="Camera" instance=ExtResource("2_xb5ik")]
+top_level = true
+_defaultCrosshairTexture = ExtResource("3_wstii")
+_useCrosshairTexture = ExtResource("4_ks7x4")
+
+[connection signal="UsableObjectChanged" from="." to="Camera/HUD" method="OnPlayerUpdateCrosshairTexture"]

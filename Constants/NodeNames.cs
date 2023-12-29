@@ -1,8 +1,8 @@
 ﻿using Godot;
 
-namespace FiveNightsAtFrederik.CsScripts;
+namespace FiveNightsAtFrederik.Constants;
 
-public static class StringNames
+public static class NodeNames
 {
     //Button
     public static readonly StringName UseAudio = new("UseAudio");
@@ -14,4 +14,7 @@ public static class StringNames
     // Player
     public static readonly StringName Camera = new("Camera");
     public static readonly StringName RayCast = new("RayCast");
+
+    // Hud
+    public static readonly StringName Crosshair = new("Crosshair");
 }

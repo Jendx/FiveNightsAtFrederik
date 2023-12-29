@@ -1,3 +1,4 @@
+using FiveNightsAtFrederik.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System;
@@ -32,7 +33,7 @@ public partial class Button : Node, IButton, IUsable
 			GD.PrintErr($"{Name} UsableNode Is null and won't be executed");
 		}
 
-		audioPlayer = GetNode<AudioStreamPlayer>(StringNames.UseAudio.ToString());
+		audioPlayer = GetNode<AudioStreamPlayer>(NodeNames.UseAudio.ToString());
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,3 +1,4 @@
+using FiveNightsAtFrederik.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ public partial class CameraSystem : Node3D, IUsable
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_viewport = GetNode<SubViewport>(StringNames.CameraSystemViewport.ToString());
-		_cameraView = GetNode<MeshInstance3D>(StringNames.CameraView.ToString());
+		_viewport = GetNode<SubViewport>(NodeNames.CameraSystemViewport.ToString());
+		_cameraView = GetNode<MeshInstance3D>(NodeNames.CameraView.ToString());
 
 		// Cameras must be parented to SubViewport or they would project to player
 		foreach(var camera in _cameras)
