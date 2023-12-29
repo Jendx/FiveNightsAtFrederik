@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=8 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
 [ext_resource type="AudioStream" uid="uid://dfv6kkfjigy2k" path="res://scenes/level/sound/Factory.ogg" id="3_83qj5"]
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
+[ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_lewj8"]
+[ext_resource type="Texture2D" uid="uid://b53y8wdj7p3o0" path="res://docs/refs/main_menu/Hospoda-Na-Polance-WhatsApp-Image-2022-05-21-at-12-32-29-4-jpeg.jpg" id="6_yefhb"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -33,3 +35,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0171601, 0)
 
 [node name="Button" parent="." instance=ExtResource("4_ec2ve")]
 transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09, 1.13944, 1.17166, -2.36193)
+
+[node name="Camera_System" parent="." node_paths=PackedStringArray("_cameras") instance=ExtResource("5_lewj8")]
+transform = Transform3D(-9.21463e-09, 0, -0.0194788, 0, 0.273548, 0, 0.210806, 0, -8.51444e-10, 1.87261, 1.25778, 0.0501566)
+_cameras = [NodePath("C_OfficeLeft")]
+_defaultCameraTexture = ExtResource("6_yefhb")
+
+[node name="C_OfficeLeft" type="Camera3D" parent="Camera_System"]
+transform = Transform3D(0.245243, -2.83091, 3.79848, -1.15405, 2.74516, 2.12041, -48.6403, -14.517, -7.67873, -3.62325, 2.71271, 28.71)

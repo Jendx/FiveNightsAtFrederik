@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://byoe5jone6oqx"]
+
+[ext_resource type="Script" path="res://scenes/level/props/Camera_System/CameraSystem.cs" id="1_dq3pg"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_8r2km"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qc7k6"]
+viewport_path = NodePath("CameraSystemViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4t4j"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_qc7k6")
+
+[node name="Camera_System" type="Node3D" node_paths=PackedStringArray("_cameras")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0136986, 0)
+script = ExtResource("1_dq3pg")
+_cameras = []
+
+[node name="CameraSystemViewport" type="SubViewport" parent="."]
+
+[node name="CameraView" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.87891, 0, 0, 0, 1.50159, 0, 0, -5.33472e-15, 0.552274, 0.00165093, 0.00444567, -8.35359e-05)
+mesh = SubResource("QuadMesh_8r2km")
+surface_material_override/0 = SubResource("StandardMaterial3D_g4t4j")

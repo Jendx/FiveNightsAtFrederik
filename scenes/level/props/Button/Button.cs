@@ -32,7 +32,7 @@ public partial class Button : Node, IButton
 			GD.PrintErr($"{Name} UsableNode Is null and won't be executed");
 		}
 
-		audioPlayer = GetNode<AudioStreamPlayer>("UseAudio");
+		audioPlayer = GetNode<AudioStreamPlayer>(StringNames.UseAudio.ToString());
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
