@@ -1,4 +1,4 @@
-using FiveNightsAtFrederik.Constants;
+using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
@@ -11,7 +11,7 @@ public class PlayerController
     private Vector3 _velocity = new();
 
     private GodotObject _colidingObject;
-    private StaticBody3D _usableObject;
+    private IPlayerUsable _usableObject;
 
     public PlayerController(Player player)
     {
@@ -70,7 +70,7 @@ public class PlayerController
 
         _colidingObject = newColidingObject;
 
-        var isUsableObject = _colidingObject is not null || _colidingObject is StaticBody3D;
+        var isUsableObject = _colidingObject is not null && ((Node)_colidingObject).Owner is IPlayerUsable;
         if (!isUsableObject)
         {
             _usableObject = null;
@@ -78,25 +78,12 @@ public class PlayerController
             return;
         }
 
-        
-        _usableObject = (StaticBody3D)_colidingObject;
+        _usableObject = (IPlayerUsable)((Node)_colidingObject).Owner;
         _player.EmitSignal(nameof(_player.UsableObjectChanged), isUsableObject);
     }
 
 
-    public void Use()
-    {
-        if (_usableObject is not null && _usableObject.Owner.HasMethod(nameof(IUsable.OnBeginUse)))
-        {
-            _usableObject.Owner.Call(nameof(IUsable.OnBeginUse), false);
-        }
-    }
+    public void Use() => _usableObject?.OnBeginUse();
 
-    public void StopUsing()
-    {
-        if (_usableObject is not null && _usableObject.Owner.HasMethod(nameof(IUsable.OnEndUse)))
-        {
-            _usableObject.Owner.Call(nameof(IUsable.OnEndUse), false);
-        }
-    }
+    public void StopUsing() => _usableObject?.OnEndUse(); 
 }

@@ -1,11 +1,11 @@
-using FiveNightsAtFrederik.Constants;
+using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.CsScripts.Models.Interfaces;
 using Godot;
-using System;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Button;
 
-public partial class Button : Node, IButton, IUsable
+public partial class Button : Node, IButton, IPlayerUsable
 {
 	[Export]
 	public bool IsToggle { get; set; } = false;
@@ -22,26 +22,32 @@ public partial class Button : Node, IButton, IUsable
 	[Export]
 	public AudioStreamOggVorbis SwitchOffAudio { get; set; }
 
+	[Export]
+	private CSharpScript _parameters;
+
 	private bool isOnCoolDown;
 	private AudioStreamPlayer audioPlayer;
+	private IIndirectlyUsable<IUsableParameters>? _usableNodeScript;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
-		if (UsableNode is null)
+		if (UsableNode is null) 
 		{
 			GD.PrintErr($"{Name} UsableNode Is null and won't be executed");
 		}
 
 		audioPlayer = GetNode<AudioStreamPlayer>(NodeNames.UseAudio.ToString());
-	}
+        _usableNodeScript = UsableNode.GetScript().Obj as IIndirectlyUsable<IUsableParameters>;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
-	public async void OnBeginUse(bool isToggle)
+	public async void OnBeginUse()
 	{
 		if (isOnCoolDown)
 		{
@@ -52,10 +58,7 @@ public partial class Button : Node, IButton, IUsable
 		audioPlayer.Stream = SwitchOnAudio;
 		audioPlayer.Play();
 
-		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsable.OnBeginUse)))
-		{
-			UsableNode.Call(nameof(IUsable.OnBeginUse), IsToggle);
-		}
+        _usableNodeScript?.OnBeginUse(null);
 
 		if (DelayLength != default)
 		{
@@ -66,15 +69,11 @@ public partial class Button : Node, IButton, IUsable
 		isOnCoolDown = false;
 	}
 
-	public void OnEndUse(bool isToggle)
+	public void OnEndUse()
 	{
 		audioPlayer.Stream = SwitchOffAudio;
 		audioPlayer.Play();
 
-		if (UsableNode is not null && UsableNode.HasMethod(nameof(IUsable.OnEndUse)))
-		{
-			UsableNode.Call(nameof(IUsable.OnEndUse), IsToggle);
-		}
-
+        _usableNodeScript.OnEndUse(null);
 	}
 }

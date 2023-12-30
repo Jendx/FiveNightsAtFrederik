@@ -1,12 +1,12 @@
-using FiveNightsAtFrederik.Constants;
+using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.CsScripts.Models;
 using Godot;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 
-public partial class CameraSystem : Node3D, IUsable
+public partial class CameraSystem : Node3D, IIndirectlyUsable<CameraSystemParameters>
 {
 	[Export]
 	private Camera3D[] _cameras;
@@ -42,12 +42,12 @@ public partial class CameraSystem : Node3D, IUsable
 		RenderingServer.FramePostDraw -= PostDrawHandler;
 	}
 
-	public void OnBeginUse(bool isToggle)
+	public void OnBeginUse(CameraSystemParameters parameters)
 	{
 		SwitchCamera();
 	}
 
-	public void OnEndUse(bool isToggle) {}
+	public void OnEndUse(CameraSystemParameters parameters) {}
 
 	private void SwitchCamera()
 	{

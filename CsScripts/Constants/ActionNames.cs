@@ -1,7 +1,6 @@
-﻿using FiveNightsAtFrederik.Scenes.Player;
-using Godot;
+﻿using Godot;
 
-namespace FiveNightsAtFrederik.Constants;
+namespace FiveNightsAtFrederik.CsScripts.Constants;
 
 public static class ActionNames
 {
