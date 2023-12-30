@@ -1,7 +1,5 @@
 using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
-using FiveNightsAtFrederik.CsScripts.Interfaces;
-using FiveNightsAtFrederik.CsScripts.Models;
 using Godot;
 using System.Linq;
 
