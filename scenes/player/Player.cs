@@ -1,7 +1,7 @@
-using FiveNightsAtFrederik.CsScripts.Controllers.Interfaces;
 using Godot;
-using FiveNightsAtFrederik.CsScripts;
 using FiveNightsAtFrederik.CsScripts.Controllers;
+using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.CsScripts.Constants;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 
@@ -23,6 +23,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	private Camera3D _camera;
 	private RayCast3D _rayCast;
 
+	[Signal]
+	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
+
 	public Player()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -32,24 +35,22 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	public override void _Ready()
 	{
-		_camera = this.GetNode<Camera3D>(StringNames.Camera.ToString());
-		_rayCast = _camera.GetNode<RayCast3D>(StringNames.RayCast.ToString());
-
-		base._Ready();
+		_camera = GetNode<Camera3D>(NodeNames.Camera.ToString());
+		_rayCast = _camera.GetNode<RayCast3D>(NodeNames.RayCast.ToString());
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		PlayerController.HandleMovement();
 
-		if (Input.IsActionJustPressed("Use"))
+		if (Input.IsActionJustPressed(ActionNames.Use))
 		{
-			PlayerController.UseRayCast(_rayCast);
+			PlayerController.Use();
 		}
 
-		if (Input.IsActionJustReleased("Use"))
+		if (Input.IsActionJustReleased(ActionNames.Use))
 		{
-			PlayerController.StopUsingRayCast();
+			PlayerController.StopUsing();
 		}
 	}
 
@@ -58,6 +59,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
 			PlayerController.RotateByMouseDelta(eventMouseMotion.Relative, _camera);
+			PlayerController.UpdateLookAtObject(_rayCast);
 		}
 	}
 }

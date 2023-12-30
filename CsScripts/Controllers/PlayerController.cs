@@ -1,3 +1,4 @@
+using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
@@ -8,7 +9,9 @@ public class PlayerController
 {
     private readonly Player _player;
     private Vector3 _velocity = new();
-    private StaticBody3D usableObject;
+
+    private GodotObject _colidingObject;
+    private IPlayerUsable _usableObject;
 
     public PlayerController(Player player)
     {
@@ -20,7 +23,7 @@ public class PlayerController
     /// </summary>
     public void HandleMovement()
     {
-        Vector2 inputDir = Input.GetVector("Move_Left", "Move_Right", "Move_Forward", "Move_Backwards");
+        Vector2 inputDir = Input.GetVector(ActionNames.Move_Left, ActionNames.Move_Right, ActionNames.Move_Forward, ActionNames.Move_Backwards);
         Vector3 direction = (_player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 
         if (direction != Vector3.Zero)
@@ -56,28 +59,31 @@ public class PlayerController
         camera.RotationDegrees = new Vector3(cameraRotation, 0, 0);
     }
 
-    public void UseRayCast(RayCast3D rayCast)
+    public void UpdateLookAtObject(RayCast3D rayCast)
     {
-        var colidedObject = rayCast.GetCollider();
+        var newColidingObject = rayCast.GetCollider();
 
-        if (colidedObject is null || colidedObject is not StaticBody3D)
+        if (_colidingObject != newColidingObject && Input.IsActionPressed(ActionNames.Use))
         {
+            StopUsing();
+        }
+
+        _colidingObject = newColidingObject;
+
+        var isUsableObject = _colidingObject is not null && ((Node)_colidingObject).Owner is IPlayerUsable;
+        if (!isUsableObject)
+        {
+            _usableObject = null;
+            _player.EmitSignal(nameof(_player.UsableObjectChanged), isUsableObject);
             return;
         }
 
-        usableObject = (StaticBody3D)colidedObject;
-        if (usableObject.Owner.HasMethod(nameof(IUsable.OnBeginUse)))
-        {
-            usableObject.Owner.Call(nameof(IUsable.OnBeginUse), false);
-        }
+        _usableObject = (IPlayerUsable)((Node)_colidingObject).Owner;
+        _player.EmitSignal(nameof(_player.UsableObjectChanged), isUsableObject);
     }
 
-    public void StopUsingRayCast()
-    {
-        if (usableObject is not null && usableObject.Owner.HasMethod(nameof(IUsable.OnEndUse)))
-        {
-            usableObject.Owner.Call(nameof(IUsable.OnEndUse), false);
-            usableObject = null;
-        }
-    }
+
+    public void Use() => _usableObject?.OnBeginUse();
+
+    public void StopUsing() => _usableObject?.OnEndUse(); 
 }

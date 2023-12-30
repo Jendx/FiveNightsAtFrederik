@@ -8,11 +8,12 @@
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="CsScripts\Handlers\**" />
     <Compile Remove="Scripts\**" />
+    <EmbeddedResource Remove="CsScripts\Handlers\**" />
     <EmbeddedResource Remove="Scripts\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CsScripts\Handlers\" />
     <Folder Include="Scenes\player\" />
   </ItemGroup>
 </Project>

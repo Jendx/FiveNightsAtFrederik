@@ -1,4 +1,4 @@
-namespace FiveNightsAtFrederik.CsScripts.Controllers.Interfaces;
+namespace FiveNightsAtFrederik.CsScripts.Interfaces;
 
 internal interface IMovableCharacter
 {

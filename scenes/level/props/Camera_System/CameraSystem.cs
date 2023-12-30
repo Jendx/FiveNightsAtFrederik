@@ -1,11 +1,11 @@
-using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.CsScripts.BaseNodes;
+using FiveNightsAtFrederik.CsScripts.Constants;
 using Godot;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 
-public partial class CameraSystem : Node3D, IUsable
+public partial class CameraSystem : BaseInteractableNode3D/*, IIndirectlyUsable<CameraSystemParameters>*/
 {
 	[Export]
 	private Camera3D[] _cameras;
@@ -17,8 +17,8 @@ public partial class CameraSystem : Node3D, IUsable
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_viewport = GetNode<SubViewport>(StringNames.CameraSystemViewport.ToString());
-		_cameraView = GetNode<MeshInstance3D>(StringNames.CameraView.ToString());
+		_viewport = GetNode<SubViewport>(NodeNames.CameraSystemViewport.ToString());
+		_cameraView = GetNode<MeshInstance3D>(NodeNames.CameraView.ToString());
 
 		// Cameras must be parented to SubViewport or they would project to player
 		foreach(var camera in _cameras)
@@ -41,12 +41,12 @@ public partial class CameraSystem : Node3D, IUsable
 		RenderingServer.FramePostDraw -= PostDrawHandler;
 	}
 
-	public void OnBeginUse(bool isToggle)
+	public override void OnBeginUse<CameraSystemParameters>(CameraSystemParameters parameters)
 	{
 		SwitchCamera();
 	}
 
-	public void OnEndUse(bool isToggle) {}
+	public override void OnEndUse<CameraSystemParameters>(CameraSystemParameters parameters) {}
 
 	private void SwitchCamera()
 	{
