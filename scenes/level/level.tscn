@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=7 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
 [ext_resource type="AudioStream" uid="uid://dfv6kkfjigy2k" path="res://scenes/level/sound/Factory.ogg" id="3_83qj5"]
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
 [ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_lewj8"]
-[ext_resource type="Script" path="res://CsScripts/Models/CameraSystemParameters.cs" id="6_66oa4"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -14,10 +13,6 @@ tonemap_mode = 2
 glow_enabled = true
 fog_enabled = true
 fog_light_color = Color(0, 0, 0, 1)
-
-[sub_resource type="Resource" id="Resource_i4jc3"]
-script = ExtResource("6_66oa4")
-CameraName = ""
 
 [node name="lvl1" type="Node3D"]
 
@@ -53,4 +48,3 @@ transform = Transform3D(-6.94388e-07, 1.26048, -4.57317, 8.93439e-06, 3.52425, 0
 [node name="CameraSwitchTemp" parent="." node_paths=PackedStringArray("UsableNode") instance=ExtResource("4_ec2ve")]
 transform = Transform3D(0.217367, 0, 0, 0, 0.217367, 0, 0, 0, 0.217367, 1.89846, 0.842981, -0.735606)
 UsableNode = NodePath("../Camera_System")
-_parameters = SubResource("Resource_i4jc3")
