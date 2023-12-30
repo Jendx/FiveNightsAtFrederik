@@ -1,3 +1,4 @@
+using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Models;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 
-public partial class CameraSystem : Node3D, IIndirectlyUsable<CameraSystemParameters>
+public partial class CameraSystem : BaseInteractableNode3D/*, IIndirectlyUsable<CameraSystemParameters>*/
 {
 	[Export]
 	private Camera3D[] _cameras;
@@ -42,12 +43,12 @@ public partial class CameraSystem : Node3D, IIndirectlyUsable<CameraSystemParame
 		RenderingServer.FramePostDraw -= PostDrawHandler;
 	}
 
-	public void OnBeginUse(CameraSystemParameters parameters)
+	public override void OnBeginUse<CameraSystemParameters>(CameraSystemParameters parameters)
 	{
 		SwitchCamera();
 	}
 
-	public void OnEndUse(CameraSystemParameters parameters) {}
+	public override void OnEndUse<CameraSystemParameters>(CameraSystemParameters parameters) {}
 
 	private void SwitchCamera()
 	{

@@ -1,10 +1,13 @@
+using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Models.Interfaces;
 using Godot;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Button;
 
+#nullable enable
 public partial class Button : Node, IButton, IPlayerUsable
 {
 	[Export]
@@ -14,20 +17,20 @@ public partial class Button : Node, IButton, IPlayerUsable
 	public float DelayLength { get; set; }
 
 	[Export]
-	public Node3D UsableNode { get; set; }
+	public BaseInteractableNode3D? UsableNode { get; set; } 
 
 	[Export]
-	public AudioStreamOggVorbis SwitchOnAudio { get; set; }
+	private BaseUsableParameters? _parameters;
 
 	[Export]
-	public AudioStreamOggVorbis SwitchOffAudio { get; set; }
+	public AudioStreamOggVorbis? SwitchOnAudio { get; set; }
 
 	[Export]
-	private CSharpScript _parameters;
+	public AudioStreamOggVorbis? SwitchOffAudio { get; set; }
+
 
 	private bool isOnCoolDown;
-	private AudioStreamPlayer audioPlayer;
-	private IIndirectlyUsable<IUsableParameters>? _usableNodeScript;
+	private AudioStreamPlayer? audioPlayer;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -38,8 +41,6 @@ public partial class Button : Node, IButton, IPlayerUsable
 		}
 
 		audioPlayer = GetNode<AudioStreamPlayer>(NodeNames.UseAudio.ToString());
-        _usableNodeScript = UsableNode.GetScript().Obj as IIndirectlyUsable<IUsableParameters>;
-
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,10 +56,9 @@ public partial class Button : Node, IButton, IPlayerUsable
 		}
 
 		isOnCoolDown = true;
-		audioPlayer.Stream = SwitchOnAudio;
-		audioPlayer.Play();
 
-        _usableNodeScript?.OnBeginUse(null);
+		audioPlayer?.TrySetAndPlayStream(SwitchOnAudio);
+        UsableNode?.OnBeginUse(_parameters);
 
 		if (DelayLength != default)
 		{
@@ -71,9 +71,7 @@ public partial class Button : Node, IButton, IPlayerUsable
 
 	public void OnEndUse()
 	{
-		audioPlayer.Stream = SwitchOffAudio;
-		audioPlayer.Play();
-
-        _usableNodeScript.OnEndUse(null);
+        audioPlayer?.TrySetAndPlayStream(SwitchOffAudio);
+        UsableNode?.OnEndUse(_parameters);
 	}
 }

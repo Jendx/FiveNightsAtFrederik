@@ -3,9 +3,10 @@ using Godot;
 
 namespace FiveNightsAtFrederik.CsScripts.Models;
 
-public partial class CameraSystemParameters : Resource, IUsableParameters
+[GlobalClass]
+public partial class CameraSystemParameters : BaseUsableParameters
 {
 	[Export]
-	public string SelectedCameraName { get; set; }
+	public string CameraName { get; set; }
 }
 

@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using FiveNightsAtFrederik.CsScripts.BaseNodes;
+using Godot;
 
 namespace FiveNightsAtFrederik.CsScripts.Interfaces;
 
@@ -8,7 +9,7 @@ public interface IButton : IPlayerUsable
 
     public float DelayLength { get; set; }
 
-    public Node3D UsableNode { get; set; }
+    public BaseInteractableNode3D UsableNode { get; set; }
 
     public AudioStreamOggVorbis SwitchOnAudio { get; set; }
     public AudioStreamOggVorbis SwitchOffAudio { get; set; }
