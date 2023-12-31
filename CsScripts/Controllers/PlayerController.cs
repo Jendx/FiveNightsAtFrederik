@@ -7,15 +7,15 @@ namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
 public class PlayerController
 {
-    private readonly Player _player;
-    private Vector3 _velocity = new();
+    private readonly Player player;
+    private Vector3 velocity = new();
 
-    private GodotObject _colidingObject;
-    private IPlayerUsable _usableObject;
+    private GodotObject colidingObject;
+    private IPlayerUsable usableObject;
 
     public PlayerController(Player player)
     {
-        _player = player;
+        this.player = player;
     }
 
     /// <summary>
@@ -24,21 +24,21 @@ public class PlayerController
     public void HandleMovement()
     {
         Vector2 inputDir = Input.GetVector(ActionNames.Move_Left, ActionNames.Move_Right, ActionNames.Move_Forward, ActionNames.Move_Backwards);
-        Vector3 direction = (_player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+        Vector3 direction = (player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 
         if (direction != Vector3.Zero)
         {
-            _velocity.X = direction.X * _player.MovementSpeed;
-            _velocity.Z = direction.Z * _player.MovementSpeed;
+            velocity.X = direction.X * player.MovementSpeed;
+            velocity.Z = direction.Z * player.MovementSpeed;
         }
         else
         {
-            _velocity.X = Mathf.MoveToward(_player.Velocity.X, 0, _player.MovementSpeed);
-            _velocity.Z = Mathf.MoveToward(_player.Velocity.Z, 0, _player.MovementSpeed);
+            velocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.MovementSpeed);
+            velocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.MovementSpeed);
         }
 
-        _player.Velocity = _velocity;
-        _player.MoveAndSlide();
+        player.Velocity = velocity;
+        player.MoveAndSlide();
     }
 
     /// <summary>
@@ -49,10 +49,10 @@ public class PlayerController
     public void RotateByMouseDelta(Vector2 mouseDelta, Camera3D camera)
     {
         // Rotate the player around the Y-axis (left and right)
-        _player.RotateY(-mouseDelta.X * _player.RotationSpeed);
+        player.RotateY(-mouseDelta.X * player.RotationSpeed);
 
         // Rotate the camera around the X-axis (up and down)
-        camera.RotateX(-mouseDelta.Y * _player.RotationSpeed);
+        camera.RotateX(-mouseDelta.Y * player.RotationSpeed);
 
         // Clamp the camera's rotation so you can't look too far up or down
         float cameraRotation = Mathf.Clamp(camera.RotationDegrees.X, -70, 70);
@@ -63,27 +63,32 @@ public class PlayerController
     {
         var newColidingObject = rayCast.GetCollider();
 
-        if (_colidingObject != newColidingObject && Input.IsActionPressed(ActionNames.Use))
+        if (colidingObject != newColidingObject && Input.IsActionPressed(ActionNames.Use))
         {
             StopUsing();
         }
 
-        _colidingObject = newColidingObject;
+        colidingObject = newColidingObject;
 
-        var isUsableObject = _colidingObject is not null && ((Node)_colidingObject).Owner is IPlayerUsable;
-        if (!isUsableObject)
+        var isValidObject = colidingObject is not null;
+        if (isValidObject)
         {
-            _usableObject = null;
-            _player.EmitSignal(nameof(_player.UsableObjectChanged), isUsableObject);
+            player.EmitSignal(nameof(player.OnRaycastColide), newColidingObject);
+        }
+
+        if (!(isValidObject && ((Node)colidingObject).Owner is IPlayerUsable))
+        {
+            usableObject = null;
+            player.EmitSignal(nameof(player.UsableObjectChanged), isValidObject);
             return;
         }
 
-        _usableObject = (IPlayerUsable)((Node)_colidingObject).Owner;
-        _player.EmitSignal(nameof(_player.UsableObjectChanged), isUsableObject);
+        usableObject = (IPlayerUsable)((Node)colidingObject).Owner;
+        player.EmitSignal(nameof(player.UsableObjectChanged), isValidObject);
     }
 
 
-    public void Use() => _usableObject?.OnBeginUse();
+    public void Use() => usableObject?.OnBeginUse();
 
-    public void StopUsing() => _usableObject?.OnEndUse(); 
+    public void StopUsing() => usableObject?.OnEndUse(); 
 }

@@ -9,7 +9,7 @@ public interface IButton : IPlayerUsable
 
     public float DelayLength { get; set; }
 
-    public BaseInteractableNode3D UsableNode { get; set; }
+    public InteractableNode3D UsableNode { get; set; }
 
     public AudioStreamOggVorbis SwitchOnAudio { get; set; }
     public AudioStreamOggVorbis SwitchOffAudio { get; set; }
