@@ -1,10 +1,5 @@
 ﻿using FiveNightsAtFrederik.CsScripts.Models.Interfaces;
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 
