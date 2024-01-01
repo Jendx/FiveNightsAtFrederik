@@ -5,23 +5,23 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 
 public partial class Hud : Control
 {
-	private TextureRect _crosshair;
+	private TextureRect crosshair;
 
 	[Export]
-	private Texture2D _defaultCrosshairTexture;
+	private Texture2D defaultCrosshairTexture;
 
 	[Export]
-	private Texture2D _useCrosshairTexture;
+	private Texture2D useCrosshairTexture;
 
 	public override void _Ready()
 	{
-		_crosshair = GetNode<TextureRect>(NodeNames.Crosshair.ToString());
+		crosshair = GetNode<TextureRect>(NodeNames.Crosshair.ToString());
 		
 	}
 
 	private void OnPlayerUpdateCrosshairTexture(bool isUsableObject)
 	{
-		_crosshair.Texture = isUsableObject ? _useCrosshairTexture : _defaultCrosshairTexture;
+		crosshair.Texture = isUsableObject ? useCrosshairTexture : defaultCrosshairTexture;
 	}
 }
 

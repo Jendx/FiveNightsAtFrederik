@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://byoe5jone6oqx"]
+[gd_scene load_steps=6 format=3 uid="uid://byoe5jone6oqx"]
 
 [ext_resource type="Script" path="res://scenes/level/props/Camera_System/CameraSystem.cs" id="1_dq3pg"]
+[ext_resource type="PackedScene" uid="uid://dca4iajlg18cr" path="res://scenes/level/props/Camera_System/2D/Camera_switch_buttons.tscn" id="2_pil36"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4t4j"]
 resource_local_to_scene = true
@@ -8,14 +9,30 @@ shading_mode = 0
 
 [sub_resource type="QuadMesh" id="QuadMesh_8r2km"]
 
-[node name="Camera_System" type="Node3D" node_paths=PackedStringArray("_cameras")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_1hrun"]
+size = Vector3(1, 1, 0.12)
+
+[node name="Camera_System" type="Node3D" node_paths=PackedStringArray("cameras", "uiArea", "subViewport", "cameraViewDisplayMesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0136986, 0)
 script = ExtResource("1_dq3pg")
-_cameras = []
+cameras = []
+uiArea = NodePath("CameraView/CameraSystemViewArea")
+subViewport = NodePath("CameraSystemViewport")
+cameraViewDisplayMesh = NodePath("CameraView")
 
 [node name="CameraSystemViewport" type="SubViewport" parent="."]
 
+[node name="CameraSwitchButtons" parent="CameraSystemViewport" node_paths=PackedStringArray("cameraSystem") instance=ExtResource("2_pil36")]
+cameraSystem = NodePath("../..")
+
 [node name="CameraView" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.87891, 0, 0, 0, 1.50159, 0, 0, -5.33472e-15, 0.552274, 0.00165093, 0.00444567, -8.35359e-05)
+layers = 3
 material_override = SubResource("StandardMaterial3D_g4t4j")
 mesh = SubResource("QuadMesh_8r2km")
+
+[node name="CameraSystemViewArea" type="Area3D" parent="CameraView"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0468077)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CameraView/CameraSystemViewArea"]
+shape = SubResource("BoxShape3D_1hrun")

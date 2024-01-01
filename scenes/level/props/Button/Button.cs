@@ -17,10 +17,10 @@ public partial class Button : Node, IButton, IPlayerUsable
 	public float DelayLength { get; set; }
 
 	[Export]
-	public BaseInteractableNode3D? UsableNode { get; set; } 
+	public InteractableNode3D? UsableNode { get; set; } 
 
 	[Export]
-	private BaseUsableParameters? _parameters;
+	private BaseUsableParameters? parameters;
 
 	[Export]
 	public AudioStreamOggVorbis? SwitchOnAudio { get; set; }
@@ -58,7 +58,7 @@ public partial class Button : Node, IButton, IPlayerUsable
 		isOnCoolDown = true;
 
 		audioPlayer?.TrySetAndPlayStream(SwitchOnAudio);
-        UsableNode?.OnBeginUse(_parameters);
+        UsableNode?.OnBeginUse(parameters);
 
 		if (DelayLength != default)
 		{
@@ -72,6 +72,6 @@ public partial class Button : Node, IButton, IPlayerUsable
 	public void OnEndUse()
 	{
         audioPlayer?.TrySetAndPlayStream(SwitchOffAudio);
-        UsableNode?.OnEndUse(_parameters);
+        UsableNode?.OnEndUse(parameters);
 	}
 }

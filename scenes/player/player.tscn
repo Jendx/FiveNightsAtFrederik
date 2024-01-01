@@ -10,7 +10,10 @@ radius = 0.357074
 height = 1.8
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_khwmd")
+RotationSpeed = 0.001
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.903861, 0)
@@ -18,6 +21,7 @@ shape = SubResource("CapsuleShape3D_6nyor")
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44865, 0)
+cull_mask = 1048573
 fov = 90.0
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera"]
@@ -27,11 +31,14 @@ spot_angle = 76.6246
 
 [node name="RayCast" type="RayCast3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, -4.46947e-08, -1, 0, 1.02249, -4.37114e-08, 0, 0, -0.0637127)
+collide_with_areas = true
 debug_shape_custom_color = Color(1, 0.219608, 0.462745, 1)
 
 [node name="HUD" parent="Camera" instance=ExtResource("2_xb5ik")]
 top_level = true
-_defaultCrosshairTexture = ExtResource("3_wstii")
-_useCrosshairTexture = ExtResource("4_ks7x4")
+mouse_filter = 2
+defaultCrosshairTexture = ExtResource("3_wstii")
+useCrosshairTexture = ExtResource("4_ks7x4")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="UsableObjectChanged" from="." to="Camera/HUD" method="OnPlayerUpdateCrosshairTexture"]
