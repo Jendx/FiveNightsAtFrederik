@@ -41,24 +41,21 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 		RenderingServer.FramePostDraw -= PostDrawHandler;
 	}
 
-	public override void OnBeginUse<CameraSystemParameters>(CameraSystemParameters parameters)
+	public void SwitchToCamera(string cameraName)
 	{
-		SwitchCamera();
-	}
+		var selectedCamera = cameras?.FirstOrDefault(c => c.Name.ToString().Contains(cameraName));
+		if (selectedCamera is null)
+		{
+			GD.PrintErr($"Camera with name {cameraName} was not found");
+			return;
+		}
 
-	public override void OnEndUse<CameraSystemParameters>(CameraSystemParameters parameters) {}
-
-    private void SwitchCamera()
-    {
-        // Just for testing. Will be implemented more complexly with UI
         foreach (var camera in cameras)
         {
             camera.Current = false;
         }
 
-        cameraIndex = cameraIndex == 0 ? 1 : 0;
-        GD.Print($"Switched to camera: ${cameras[cameraIndex].Name}");
-        cameras[cameraIndex].MakeCurrent();
+        GD.Print($"Switched to camera: ${selectedCamera?.Name}");
+        selectedCamera?.MakeCurrent();
     }
-
 }

@@ -19,7 +19,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	[Export]
 	public float RotationSpeed { get; set; } = 0.01f;
 
-	public readonly PlayerController PlayerController;
+	private readonly PlayerController PlayerController;
 	private Camera3D camera;
 	private RayCast3D rayCast;
 
@@ -45,8 +45,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public override void _PhysicsProcess(double delta)
 	{
 		PlayerController.HandleMovement();
+        PlayerController.UpdateLookAtObject(rayCast);
 
-		if (Input.IsActionJustPressed(ActionNames.Use))
+        if (Input.IsActionJustPressed(ActionNames.Use))
 		{
 			PlayerController.Use();
 		}
@@ -55,15 +56,13 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		{
 			PlayerController.StopUsing();
 		}
-	}
+    }
 
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
-			
 			PlayerController.RotateByMouseDelta(eventMouseMotion.Relative, camera);
-			PlayerController.UpdateLookAtObject(rayCast);
 		}
 	}
 }

@@ -5,16 +5,15 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 
 public partial class CameraSwitchButtons : Control
 {
+    public string SwitchToCameraName { get; set; }
 
-    public override void _Ready()
-    {
-    }
+    [Export]
+    private CameraSystem cameraSystem;
 
-    public override void _GuiInput(InputEvent @event)
+    public override void _Ready() {}
+
+    public void ChangeCamera(TextureButton pressedButton)
     {
-        if (@event is InputEventMouseButton)
-        {
-            GD.Print("Clicked");
-        }
+        cameraSystem.SwitchToCamera(pressedButton.Name);
     }
 }

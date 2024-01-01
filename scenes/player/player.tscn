@@ -39,5 +39,6 @@ top_level = true
 mouse_filter = 2
 defaultCrosshairTexture = ExtResource("3_wstii")
 useCrosshairTexture = ExtResource("4_ks7x4")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="UsableObjectChanged" from="." to="Camera/HUD" method="OnPlayerUpdateCrosshairTexture"]

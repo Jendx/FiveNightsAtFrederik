@@ -22,7 +22,8 @@ cameraViewDisplayMesh = NodePath("CameraView")
 
 [node name="CameraSystemViewport" type="SubViewport" parent="."]
 
-[node name="CameraSwitchButtons" parent="CameraSystemViewport" instance=ExtResource("2_pil36")]
+[node name="CameraSwitchButtons" parent="CameraSystemViewport" node_paths=PackedStringArray("cameraSystem") instance=ExtResource("2_pil36")]
+cameraSystem = NodePath("../..")
 
 [node name="CameraView" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.87891, 0, 0, 0, 1.50159, 0, 0, -5.33472e-15, 0.552274, 0.00165093, 0.00444567, -8.35359e-05)

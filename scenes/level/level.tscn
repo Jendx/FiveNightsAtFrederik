@@ -41,12 +41,18 @@ transform = Transform3D(0.217367, 0, 0, 0, 0.217367, 0, 0, 0, 0.217367, 1.89846,
 
 [node name="CameraSystem" parent="." node_paths=PackedStringArray("cameras") instance=ExtResource("5_lewj8")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.71693, 1.80884, 0.135215)
-cameras = [NodePath("LeftOffice"), NodePath("RightOffice")]
+cameras = [NodePath("OfficeLeft"), NodePath("OfficeRight")]
 
-[node name="LeftOffice" parent="CameraSystem" instance=ExtResource("6_wf1tr")]
+[node name="OfficeLeft" parent="CameraSystem" instance=ExtResource("6_wf1tr")]
 transform = Transform3D(0.912611, -0.113572, 0.392737, 0, 0.960639, 0.277799, -0.408829, -0.253522, 0.87669, -2.94552, 0.261794, 0.252624)
 
-[node name="RightOffice" parent="CameraSystem" instance=ExtResource("6_wf1tr")]
+[node name="OfficeRight" parent="CameraSystem" instance=ExtResource("6_wf1tr")]
 transform = Transform3D(0.912611, 0.113572, -0.392737, 0, 0.96064, 0.277797, 0.408829, -0.253521, 0.87669, 2.67225, 0.261794, 0.252624)
+
+[node name="Delivery" parent="CameraSystem" instance=ExtResource("6_wf1tr")]
+transform = Transform3D(0.733959, -0.188678, 0.652461, 0, 0.96064, 0.277797, -0.679194, -0.203892, 0.70507, -8.83644, 0.261794, -14.362)
+
+[node name="Kitchen" parent="CameraSystem" instance=ExtResource("6_wf1tr")]
+transform = Transform3D(0.0955475, -0.452766, 0.886495, -0.188678, 0.866188, 0.46273, -0.97738, -0.211475, -0.00266507, -24.7421, -3.47646, -18.54)
 
 [connection signal="OnRaycastColide" from="player" to="CameraSystem" method="Player_onRayCastColided"]

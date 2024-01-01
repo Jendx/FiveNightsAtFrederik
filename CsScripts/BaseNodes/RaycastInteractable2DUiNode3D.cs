@@ -5,6 +5,15 @@ namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 
 /// <summary>
 /// Base class for Nodes that can be controlled by user's raycast (Basicaly Raycast replaces mouse)
+/// For correct use create Node structure as follows:
+/// <code>
+/// L RaycastInteractable2DUiNode3D
+/// LL SubViewport
+/// LLL Camera (Render viewport texture into SubViewport)
+/// LL MeshInstance3D (Create material with ViewPortTexture)
+/// LLL Area3D (For tracking raycast. <b>DO NOT FORGET TO SET RAYCAST TO COLIDE WITH AREAS</b>)
+/// LLLL ColisionShape3D
+/// </code>
 /// </summary>
 [GlobalClass]
 public abstract partial class RaycastInteractable2DUiNode3D : Node3D
@@ -26,9 +35,9 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
 
     protected RaycastInteractable2DUiNode3D() {}
 
-    public abstract void OnBeginUse<TParameters>(TParameters parameters) where TParameters : BaseUsableParameters;
+    //public abstract void OnBeginUse<TParameters>(TParameters parameters) where TParameters : BaseUsableParameters;
 
-    public abstract void OnEndUse<TParameters>(TParameters parameters) where TParameters : BaseUsableParameters;
+    //public abstract void OnEndUse<TParameters>(TParameters parameters) where TParameters : BaseUsableParameters;
 
     /// <summary>
     /// If event is mouse event & mouse is in area, the input will be forwarded into subViewport
@@ -51,14 +60,13 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
     }
 
     /// <summary>
-    /// Get's called everytime player's raycast hits valid object
+    /// Get's called everytime player's raycast hits valid object (Signal receiving method)
     /// </summary>
     /// <param name="colidedObject"></param>
     public void Player_onRayCastColided(Node colidedObject)
     {
         if (colidedObject.Name == uiArea.Name)
         {
-            GD.Print("Mouse Entered");
             isMouseInside = true;
         }
     }
@@ -72,22 +80,25 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
 
     public void HandleSynteticMouseMotion(Vector3 position)
     {
-        var ev = new InputEventMouseMotion();
-
         isMouseInside = true;
 
-        HandleMouseInPosition(ev, position);
+        HandleMouseInPosition(new InputEventMouseMotion(), position);
     }
 
     public void HandleSynteticMouseClick(Vector3 position, bool pressed)
     {
-        var ev = new InputEventMouseButton() { ButtonIndex = MouseButton.Left, Pressed = pressed };
-
         isMouseInside = true;
 
-        HandleMouseInPosition(ev, position);
+        HandleMouseInPosition(
+            new InputEventMouseButton() { ButtonIndex = MouseButton.Left, Pressed = pressed },
+            position);
     }
 
+    /// <summary>
+    /// Handles mouse input in 2D space
+    /// </summary>
+    /// <param name="event"></param>
+    /// <param name="position"></param>
     private void HandleMouseInPosition(InputEventMouse @event, Vector3 position)
     {
         quadSize = (cameraViewDisplayMesh.Mesh as QuadMesh).Size;
@@ -106,7 +117,7 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
         }
         else
         {
-            mousePosition3D = lastMousePosition3D is null ? Vector3.Zero : (Vector3)lastMousePosition3D;
+            mousePosition3D = lastMousePosition3D ?? Vector3.Zero;
         }
 
         var mousePosition2D = new Vector2(mousePosition3D.X, -mousePosition3D.Y);
@@ -155,7 +166,6 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
         position = Vector3.Zero;
 
         var didFindMouse = result.Count > 0;
-
         if (didFindMouse)
         {
             position = (Vector3)result["position"];
@@ -179,11 +189,7 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
         foreach (var edge in edges)
         {
             var tempDistance = origin.DistanceTo(edge);
-
-            if (tempDistance > farDistance)
-            {
-                farDistance = tempDistance;
-            }
+            farDistance = Mathf.Max(farDistance, tempDistance);
         }
 
         return farDistance;
