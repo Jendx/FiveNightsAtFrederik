@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=9 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
 [ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_lewj8"]
 [ext_resource type="PackedScene" uid="uid://csxvuu3cvmjyy" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="6_wf1tr"]
+[ext_resource type="PackedScene" uid="uid://cb5qpm0cqxkve" path="res://scenes/player/3D/PickableItems/PickableItem.tscn" id="7_4f58a"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -36,9 +37,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0171601, 0)
 [node name="Button" parent="." instance=ExtResource("4_ec2ve")]
 transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09, 1.13944, 1.17166, -2.36193)
 
-[node name="CameraSwitchTemp" parent="." instance=ExtResource("4_ec2ve")]
-transform = Transform3D(0.217367, 0, 0, 0, 0.217367, 0, 0, 0, 0.217367, 1.89846, 0.842981, -0.735606)
-
 [node name="CameraSystem" parent="." node_paths=PackedStringArray("cameras") instance=ExtResource("5_lewj8")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.71693, 1.80884, 0.135215)
 cameras = [NodePath("OfficeLeft"), NodePath("OfficeRight"), NodePath("Delivery"), NodePath("Kitchen"), NodePath("ToiletUpper"), NodePath("ToiletLower")]
@@ -60,5 +58,8 @@ transform = Transform3D(0.733959, -0.188678, 0.652461, 0, 0.96064, 0.277797, -0.
 
 [node name="ToiletLower" parent="CameraSystem" instance=ExtResource("6_wf1tr")]
 transform = Transform3D(-0.701391, -0.198007, 0.684722, -1.09368e-08, 0.96064, 0.277797, -0.712777, 0.194844, -0.673784, 14.5919, 0.261794, -14.5542)
+
+[node name="PickableItem" parent="." instance=ExtResource("7_4f58a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.64424, 0.877887, -1.69406)
 
 [connection signal="OnRaycastColide" from="player" to="CameraSystem" method="Player_onRayCastColided"]

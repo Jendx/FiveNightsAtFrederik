@@ -87,3 +87,5 @@ Use={
 
 3d_render/layer_1="Player"
 3d_render/layer_2="Camera System"
+3d_physics/layer_1="Player Colidible"
+3d_physics/layer_2="RayCast Colidible"

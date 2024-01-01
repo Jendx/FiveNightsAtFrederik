@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb5qpm0cqxkve"]
+
+[ext_resource type="Script" path="res://scenes/player/3D/PickableItems/PickableItem.cs" id="1_tsql1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0rifx"]
+radius = 0.4
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_11u1l"]
+radius = 0.3
+height = 0.7
+radial_segments = 27
+
+[node name="PickableItem" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.877887, 0)
+script = ExtResource("1_tsql1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_0rifx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_11u1l")
+skeleton = NodePath("../..")

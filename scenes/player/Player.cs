@@ -19,15 +19,19 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	[Export]
 	public float RotationSpeed { get; set; } = 0.01f;
 
-	private readonly PlayerController PlayerController;
-	private Camera3D camera;
-	private RayCast3D rayCast;
+	[Export]
+	public Camera3D Camera { get; set; }
+
+	[Export]
+	private RayCast3D RayCast;
 
 	[Signal]
 	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
 
 	[Signal]
 	public delegate void OnRaycastColideEventHandler(Node colidedObject);
+
+	private readonly PlayerController PlayerController;
 
 	public Player()
 	{
@@ -38,14 +42,14 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	public override void _Ready()
 	{
-		camera = GetNode<Camera3D>(NodeNames.Camera.ToString());
-		rayCast = camera.GetNode<RayCast3D>(NodeNames.RayCast.ToString());
+		Camera = GetNode<Camera3D>(NodeNames.Camera.ToString());
+		RayCast = Camera.GetNode<RayCast3D>(NodeNames.RayCast.ToString());
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		PlayerController.HandleMovement();
-        PlayerController.UpdateLookAtObject(rayCast);
+        PlayerController.UpdateLookAtObject(RayCast);
 
         if (Input.IsActionJustPressed(ActionNames.Use))
 		{
@@ -62,7 +66,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	{
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
-			PlayerController.RotateByMouseDelta(eventMouseMotion.Relative, camera);
+			PlayerController.RotateByMouseDelta(eventMouseMotion.Relative, Camera);
 		}
 	}
 }

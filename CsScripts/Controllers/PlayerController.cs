@@ -76,7 +76,11 @@ public class PlayerController
             player.EmitSignal(nameof(player.OnRaycastColide), newColidingObject);
         }
 
-        if (!(isValidObject && ((Node)colidingObject).Owner is IPlayerUsable))
+        usableObject = colidingObject is IPlayerUsable
+            ? (IPlayerUsable)colidingObject
+            : ((Node)colidingObject)?.Owner is IPlayerUsable ? (IPlayerUsable)((Node)colidingObject).Owner : null;
+
+        if (!(isValidObject && usableObject is not null))
         {
             usableObject = null;
             player.EmitSignal(nameof(player.UsableObjectChanged), isValidObject);
@@ -86,7 +90,6 @@ public class PlayerController
         usableObject = (IPlayerUsable)((Node)colidingObject).Owner;
         player.EmitSignal(nameof(player.UsableObjectChanged), isValidObject);
     }
-
 
     public void Use() => usableObject?.OnBeginUse();
 
