@@ -8,37 +8,34 @@
 
 [node name="CameraSwitchButtons" type="Control"]
 layout_mode = 3
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -195.0
-offset_top = -185.0
-grow_horizontal = 0
-grow_vertical = 0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_6a8bn")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = -19.0
-offset_right = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 306.0
+offset_top = 57.0
+offset_right = 835.0
+offset_bottom = 586.0
 texture = ExtResource("1_bj07c")
 expand_mode = 4
 
 [node name="OfficeLeft" type="TextureButton" parent="TextureRect"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 161.0
-offset_right = 69.0
-offset_bottom = 185.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.332703
+anchor_top = -0.963138
+anchor_right = -0.332703
+anchor_bottom = -0.963138
+offset_left = 272.0
+offset_top = 891.5
+offset_right = 406.0
+offset_bottom = 964.5
 texture_normal = ExtResource("2_71j8l")
 texture_pressed = ExtResource("3_otshh")
 texture_hover = ExtResource("3_otshh")
@@ -46,13 +43,19 @@ ignore_texture_size = true
 stretch_mode = 0
 flip_v = true
 script = ExtResource("5_qk6me")
+metadata/_edit_use_anchors_ = true
 
 [node name="OfficeRight" type="TextureButton" parent="TextureRect"]
-layout_mode = 0
-offset_left = 120.0
-offset_top = 167.0
-offset_right = 169.0
-offset_bottom = 191.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.293226
+anchor_top = -0.939884
+anchor_right = -0.293226
+anchor_bottom = -0.939884
+offset_left = 516.0
+offset_top = 812.5
+offset_right = 565.0
+offset_bottom = 836.5
 texture_normal = ExtResource("2_71j8l")
 texture_pressed = ExtResource("3_otshh")
 texture_hover = ExtResource("3_otshh")
@@ -61,13 +64,19 @@ stretch_mode = 0
 flip_h = true
 flip_v = true
 script = ExtResource("5_qk6me")
+metadata/_edit_use_anchors_ = true
 
 [node name="Delivery" type="TextureButton" parent="TextureRect"]
-layout_mode = 0
-offset_left = -23.0
-offset_top = 70.0
-offset_right = 26.0
-offset_bottom = 94.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.593573
+anchor_top = -1.19943
+anchor_right = -0.48333
+anchor_bottom = -1.14561
+offset_left = 373.0
+offset_top = 715.5
+offset_right = 422.0
+offset_bottom = 739.5
 texture_normal = ExtResource("2_71j8l")
 texture_pressed = ExtResource("3_otshh")
 texture_hover = ExtResource("3_otshh")
@@ -75,13 +84,19 @@ ignore_texture_size = true
 stretch_mode = 0
 flip_v = true
 script = ExtResource("5_qk6me")
+metadata/_edit_use_anchors_ = true
 
 [node name="Kitchen" type="TextureButton" parent="TextureRect"]
-layout_mode = 0
-offset_left = 149.0
-offset_top = 9.0
-offset_right = 198.0
-offset_bottom = 33.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.293226
+anchor_top = -0.939884
+anchor_right = -0.293226
+anchor_bottom = -0.939884
+offset_left = 545.0
+offset_top = 654.5
+offset_right = 594.0
+offset_bottom = 678.5
 texture_normal = ExtResource("2_71j8l")
 texture_pressed = ExtResource("3_otshh")
 texture_hover = ExtResource("3_otshh")
@@ -89,13 +104,19 @@ ignore_texture_size = true
 stretch_mode = 0
 flip_h = true
 script = ExtResource("5_qk6me")
+metadata/_edit_use_anchors_ = true
 
 [node name="ToiletUpper" type="TextureButton" parent="TextureRect"]
-layout_mode = 0
-offset_left = 144.0
-offset_top = 50.0
-offset_right = 193.0
-offset_bottom = 74.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.293226
+anchor_top = -0.939884
+anchor_right = -0.293226
+anchor_bottom = -0.939884
+offset_left = 540.0
+offset_top = 695.5
+offset_right = 589.0
+offset_bottom = 719.5
 texture_normal = ExtResource("2_71j8l")
 texture_pressed = ExtResource("3_otshh")
 texture_hover = ExtResource("3_otshh")
@@ -104,13 +125,19 @@ stretch_mode = 0
 flip_h = true
 flip_v = true
 script = ExtResource("5_qk6me")
+metadata/_edit_use_anchors_ = true
 
 [node name="ToiletLower" type="TextureButton" parent="TextureRect"]
-layout_mode = 0
-offset_left = 148.0
-offset_top = 91.0
-offset_right = 197.0
-offset_bottom = 115.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.293226
+anchor_top = -0.939884
+anchor_right = -0.293226
+anchor_bottom = -0.939884
+offset_left = 544.0
+offset_top = 736.5
+offset_right = 593.0
+offset_bottom = 760.5
 texture_normal = ExtResource("2_71j8l")
 texture_pressed = ExtResource("3_otshh")
 texture_hover = ExtResource("3_otshh")
@@ -118,6 +145,7 @@ ignore_texture_size = true
 stretch_mode = 0
 flip_h = true
 script = ExtResource("5_qk6me")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="Pressed" from="TextureRect/OfficeLeft" to="." method="ChangeCamera"]
 [connection signal="Pressed" from="TextureRect/OfficeRight" to="." method="ChangeCamera"]

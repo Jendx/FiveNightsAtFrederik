@@ -16,7 +16,7 @@ namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 /// </code>
 /// </summary>
 [GlobalClass]
-public abstract partial class RaycastInteractable2DUiNode3D : Node3D
+public partial class RaycastInteractable2DUiNode3D : Node3D
 {
     private bool isMouseHeld;
     private bool isMouseInside;

@@ -62,7 +62,6 @@ public class PlayerController
     public void UpdateLookAtObject(RayCast3D rayCast)
     {
         var newColidingObject = rayCast.GetCollider();
-
         if (colidingObject != newColidingObject && Input.IsActionPressed(ActionNames.Use))
         {
             StopUsing();
@@ -76,9 +75,10 @@ public class PlayerController
             player.EmitSignal(nameof(player.OnRaycastColide), newColidingObject);
         }
 
+        // Sometimes the colision can be on child of the node. 
         usableObject = colidingObject is IPlayerUsable
             ? (IPlayerUsable)colidingObject
-            : ((Node)colidingObject)?.Owner is IPlayerUsable ? (IPlayerUsable)((Node)colidingObject).Owner : null;
+            : ((Node)colidingObject)?.Owner as IPlayerUsable;
 
         if (!(isValidObject && usableObject is not null))
         {
@@ -87,7 +87,6 @@ public class PlayerController
             return;
         }
 
-        usableObject = (IPlayerUsable)((Node)colidingObject).Owner;
         player.EmitSignal(nameof(player.UsableObjectChanged), isValidObject);
     }
 

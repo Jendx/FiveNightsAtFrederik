@@ -10,23 +10,29 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 	[Export]
 	private Camera3D[] cameras;
 
+	[Export]
+	private Control UI;
+
 	private Area3D area;
 	private int cameraIndex;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-		cameraViewDisplayMesh = GetNode<MeshInstance3D>(NodeNames.CameraView.ToString());
-
 		// Cameras must be parented to SubViewport or they would project to player
 		foreach(var camera in cameras)
 		{
 			camera.Reparent(subViewport);
 		}
 
-		if (!cameras.Any())
+		if (UI is not null)
 		{
-			GD.PrintErr($"{Name} Node has no cameras. Camera display won't work!");
+			UI.Reparent(subViewport);
+		}
+
+		if (!cameras.Any() && UI is null)
+		{
+			GD.PrintErr($"{Name} Node has no cameras or UI. Display won't work! Please add cmaeras to Array and/or Control");
 		}
 		
 		RenderingServer.FramePostDraw += PostDrawHandler;
