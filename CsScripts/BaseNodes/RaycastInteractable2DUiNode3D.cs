@@ -16,7 +16,7 @@ namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 /// </code>
 /// </summary>
 [GlobalClass]
-public abstract partial class RaycastInteractable2DUiNode3D : Node3D
+public partial class RaycastInteractable2DUiNode3D : Node3D
 {
     private bool isMouseHeld;
     private bool isMouseInside;
@@ -24,20 +24,11 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
     private Vector2 quadSize;
     private Vector2 lastMousePosition2D = Vector2.Zero;
 
-    [Export]
     protected Area3D uiArea;
-
-    [Export]
     protected SubViewport subViewport;
-
-    [Export]
     protected MeshInstance3D cameraViewDisplayMesh;
 
     protected RaycastInteractable2DUiNode3D() {}
-
-    //public abstract void OnBeginUse<TParameters>(TParameters parameters) where TParameters : BaseUsableParameters;
-
-    //public abstract void OnEndUse<TParameters>(TParameters parameters) where TParameters : BaseUsableParameters;
 
     /// <summary>
     /// If event is mouse event & mouse is in area, the input will be forwarded into subViewport
@@ -74,7 +65,6 @@ public abstract partial class RaycastInteractable2DUiNode3D : Node3D
     private void HandleMouse(InputEventMouse @event)
     {
         isMouseInside = FindMouse(@event.GlobalPosition, out Vector3 position);
-
         HandleMouseInPosition(@event, position);
     }
 

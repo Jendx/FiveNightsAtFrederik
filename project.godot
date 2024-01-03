@@ -89,3 +89,4 @@ Use={
 3d_render/layer_2="Camera System"
 3d_physics/layer_1="Player Colidible"
 3d_physics/layer_2="RayCast Colidible"
+3d_physics/layer_3="Caryable Items"

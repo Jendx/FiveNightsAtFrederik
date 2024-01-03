@@ -18,4 +18,7 @@ public static class NodeNames
 
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");
+
+    //CarryableItem
+    public static readonly StringName PlayerInRoot = new("../player");
 }

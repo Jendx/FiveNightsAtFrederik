@@ -19,10 +19,8 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	[Export]
 	public float RotationSpeed { get; set; } = 0.01f;
 
-	[Export]
 	public Camera3D Camera { get; set; }
 
-	[Export]
 	private RayCast3D RayCast;
 
 	[Signal]
@@ -36,7 +34,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public Player()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		
 		PlayerController = new PlayerController(this);
 	}
 

@@ -5,8 +5,6 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 
 public partial class CameraSwitchButtons : Control
 {
-    public string SwitchToCameraName { get; set; }
-
     [Export]
     private CameraSystem cameraSystem;
 
