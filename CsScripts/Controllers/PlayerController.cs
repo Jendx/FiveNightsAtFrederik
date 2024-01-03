@@ -76,8 +76,8 @@ public class PlayerController
         }
 
         // Sometimes the colision can be on child of the node. 
-        usableObject = colidingObject is IPlayerUsable
-            ? (IPlayerUsable)colidingObject
+        usableObject = colidingObject is IPlayerUsable playerUsable
+            ? playerUsable
             : ((Node)colidingObject)?.Owner as IPlayerUsable;
 
         if (!(isValidObject && usableObject is not null))

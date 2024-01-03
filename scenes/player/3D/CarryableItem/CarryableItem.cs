@@ -9,10 +9,23 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
     [Export]
     private Player player;
 
+    public override void _Ready()
+    {
+        player = GetNode<Player>(NodeNames.PlayerInRoot.ToString());
+
+        if (player is null)
+        {
+            GD.PrintErr("");
+        }
+    }
+
     public void OnBeginUse()
     {
         Freeze = true;
         CanSleep = false;
+        SetCollisionMaskValue(1, false);
+        SetCollisionMaskValue(2, false);
+
         Reparent(player.Camera);
     }
 
@@ -28,6 +41,8 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
 
         ApplyForceBasedOnPlayerMovementAndRotation();
         Reparent(player.GetParent());
+        SetCollisionMaskValue(1, true);
+        SetCollisionMaskValue(2, true);
     }
 
     public void ApplyForceBasedOnPlayerMovementAndRotation()
