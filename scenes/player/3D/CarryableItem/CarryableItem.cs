@@ -1,13 +1,19 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
+using System;
 
 namespace FiveNightsAtFrederik.Scenes.Player.PickableItems;
 
 public partial class CarryableItem : RigidBody3D, IPlayerUsable
 {
+    private const float Speed = 0.001f;
+    private const float MaxDistance = 50;
+    
     [Export]
     private Player player;
+
+    private bool isHeld;
 
     public override void _Ready()
     {
@@ -15,18 +21,38 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
 
         if (player is null)
         {
-            GD.PrintErr("");
+            GD.PrintErr($"{Name} did not find player node");
         }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if(!isHeld)
+        {
+            return;
+        }
+
+        var direction = (player.CarryableItemPositionMarker.GlobalPosition - GlobalPosition).Normalized();
+        var distance = GlobalPosition.DistanceTo(player.CarryableItemPositionMarker.GlobalPosition);
+
+        if (distance < 0.01f )
+        {
+            return;
+        }
+
+        if (distance > MaxDistance ) 
+        {
+            GlobalPosition = player.CarryableItemPositionMarker.GlobalPosition;
+        }
+        
+        var motion = direction * (Speed + distance);
+        MoveAndCollide(motion, maxCollisions: 1);
     }
 
     public void OnBeginUse()
     {
-        Freeze = true;
-        CanSleep = false;
-        SetCollisionMaskValue(1, false);
-        SetCollisionMaskValue(2, false);
-
-        Reparent(player.Camera);
+        isHeld = true;
+        Freeze = false;
     }
 
     public void OnEndUse()
@@ -36,13 +62,9 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
             return;
         }
 
-        Freeze = false;
-        Sleeping = false;
+        isHeld = false;
 
         ApplyForceBasedOnPlayerMovementAndRotation();
-        Reparent(player.GetParent());
-        SetCollisionMaskValue(1, true);
-        SetCollisionMaskValue(2, true);
     }
 
     public void ApplyForceBasedOnPlayerMovementAndRotation()
@@ -54,7 +76,7 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
         Vector2 mouseDelta = Input.GetLastMouseVelocity().Normalized();
 
         // Convert the mouse's movement to a Vector3 and use it as the rotation vector
-        // Invert Mouse.X velocity if looking bacwards (-90 <= Y <= 90  is looking in Front) to prevent throwing into opposit direction
+        // Invert Mouse.X velocity if looking backwards (-90 <= Y <= 90  is looking in Front) to prevent throwing into opposite direction
         // Invert Mouse.Y to fix throw direction (Defaultly inverted)
         // Z is how far it will go In front of the player
         Vector3 rotationVector = new Vector3(
