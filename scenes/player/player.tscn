@@ -43,4 +43,7 @@ defaultCrosshairTexture = ExtResource("3_wstii")
 useCrosshairTexture = ExtResource("4_ks7x4")
 metadata/_edit_use_anchors_ = true
 
+[node name="CarryableItemPositionMarker" type="Marker3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.20552)
+
 [connection signal="UsableObjectChanged" from="." to="Camera/HUD" method="OnPlayerUpdateCrosshairTexture"]

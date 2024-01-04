@@ -14,7 +14,8 @@ public static class NodeNames
 
     // Player
     public static readonly StringName Camera = new("Camera");
-    public static readonly StringName RayCast = new("RayCast");
+    public static readonly StringName Camera_RayCast = new("RayCast");
+    public static readonly StringName Camera_CarryableItemPositionMarker = new("CarryableItemPositionMarker");
 
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");
