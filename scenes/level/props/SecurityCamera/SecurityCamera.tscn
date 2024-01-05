@@ -1,12 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://csxvuu3cvmjyy"]
+[gd_scene load_steps=2 format=3 uid="uid://bd34sk33qn1f3"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_5tc0v"]
+[ext_resource type="PackedScene" path="res://scenes/level/props/SecurityCamera/security_cam.glb" id="1_w6pl2"]
 
 [node name="SecurityCamera" type="Camera3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
-mesh = SubResource("PrismMesh_5tc0v")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 layers = 2
@@ -16,3 +12,6 @@ light_indirect_energy = 2.541
 light_volumetric_fog_energy = 4.437
 light_size = 0.074
 shadow_enabled = true
+
+[node name="security_cam" parent="." instance=ExtResource("1_w6pl2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.250538, 0.674765)
