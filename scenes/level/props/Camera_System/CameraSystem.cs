@@ -14,15 +14,15 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 	private Control UI;
 	private int cameraIndex;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
 	{
 		uiArea = GetNode<Area3D>("CameraView/CameraSystemViewArea");
 		subViewport = GetNode<SubViewport>("CameraSystemViewport");
 		cameraViewDisplayMesh = GetNode<MeshInstance3D>("CameraView");
 
-        // Cameras must be parented to SubViewport or they would project to player
-        foreach (var camera in cameras)
+		// Cameras must be parented to SubViewport or they would project to player
+		foreach (var camera in cameras)
 		{
 			camera.Reparent(subViewport);
 		}
@@ -35,12 +35,12 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 		}
 		
 		RenderingServer.FramePostDraw += PostDrawHandler;
-    }
+	}
 
 	/// <summary>
 	/// Textures must be set here
 	/// </summary>
-    public void PostDrawHandler()
+	public void PostDrawHandler()
 	{
 		(cameraViewDisplayMesh.MaterialOverride as BaseMaterial3D).AlbedoTexture = subViewport.GetTexture();
 		RenderingServer.FramePostDraw -= PostDrawHandler;
@@ -55,12 +55,12 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 			return;
 		}
 
-        foreach (var camera in cameras)
-        {
-            camera.Current = false;
-        }
+		foreach (var camera in cameras)
+		{
+			camera.Current = false;
+		}
 
-        GD.Print($"Switched to camera: ${selectedCamera?.Name}");
-        selectedCamera?.MakeCurrent();
-    }
+		GD.Print($"Switched to camera: ${selectedCamera?.Name}");
+		selectedCamera?.MakeCurrent();
+	}
 }
