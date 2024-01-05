@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bd34sk33qn1f3"
-path="res://.godot/imported/security_cam.glb-edf012bd3420214deb074e375bcdb2a3.scn"
+path="res://.godot/imported/security_cam.glb-6b24298e57ce305443aade12bf64e2ce.scn"
 
 [deps]
 
-source_file="res://scenes/level/props/SecurityCamera/security_cam.glb"
-dest_files=["res://.godot/imported/security_cam.glb-edf012bd3420214deb074e375bcdb2a3.scn"]
+source_file="res://scenes/level/props/SecurityCamera/3D/security_cam.glb"
+dest_files=["res://.godot/imported/security_cam.glb-6b24298e57ce305443aade12bf64e2ce.scn"]
 
 [params]
 

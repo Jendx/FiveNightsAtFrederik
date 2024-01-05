@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bd34sk33qn1f3"]
 
-[ext_resource type="Texture2D" uid="uid://do56hgnijkraf" path="res://scenes/level/props/SecurityCamera/security_cam_colormap.png" id="1_yx7s1"]
+[ext_resource type="Texture2D" uid="uid://do56hgnijkraf" path="res://scenes/level/props/SecurityCamera/3D/security_cam_colormap.png" id="1_yx7s1"]
 
 [sub_resource type="Environment" id="Environment_k65vk"]
 ambient_light_color = Color(0.364706, 0.364706, 0.364706, 1)
@@ -47,7 +47,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_3jkg8")
 
-[node name="security_cam" type="Camera3D"]
+[node name="SecurityCamera" type="Camera3D"]
 environment = SubResource("Environment_k65vk")
 fov = 37.8493
 
