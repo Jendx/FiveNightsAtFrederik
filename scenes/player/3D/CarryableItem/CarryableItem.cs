@@ -48,7 +48,6 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
 
         var motion = direction * (Speed + distance);
         MoveAndCollide(motion);
-        GD.Print(direction);
     }
 
     public void OnBeginUse()

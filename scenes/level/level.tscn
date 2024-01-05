@@ -1,11 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=18 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
 [ext_resource type="AudioStream" uid="uid://dfv6kkfjigy2k" path="res://scenes/level/sound/Factory.ogg" id="3_83qj5"]
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
 [ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_qsgvn"]
-[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="6_wf1tr"]
+[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="6_qvw2p"]
 [ext_resource type="PackedScene" uid="uid://dca4iajlg18cr" path="res://scenes/level/props/Camera_System/2D/Camera_switch_buttons.tscn" id="7_j0von"]
 [ext_resource type="PackedScene" uid="uid://cb5qpm0cqxkve" path="res://scenes/player/3D/CarryableItem/CarryableItem.tscn" id="8_ambqf"]
 
@@ -16,6 +16,53 @@ tonemap_mode = 2
 glow_enabled = true
 fog_enabled = true
 fog_light_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_vog3e"]
+offsets = PackedFloat32Array(0, 0.468599, 1)
+colors = PackedColorArray(0, 0, 0, 0.0980392, 0.227451, 0.227451, 0.227451, 0.105882, 1, 1, 1, 0.0666667)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pcf0m"]
+seed = 1
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o1wmd"]
+width = 128
+height = 128
+generate_mipmaps = false
+color_ramp = SubResource("Gradient_vog3e")
+noise = SubResource("FastNoiseLite_pcf0m")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6s6p4"]
+noise_type = 3
+seed = 2
+frequency = 0.2503
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qkc2g"]
+width = 128
+height = 128
+generate_mipmaps = false
+color_ramp = SubResource("Gradient_vog3e")
+noise = SubResource("FastNoiseLite_6s6p4")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rvsdl"]
+noise_type = 4
+seed = 3
+frequency = 0.0023
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0vfld"]
+width = 128
+height = 128
+color_ramp = SubResource("Gradient_vog3e")
+noise = SubResource("FastNoiseLite_rvsdl")
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_yrfrt"]
+frames = 3
+frame_0/texture = SubResource("NoiseTexture2D_o1wmd")
+frame_0/duration = 0.1
+frame_1/texture = SubResource("NoiseTexture2D_qkc2g")
+frame_1/duration = 0.1
+frame_2/texture = SubResource("NoiseTexture2D_0vfld")
+frame_2/duration = 1.49
 
 [node name="lvl1" type="Node3D"]
 
@@ -36,33 +83,41 @@ transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, 0, 0.017
 [node name="map" parent="." instance=ExtResource("2_ledho")]
 
 [node name="Button" parent="." instance=ExtResource("4_ec2ve")]
-transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09, 1.13944, 1.17166, -2.36193)
+transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09, 1.13944, 0.906506, -2.36193)
 
-[node name="Camera_System" parent="." node_paths=PackedStringArray("cameras") instance=ExtResource("5_qsgvn")]
+[node name="Camera_System" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 0.859951, 0, 1, 0, -4.37114e-08, 2.33831, 1.84636, 0.477427)
-cameras = [NodePath("OfficeLeft"), NodePath("OfficeRight"), NodePath("Delivery"), NodePath("Kitchen"), NodePath("ToiletUpper"), NodePath("ToiletLower")]
 
-[node name="OfficeLeft" parent="Camera_System" instance=ExtResource("6_wf1tr")]
-transform = Transform3D(0.912611, -0.130309, 0.387506, 0, 1.10221, 0.370645, -0.408829, -0.290883, 0.865012, -3.40264, 0.261794, 0.192343)
+[node name="OfficeLeft" parent="Camera_System" instance=ExtResource("6_qvw2p")]
+transform = Transform3D(0.912611, -0.130309, 0.387506, 0, 1.10221, 0.370644, -0.408829, -0.290882, 0.865012, -3.30087, 0.261794, 0.192342)
 
-[node name="OfficeRight" parent="Camera_System" instance=ExtResource("6_wf1tr")]
-transform = Transform3D(0.912611, 0.130308, -0.387506, 0, 1.10221, 0.370644, 0.408829, -0.290882, 0.865013, 2.36915, 0.261794, 0.252623)
+[node name="OfficeRight" parent="Camera_System" instance=ExtResource("6_qvw2p")]
+transform = Transform3D(0.912611, 0.130308, -0.387506, 0, 1.10221, 0.370643, 0.408829, -0.290881, 0.865013, 2.33413, 0.261794, 0.252623)
 
-[node name="Delivery" parent="Camera_System" instance=ExtResource("6_wf1tr")]
-transform = Transform3D(0.733959, -0.216483, 0.64377, 0, 1.10221, 0.370644, -0.679194, -0.233939, 0.695678, -9.63656, 0.246281, -15.013)
+[node name="Delivery" parent="Camera_System" instance=ExtResource("6_qvw2p")]
+transform = Transform3D(0.732543, -0.235587, 0.638655, 0, 1.091, 0.402447, -0.680721, -0.253522, 0.687274, -9.68792, 0, -14.191)
 
-[node name="Kitchen" parent="Camera_System" instance=ExtResource("6_wf1tr")]
-transform = Transform3D(-0.188267, -0.313036, 0.930894, -8.73956e-09, 1.10221, 0.370644, -0.982118, 0.0600074, -0.178448, 14.3665, 0.440848, -24.2247)
+[node name="ToiletLower" parent="Camera_System" instance=ExtResource("6_qvw2p")]
+transform = Transform3D(-0.5, -0.154066, 0.855831, 0, 1.14917, 0.152986, -0.866025, 0.0889503, -0.494114, 13.8503, 0.478835, -13.6114)
 
-[node name="ToiletUpper" parent="Camera_System" instance=ExtResource("6_wf1tr")]
-transform = Transform3D(0.733959, -0.216483, 0.64377, 0, 1.10221, 0.370644, -0.679194, -0.233939, 0.695678, 13.8333, 0.261794, -14.6287)
+[node name="ToiletUpper" parent="Camera_System" instance=ExtResource("6_qvw2p")]
+transform = Transform3D(0.733959, -0.216483, 0.64377, 0, 1.10221, 0.370643, -0.679194, -0.233938, 0.695679, 13.842, 0.261794, -14.5803)
 
-[node name="ToiletLower" parent="Camera_System" instance=ExtResource("6_wf1tr")]
-transform = Transform3D(-0.701391, -0.227187, 0.675601, -1.09368e-08, 1.10221, 0.370643, -0.712777, 0.223558, -0.664809, 13.7579, 0.261794, -13.4633)
+[node name="Kitchen" parent="Camera_System" instance=ExtResource("6_qvw2p")]
+transform = Transform3D(-0.258819, 0, 0.965926, 0, 1.16286, 0, -0.965926, 0, -0.258819, 14.3484, 0.424083, -23.7862)
+fov = 90.0
 
-[node name="CameraSystemControl" parent="." node_paths=PackedStringArray("UI") instance=ExtResource("5_qsgvn")]
+[node name="NoiseCameraTexture" type="TextureRect" parent="Camera_System"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AnimatedTexture_yrfrt")
+metadata/_edit_use_anchors_ = true
+
+[node name="CameraSystemControl" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(0.262118, 0, -0.454002, 0, 0.524236, 0, 0.454002, 0, 0.262118, 1.36604, 1.2276, -0.815546)
-UI = NodePath("CameraSwitchButtons")
 
 [node name="CameraSwitchButtons" parent="CameraSystemControl" node_paths=PackedStringArray("cameraSystem") instance=ExtResource("7_j0von")]
 offset_left = 1.0

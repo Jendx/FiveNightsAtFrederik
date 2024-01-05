@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 
+/// <summary>
+/// Camera system which loads it's child cameras & one Control
+/// </summary>
 public partial class CameraSystem : RaycastInteractable2DUiNode3D
 {
-	[Export]
 	private Camera3D[] cameras;
-
-	[Export]
 	private Control UI;
 	private int cameraIndex;
 
@@ -20,9 +20,13 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 		uiArea = GetNode<Area3D>("CameraView/CameraSystemViewArea");
 		subViewport = GetNode<SubViewport>("CameraSystemViewport");
 		cameraViewDisplayMesh = GetNode<MeshInstance3D>("CameraView");
+		var children = GetChildren();
 
-		// Cameras must be parented to SubViewport or they would project to player
-		foreach (var camera in cameras)
+        cameras = children.Where(ch => ch is Camera3D).Cast<Camera3D>().ToArray();
+		UI = (Control)children.SingleOrDefault(ch => ch is Control);
+
+        // Cameras must be parented to SubViewport or they would project to player
+        foreach (var camera in cameras)
 		{
 			camera.Reparent(subViewport);
 		}
