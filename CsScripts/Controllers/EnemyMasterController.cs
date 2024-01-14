@@ -8,7 +8,7 @@ namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
 internal class EnemyMasterController
 {
-	private Dictionary<StringName, (bool, Marker3D)> markers;
+	private static Dictionary<StringName, (bool, Marker3D)> markers;
 	private BaseEnemy baseEnemy;
 	private readonly Random random = new();
 
@@ -16,7 +16,7 @@ internal class EnemyMasterController
 	{
 		this.baseEnemy = baseEnemy;
 		var siblings = this.baseEnemy.GetParent().GetChildren();
-		markers = siblings
+		markers ??= siblings
 			.Where(s => s is Marker3D && s.Name.ToString().Contains("E_"))
 			.Cast<Marker3D>().ToDictionary(s => s.Name, s => (false, s));
 	}
@@ -28,7 +28,7 @@ internal class EnemyMasterController
 		markers[nextMarker.Key] = (true, markers[nextMarker.Key].Item2);
 
 		// Make current Marker visitable again
-		if(markers.TryGetValue(baseEnemy.CurrentMarker.Name, out var value))
+		if(markers.TryGetValue(baseEnemy?.CurrentMarker?.Name ?? string.Empty, out var value))
 		{
 			markers[baseEnemy.CurrentMarker.Name] = (false, value.Item2);
 			GD.Print($"Reseting {baseEnemy.CurrentMarker.Name}");

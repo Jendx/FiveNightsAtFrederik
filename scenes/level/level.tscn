@@ -122,11 +122,12 @@ metadata/_edit_use_anchors_ = true
 [node name="CameraSystemControl" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(0.262118, 0, -0.454002, 0, 0.524236, 0, 0.454002, 0, 0.262118, 1.36604, 1.2276, -0.815546)
 
-[node name="CameraSwitchButtons" parent="CameraSystemControl" instance=ExtResource("7_j0von")]
+[node name="CameraSwitchButtons" parent="CameraSystemControl" node_paths=PackedStringArray("cameraSystem") instance=ExtResource("7_j0von")]
 offset_left = 1.0
 offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 2.0
+cameraSystem = NodePath("../../Camera_System")
 
 [node name="Carryableitem" parent="." instance=ExtResource("8_ambqf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186851, 0.65444, -1.7416)
@@ -139,8 +140,8 @@ navigation_mesh = SubResource("NavigationMesh_35owg")
 
 [node name="map" parent="NavigationMesh" instance=ExtResource("2_ledho")]
 
-[node name="BaseEnemy" parent="." instance=ExtResource("9_jp5rx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6401, 1.32183, 0.0535717)
+[node name="Frederik" parent="." instance=ExtResource("9_jp5rx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6401, 0.683136, 0.0535717)
 
 [node name="E_Marker_ToiletLowr" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3411, 0.23, 13.0751)
@@ -165,3 +166,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, 3.77528)
 
 [node name="E_Marker_OfficeLeft" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
+
+[node name="Enemy2" parent="." instance=ExtResource("9_jp5rx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8891, 0.704259, -1.1748)
+
+[connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]

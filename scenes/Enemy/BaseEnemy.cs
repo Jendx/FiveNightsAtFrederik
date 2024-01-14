@@ -10,6 +10,7 @@ public partial class BaseEnemy : CharacterBody3D
 	private Player.Player player;
 	private EnemyMasterController controller;
 	public Marker3D CurrentMarker;
+	private bool isFirstDestinationSet;
 
 	[Export]
 	private const float Speed = 2f;
@@ -20,11 +21,7 @@ public partial class BaseEnemy : CharacterBody3D
 		navigationAgent = GetNode<NavigationAgent3D>(NodeNames.NavigationAgent.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(navigationAgent)} at {NodeNames.NavigationAgent}");
 		player = GetNode<Player.Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
 
-		CurrentMarker = controller.GetNextPossibleDestination();
-		navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
-
-
-		navigationAgent.TargetReached += () =>
+        navigationAgent.TargetReached += () =>
 		{
 			CurrentMarker = controller.GetNextPossibleDestination();
 			navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
@@ -34,9 +31,22 @@ public partial class BaseEnemy : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		var nextPosition = navigationAgent.GetNextPathPosition();
+        var nextPosition = navigationAgent.GetNextPathPosition();
 		Velocity = (nextPosition - GlobalPosition).Normalized() * Speed;
 
 		MoveAndSlide();
 	}
+
+    public override void _Process(double delta)
+    {
+		if (isFirstDestinationSet)
+		{
+			return;
+		}
+
+        CurrentMarker = controller.GetNextPossibleDestination();
+        navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
+
+		isFirstDestinationSet = true;
+    }
 }
