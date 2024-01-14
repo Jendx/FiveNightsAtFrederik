@@ -2,7 +2,6 @@ using Godot;
 using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Constants;
-using System.Diagnostics;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 

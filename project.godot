@@ -95,3 +95,7 @@ Debug_ToggleMouse={
 3d_physics/layer_1="Player Colidible"
 3d_physics/layer_2="RayCast Colidible"
 3d_physics/layer_3="Caryable Items"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"

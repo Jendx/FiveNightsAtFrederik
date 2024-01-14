@@ -20,6 +20,9 @@ public static class NodeNames
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");
 
-    //CarryableItem
+    // CarryableItem
     public static readonly StringName PlayerInRoot = new("../player");
+
+    // BaseEnemy
+    public static readonly StringName NavigationAgent = new("NavigationAgent");
 }
