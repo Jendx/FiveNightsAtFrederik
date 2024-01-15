@@ -2,6 +2,7 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
+using System.Diagnostics;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
@@ -12,6 +13,7 @@ public class PlayerController
 
     private GodotObject colidingObject;
     private IPlayerUsable usableObject;
+
 
     public PlayerController(Player player)
     {
@@ -92,5 +94,29 @@ public class PlayerController
 
     public void Use() => usableObject?.OnBeginUse();
 
-    public void StopUsing() => usableObject?.OnEndUse(); 
+    public void StopUsing() => usableObject?.OnEndUse();
+
+    public void HandleCrouch(double delta)
+    {
+        float targetHeight;
+
+        var isCrouching = Input.IsActionPressed(ActionNames.Crouch);
+            if (isCrouching)
+            {
+                targetHeight = player.CrouchHeight;
+                 player.MovementSpeed = 2.5f;
+        }
+            else
+            {
+                targetHeight = player.StandHeight;
+                 player.MovementSpeed = 5f;
+        }
+
+        float currentHeight = Mathf.Lerp (player.CollisionMesh.Scale.Y, targetHeight, player.StandSpeed * (float)delta);
+
+        player.CollisionMesh.Scale = new Vector3(player.CollisionMesh.Scale.X, currentHeight, player.CollisionMesh.Scale.Z);
+        player.Camera.Position = new Vector3(player.Camera.Position.X, (currentHeight+0.5f), player.Camera.Position.Z);
+        Debug.Print("player Scale"+player.CollisionMesh.Scale.Y);
+        Debug.Print("Camera Y" + player.Camera.Position.Y);
+    }
 }

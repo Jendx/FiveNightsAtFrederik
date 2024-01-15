@@ -78,7 +78,7 @@ pitch_scale = 0.86
 autoplay = true
 
 [node name="player" parent="." instance=ExtResource("1_2vk4x")]
-transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, 0, 0.0171601, 0)
+transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, 0, 0, 0)
 
 [node name="map" parent="." instance=ExtResource("2_ledho")]
 
@@ -118,18 +118,14 @@ metadata/_edit_use_anchors_ = true
 [node name="CameraSystemControl" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(0.262118, 0, -0.454002, 0, 0.524236, 0, 0.454002, 0, 0.262118, 1.36604, 1.2276, -0.815546)
 
-[node name="CameraSwitchButtons" parent="CameraSystemControl" node_paths=PackedStringArray("cameraSystem") instance=ExtResource("7_j0von")]
+[node name="CameraSwitchButtons" parent="CameraSystemControl" instance=ExtResource("7_j0von")]
 offset_left = 1.0
 offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 2.0
-cameraSystem = NodePath("../../Camera_System")
 
 [node name="Carryableitem" parent="." instance=ExtResource("8_ambqf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186851, 0.65444, -1.7416)
 collision_layer = 3
 collision_mask = 3
 mass = 0.4
-
-[connection signal="OnRaycastColide" from="player" to="Camera_System" method="Player_onRayCastColided"]
-[connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]

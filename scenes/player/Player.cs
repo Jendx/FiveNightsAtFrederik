@@ -15,15 +15,23 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public float MovementSpeed { get; set; } = 5f;
 
 	[Export]
+	public float StandSpeed { get; set; } = 4f;
+
+	[Export]
 	public float JumpVelocity { get; set; } = 5f;
 
 	[Export]
 	public float RotationSpeed { get; set; } = 0.01f;
-
+	[Export]
+	public float StandHeight { get; set; } = 1f;
+	[Export]
+	public float CrouchHeight { get; set; } = 0.2f;
 	public Camera3D Camera { get; set; }
+
+	public CollisionShape3D CollisionMesh { get; set; }
 	public Marker3D CarryableItemPositionMarker { get; set; }
 
-    private RayCast3D RayCast;
+	private RayCast3D RayCast;
 
 	[Signal]
 	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
@@ -44,20 +52,22 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		Camera = GetNode<Camera3D>(NodeNames.Camera.ToString());
 		RayCast = Camera.GetNode<RayCast3D>(NodeNames.Camera_RayCast.ToString());
 		CarryableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker.ToString());
-    }
+		CollisionMesh = GetNode<CollisionShape3D>(NodeNames.PlayerCollision.ToString());
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if (Input.IsActionJustPressed(ActionNames.DEBUG_TOGGLEMOUSE))
 		{
-            Input.MouseMode = Input.MouseMode == Input.MouseModeEnum.Captured ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+			Input.MouseMode = Input.MouseMode == Input.MouseModeEnum.Captured ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
 
-        }
-
+		}
+		 
+		PlayerController.HandleCrouch(delta);
 		PlayerController.HandleMovement();
-        PlayerController.UpdateLookAtObject(RayCast);
+		PlayerController.UpdateLookAtObject(RayCast);
 
-        if (Input.IsActionJustPressed(ActionNames.Use))
+		if (Input.IsActionJustPressed(ActionNames.Use))
 		{
 			PlayerController.Use();
 		}
@@ -66,7 +76,8 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		{
 			PlayerController.StopUsing();
 		}
-    }
+		
+	}
 
 	public override void _Input(InputEvent @event)
 	{
