@@ -2,7 +2,7 @@ namespace FiveNightsAtFrederik.CsScripts.Interfaces;
 
 internal interface IMovableCharacter
 {
-    public float MovementSpeed { get; set; }
+    public float MovementSpeed { get; }
 
     public float JumpVelocity { get; set; }
 
