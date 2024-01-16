@@ -6,7 +6,7 @@ using FiveNightsAtFrederik.Scenes.Enemy;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
-internal class EnemyMasterController
+public class EnemyMasterController
 {
 	private static Dictionary<StringName, (bool, Marker3D)> markers;
 	private BaseEnemy baseEnemy;

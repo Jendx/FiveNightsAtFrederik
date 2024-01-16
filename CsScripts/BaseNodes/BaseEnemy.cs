@@ -1,40 +1,48 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Controllers;
+using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
+using System;
 
 namespace FiveNightsAtFrederik.Scenes.Enemy;
 
+[GlobalClass]
 public partial class BaseEnemy : CharacterBody3D
 {
-	private NavigationAgent3D navigationAgent;
-	private Player.Player player;
-	private EnemyMasterController controller;
+    protected NavigationAgent3D navigationAgent;
+    protected Player.Player player;
+    protected EnemyMasterController controller;
+	protected bool isFirstDestinationSet;
 	public Marker3D CurrentMarker;
-	private bool isFirstDestinationSet;
 
-	[Export]
-	private const float Speed = 2f;
+    /// <summary>
+    /// Move method responsible for moving the enemy
+    /// </summary>
+    protected virtual void Move(float delta) => throw new NotImplementedException();
 
-	public override void _Ready()
+    /// <summary>
+    /// Rotate method responsible for rotating the enemy
+    /// </summary>
+    protected virtual void Rotate(float delta) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Defines what happens when enemy reaches point
+    /// </summary>
+    protected virtual void OnTargetReached() => throw new NotImplementedException();
+
+    public override void _Ready()
 	{
 		controller = new EnemyMasterController(this);
 		navigationAgent = GetNode<NavigationAgent3D>(NodeNames.NavigationAgent.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(navigationAgent)} at {NodeNames.NavigationAgent}");
 		player = GetNode<Player.Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
 
-        navigationAgent.TargetReached += () =>
-		{
-			CurrentMarker = controller.GetNextPossibleDestination();
-			navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
-			GD.Print($"Target Location switched to: {CurrentMarker.Name}");
-		};
+		navigationAgent.TargetReached += OnTargetReached;
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta) 
 	{
-        var nextPosition = navigationAgent.GetNextPathPosition();
-		Velocity = (nextPosition - GlobalPosition).Normalized() * Speed;
-
-		MoveAndSlide();
+		Rotate((float)delta);
+		Move((float)delta);
 	}
 
     public override void _Process(double delta)

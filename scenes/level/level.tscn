@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dca4iajlg18cr" path="res://scenes/level/props/Camera_System/2D/Camera_switch_buttons.tscn" id="7_j0von"]
 [ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="7_tqghg"]
 [ext_resource type="PackedScene" uid="uid://cb5qpm0cqxkve" path="res://scenes/player/3D/CarryableItem/CarryableItem.tscn" id="8_ambqf"]
-[ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/BaseEnemy.tscn" id="9_jp5rx"]
+[ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/MrDuck.tscn" id="9_jp5rx"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -140,9 +140,6 @@ navigation_mesh = SubResource("NavigationMesh_35owg")
 
 [node name="map" parent="NavigationMesh" instance=ExtResource("2_ledho")]
 
-[node name="Frederik" parent="." instance=ExtResource("9_jp5rx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6401, 0.683136, 0.0535717)
-
 [node name="E_Marker_ToiletLowr" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3411, 0.23, 13.0751)
 
@@ -167,7 +164,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, 3.77528)
 [node name="E_Marker_OfficeLeft" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
 
-[node name="Enemy2" parent="." instance=ExtResource("9_jp5rx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8891, 0.704259, -1.1748)
+[node name="MrDuck" parent="." instance=ExtResource("9_jp5rx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.2954, 0.637208, -0.533034)
 
 [connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
