@@ -22,11 +22,11 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 		cameraViewDisplayMesh = GetNode<MeshInstance3D>("CameraView");
 		var children = GetChildren();
 
-        cameras = children.Where(ch => ch is Camera3D).Cast<Camera3D>().ToArray();
+		cameras = children.Where(ch => ch is Camera3D).Cast<Camera3D>().ToArray();
 		UI = (Control)children.SingleOrDefault(ch => ch is Control);
 
-        // Cameras must be parented to SubViewport or they would project to player
-        foreach (var camera in cameras)
+		// Cameras must be parented to SubViewport or they would project to player
+		foreach (var camera in cameras)
 		{
 			camera.Reparent(subViewport);
 		}
