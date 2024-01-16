@@ -13,11 +13,12 @@ public class PlayerController
 
     private GodotObject colidingObject;
     private IPlayerUsable usableObject;
-
+    private float cameraOffset;
 
     public PlayerController(Player player)
     {
         this.player = player;
+        cameraOffset = player.Camera.Position.Y - player.CollisionMesh.Position.Y;
     }
 
     /// <summary>
@@ -99,24 +100,24 @@ public class PlayerController
     public void HandleCrouch(double delta)
     {
         float targetHeight;
+        float currentHeight = default;
 
-        var isCrouching = Input.IsActionPressed(ActionNames.Crouch);
-            if (isCrouching)
-            {
-                targetHeight = player.CrouchHeight;
-                 player.MovementSpeed = 2.5f;
+        if (Input.IsActionPressed(ActionNames.Crouch))
+        {
+            targetHeight = player.CrouchHeight;
+            player.isCrouching = true;
         }
-            else
-            {
-                targetHeight = player.StandHeight;
-                 player.MovementSpeed = 5f;
+        else
+        {
+            targetHeight = player.StandHeight;
+            player.isCrouching = false;
         }
 
-        float currentHeight = Mathf.Lerp (player.CollisionMesh.Scale.Y, targetHeight, player.StandSpeed * (float)delta);
-
-        player.CollisionMesh.Scale = new Vector3(player.CollisionMesh.Scale.X, currentHeight, player.CollisionMesh.Scale.Z);
-        player.Camera.Position = new Vector3(player.Camera.Position.X, (currentHeight+0.5f), player.Camera.Position.Z);
-        Debug.Print("player Scale"+player.CollisionMesh.Scale.Y);
-        Debug.Print("Camera Y" + player.Camera.Position.Y);
+        if (!Mathf.IsEqualApprox(currentHeight, targetHeight, 0.1f))
+        {
+            currentHeight = Mathf.Lerp(player.CollisionMesh.Scale.Y, targetHeight, player.StandSpeed * (float)delta);
+            player.CollisionMesh.Scale = new Vector3(player.CollisionMesh.Scale.X, currentHeight, player.CollisionMesh.Scale.Z);
+            player.Camera.Position = new Vector3(player.Camera.Position.X, (currentHeight + cameraOffset), player.Camera.Position.Z);
+        }
     }
 }

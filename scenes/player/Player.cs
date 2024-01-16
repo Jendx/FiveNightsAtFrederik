@@ -8,11 +8,11 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 
 public partial class Player : CharacterBody3D, IMovableCharacter
 {
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
-
 	[Export]
-	public float MovementSpeed { get; set; } = 5f;
+	public float CrouchSpeed { get; set; } = 2f;
+	
+	[Export]
+	public float WalkSpeed { get; set; } = 5f;	
 
 	[Export]
 	public float StandSpeed { get; set; } = 4f;
@@ -22,29 +22,39 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	[Export]
 	public float RotationSpeed { get; set; } = 0.01f;
+
 	[Export]
 	public float StandHeight { get; set; } = 1f;
+
 	[Export]
 	public float CrouchHeight { get; set; } = 0.2f;
+
 	public Camera3D Camera { get; set; }
 
 	public CollisionShape3D CollisionMesh { get; set; }
+
 	public Marker3D CarryableItemPositionMarker { get; set; }
 
-	private RayCast3D RayCast;
+	public float MovementSpeed => isCrouching ? CrouchSpeed : WalkSpeed;
 
-	[Signal]
+	public bool isCrouching;
+
+    // Get the gravity from the project settings to be synced with RigidBody nodes.
+    public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+
+    [Signal]
 	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
 
 	[Signal]
 	public delegate void OnRaycastColideEventHandler(Node colidedObject);
 
-	private readonly PlayerController PlayerController;
+	private PlayerController PlayerController;
+
+	private RayCast3D RayCast;
 
 	public Player()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		PlayerController = new PlayerController(this);
 	}
 
 	public override void _Ready()
@@ -53,6 +63,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		RayCast = Camera.GetNode<RayCast3D>(NodeNames.Camera_RayCast.ToString());
 		CarryableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker.ToString());
 		CollisionMesh = GetNode<CollisionShape3D>(NodeNames.PlayerCollision.ToString());
+		PlayerController = new PlayerController(this);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -60,9 +71,8 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		if (Input.IsActionJustPressed(ActionNames.DEBUG_TOGGLEMOUSE))
 		{
 			Input.MouseMode = Input.MouseMode == Input.MouseModeEnum.Captured ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
-
 		}
-		 
+
 		PlayerController.HandleCrouch(delta);
 		PlayerController.HandleMovement();
 		PlayerController.UpdateLookAtObject(RayCast);
@@ -76,7 +86,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		{
 			PlayerController.StopUsing();
 		}
-		
 	}
 
 	public override void _Input(InputEvent @event)

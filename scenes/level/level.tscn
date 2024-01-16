@@ -129,3 +129,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186851, 0.65444, -1.7416)
 collision_layer = 3
 collision_mask = 3
 mass = 0.4
+
+[connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
