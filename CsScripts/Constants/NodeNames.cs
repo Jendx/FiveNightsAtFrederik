@@ -26,4 +26,5 @@ public static class NodeNames
 
     // BaseEnemy
     public static readonly StringName NavigationAgent = new("NavigationAgent");
+    public static readonly StringName LookForwardPosition = new("LookForwardPosition");
 }

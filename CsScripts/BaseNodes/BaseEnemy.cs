@@ -13,7 +13,9 @@ public partial class BaseEnemy : CharacterBody3D
     protected Player.Player player;
     protected EnemyMasterController controller;
 	protected bool isFirstDestinationSet;
-	public Marker3D CurrentMarker;
+	protected Marker3D LookForwardPosition;
+
+	public Marker3D CurrentMarker { get; set; }
 
     /// <summary>
     /// Move method responsible for moving the enemy
@@ -35,6 +37,7 @@ public partial class BaseEnemy : CharacterBody3D
 		controller = new EnemyMasterController(this);
 		navigationAgent = GetNode<NavigationAgent3D>(NodeNames.NavigationAgent.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(navigationAgent)} at {NodeNames.NavigationAgent}");
 		player = GetNode<Player.Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+        LookForwardPosition = GetNode<Marker3D>(NodeNames.LookForwardPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.LookForwardPosition}");
 
 		navigationAgent.TargetReached += OnTargetReached;
 	}

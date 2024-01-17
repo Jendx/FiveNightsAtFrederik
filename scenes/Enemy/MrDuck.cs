@@ -26,12 +26,16 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
     {
         nextPosition = navigationAgent.GetNextPathPosition();
 
-        var direction = nextPosition.DirectionTo(GlobalPosition);
-        var angle = direction.AngleTo(nextPosition.Normalized());
+        // Calculates vector with direction from GlobalPosition to nextPosition
+        var nextPositionDirection = nextPosition.DirectionTo(GlobalPosition);
 
-        if (angle > Mathf.DegToRad(MaximumTurnMoveAngle))
+        // Calculates vector with direction from LookForwardPosition to GlobalPosition So I do not have to figure out how to get forward vector in Global Cords 
+        var forwardDirection = LookForwardPosition.GlobalPosition.DirectionTo(GlobalPosition);
+        var AngleBetweenLookingAndNextPosition = forwardDirection.AngleTo(nextPositionDirection);
+
+        if (AngleBetweenLookingAndNextPosition > Mathf.DegToRad(MaximumTurnMoveAngle))
         {
-            GD.Print($"Maximum turn angle reached {Mathf.RadToDeg(angle)} Current Angle: {MaximumTurnMoveAngle}");
+            GD.Print($"Maximum turn angle reached ({MaximumTurnMoveAngle}) Current Angle: {Mathf.RadToDeg(AngleBetweenLookingAndNextPosition)}");
             return;
         }
         
@@ -49,7 +53,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
             return;
         }
 
-        var target = Basis.LookingAt(targetVector, Vector3.Up);
+        var target = Basis.LookingAt(targetVector, Vector3.Up).Orthonormalized();
         Basis = Basis.Slerp(target, 0.1f);
         
     }
