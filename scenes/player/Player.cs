@@ -2,7 +2,6 @@ using Godot;
 using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Constants;
-using System.Diagnostics;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 
@@ -14,6 +13,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	[Export]
 	public float WalkSpeed { get; set; } = 5f;	
 
+    /// <summary>
+    /// speed of player when transitioning to/from crouch 
+    /// </summary>
 	[Export]
 	public float StandSpeed { get; set; } = 4f;
 
@@ -38,9 +40,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public float MovementSpeed => isCrouching ? CrouchSpeed : WalkSpeed;
 
 	public bool isCrouching;
-
-    // Get the gravity from the project settings to be synced with RigidBody nodes.
-    public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
     [Signal]
 	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
@@ -74,7 +73,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		}
 
 		PlayerController.HandleCrouch(delta);
-		PlayerController.HandleMovement();
+		PlayerController.HandleMovement(delta);
 		PlayerController.UpdateLookAtObject(RayCast);
 
 		if (Input.IsActionJustPressed(ActionNames.Use))

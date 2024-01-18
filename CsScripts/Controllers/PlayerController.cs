@@ -2,7 +2,6 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
-using System.Diagnostics;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
@@ -13,7 +12,10 @@ public class PlayerController
 
     private GodotObject colidingObject;
     private IPlayerUsable usableObject;
-    private float cameraOffset;
+    private readonly float cameraOffset;
+
+    // Get the gravity from the project settings to be synced with RigidBody nodes.
+    private readonly float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
     public PlayerController(Player player)
     {
@@ -24,7 +26,7 @@ public class PlayerController
     /// <summary>
     /// Handles movement on XY Axis
     /// </summary>
-    public void HandleMovement()
+    public void HandleMovement(double delta)
     {
         Vector2 inputDir = Input.GetVector(ActionNames.Move_Left, ActionNames.Move_Right, ActionNames.Move_Forward, ActionNames.Move_Backwards);
         Vector3 direction = (player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
@@ -39,6 +41,15 @@ public class PlayerController
             velocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.MovementSpeed);
             velocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.MovementSpeed);
         }
+
+        float fallingVelocity = 0;
+        if (player.IsOnFloor())
+        {
+            fallingVelocity = velocity.Y - gravity * (float)delta;
+        }
+
+        velocity.Y = fallingVelocity;
+        GD.Print($"{player.IsOnFloor()}, Y: {velocity.Y}");
 
         player.Velocity = velocity;
         player.MoveAndSlide();
