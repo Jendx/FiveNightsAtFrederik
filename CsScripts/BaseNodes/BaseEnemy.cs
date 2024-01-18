@@ -28,6 +28,11 @@ public partial class BaseEnemy : CharacterBody3D
     protected virtual void Rotate(float delta) => throw new NotImplementedException();
 
     /// <summary>
+    /// Method for handling animations
+    /// </summary>
+    protected virtual void HandleAnimations() => throw new NotImplementedException();
+
+    /// <summary>
     /// Defines what happens when enemy reaches point
     /// </summary>
     protected virtual void OnTargetReached() => throw new NotImplementedException();
@@ -46,6 +51,7 @@ public partial class BaseEnemy : CharacterBody3D
 	{
 		Rotate((float)delta);
 		Move((float)delta);
+        HandleAnimations();
 	}
 
     public override void _Process(double delta)

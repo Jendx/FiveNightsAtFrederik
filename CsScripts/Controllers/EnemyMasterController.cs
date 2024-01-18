@@ -10,7 +10,7 @@ public class EnemyMasterController
 {
 	private static Dictionary<StringName, (bool, Marker3D)> markers;
 	private BaseEnemy baseEnemy;
-	private readonly Random random = new();
+	private readonly Random random = new(1);
 
 	public EnemyMasterController(BaseEnemy baseEnemy)
 	{

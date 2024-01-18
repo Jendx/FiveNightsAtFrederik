@@ -42,7 +42,14 @@ public class PlayerController
             velocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.MovementSpeed);
         }
 
-        velocity.Y -= gravity * (float)delta;
+        float fallingVelocity = 0;
+        if (player.IsOnFloor())
+        {
+            fallingVelocity = velocity.Y - gravity * (float)delta;
+        }
+
+        velocity.Y = fallingVelocity;
+        GD.Print($"{player.IsOnFloor()}, Y: {velocity.Y}");
 
         player.Velocity = velocity;
         player.MoveAndSlide();
