@@ -72,7 +72,6 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
             return;
         }
 
-
         GD.Print("Duck Activated");
         isActive = true;
         audioPlayer.Stream = audioTracks[MrDuckSounds.Activate];
