@@ -27,6 +27,8 @@ public static class NodeNames
     // BaseEnemy
     public static readonly StringName NavigationAgent = new("NavigationAgent");
     public static readonly StringName LookForwardPosition = new("LookForwardPosition");
+    public static readonly StringName AudioPlayer = new("AudioPlayer");
+    public static readonly StringName IdleTimer = new("IdleTimer");
 
     // MrDuck
     public static readonly StringName MrDuckAnimationTree = new("MrDuckAnimationTree");
