@@ -49,7 +49,6 @@ public class PlayerController
         }
 
         velocity.Y = fallingVelocity;
-        GD.Print($"{player.IsOnFloor()}, Y: {velocity.Y}");
 
         player.Velocity = velocity;
         player.MoveAndSlide();
