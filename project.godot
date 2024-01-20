@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [dotnet]
 
-project/assembly_name="Pět nocí u Frederika"
+project/assembly_name="FiveNightsAtFrederik"
 
 [file_customization]
 
