@@ -42,8 +42,8 @@ public class PlayerController
             velocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.MovementSpeed);
         }
 
-        float fallingVelocity = 0;
-        if (player.IsOnFloor())
+        float fallingVelocity = 0f;
+        if (!player.IsOnFloor())
         {
             fallingVelocity = velocity.Y - gravity * (float)delta;
         }

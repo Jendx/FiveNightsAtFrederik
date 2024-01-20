@@ -85,33 +85,33 @@ pitch_scale = 0.86
 autoplay = true
 
 [node name="player" parent="." instance=ExtResource("1_2vk4x")]
-transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, 19.7429, -0.0188706, 0.401057)
+transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, 0.800945, -0.0188706, 0.401057)
 
 [node name="Button" parent="." instance=ExtResource("4_ec2ve")]
 transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09, 1.13944, 0.906506, -2.36193)
 
-[node name="Camera_System" parent="." instance=ExtResource("5_qsgvn")]
+[node name="Camera_System_View" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 0.859951, 0, 1, 0, -4.37114e-08, 2.33831, 1.84636, 0.477427)
 
-[node name="OfficeLeft" parent="Camera_System" instance=ExtResource("7_tqghg")]
+[node name="OfficeLeft" parent="Camera_System_View" instance=ExtResource("7_tqghg")]
 transform = Transform3D(0.912611, -0.130309, 0.387506, 0, 1.10221, 0.370644, -0.408829, -0.290882, 0.865012, -3.30087, 0.261794, 0.192342)
 
-[node name="OfficeRight" parent="Camera_System" instance=ExtResource("7_tqghg")]
+[node name="OfficeRight" parent="Camera_System_View" instance=ExtResource("7_tqghg")]
 transform = Transform3D(0.912611, 0.130308, -0.387506, 0, 1.10221, 0.370643, 0.408829, -0.290881, 0.865013, 2.33413, 0.261794, 0.252623)
 
-[node name="Delivery" parent="Camera_System" instance=ExtResource("7_tqghg")]
+[node name="Delivery" parent="Camera_System_View" instance=ExtResource("7_tqghg")]
 transform = Transform3D(0.732543, -0.235587, 0.638655, 0, 1.091, 0.402447, -0.680721, -0.253522, 0.687274, -9.68792, 0, -14.191)
 
-[node name="ToiletLower" parent="Camera_System" instance=ExtResource("7_tqghg")]
+[node name="ToiletLower" parent="Camera_System_View" instance=ExtResource("7_tqghg")]
 transform = Transform3D(-0.5, -0.154066, 0.855831, 0, 1.14917, 0.152986, -0.866025, 0.0889503, -0.494114, 13.8503, 0.478835, -13.6114)
 
-[node name="ToiletUpper" parent="Camera_System" instance=ExtResource("7_tqghg")]
+[node name="ToiletUpper" parent="Camera_System_View" instance=ExtResource("7_tqghg")]
 transform = Transform3D(0.733959, -0.216483, 0.64377, 0, 1.10221, 0.370643, -0.679194, -0.233938, 0.695679, 13.842, 0.261794, -14.5803)
 
-[node name="Kitchen" parent="Camera_System" instance=ExtResource("7_tqghg")]
+[node name="Kitchen" parent="Camera_System_View" instance=ExtResource("7_tqghg")]
 transform = Transform3D(-0.258819, 0, 0.965926, 0, 1.16286, 0, -0.965926, 0, -0.258819, 14.3484, 0.424083, -23.7862)
 
-[node name="NoiseCameraTexture" type="TextureRect" parent="Camera_System"]
+[node name="NoiseCameraTexture" type="TextureRect" parent="Camera_System_View"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -123,11 +123,12 @@ metadata/_edit_use_anchors_ = true
 [node name="CameraSystemControl" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(0.262118, 0, -0.454002, 0, 0.524236, 0, 0.454002, 0, 0.262118, 1.36604, 1.2276, -0.815546)
 
-[node name="CameraSwitchButtons" parent="CameraSystemControl" instance=ExtResource("7_j0von")]
+[node name="CameraSwitchButtons" parent="CameraSystemControl" node_paths=PackedStringArray("cameraSystem") instance=ExtResource("7_j0von")]
 offset_left = 1.0
 offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 2.0
+cameraSystem = NodePath("../../Camera_System_View")
 
 [node name="Carryableitem" parent="." instance=ExtResource("8_ambqf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186851, 0.65444, -1.7416)
