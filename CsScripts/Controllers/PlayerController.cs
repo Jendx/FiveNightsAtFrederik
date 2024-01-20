@@ -45,7 +45,6 @@ public class PlayerController
         float fallingVelocity = 0f;
         if (!player.IsOnFloor())
         {
-            GD.Print("Is On Floor");
             fallingVelocity = velocity.Y - gravity * (float)delta;
         }
 
