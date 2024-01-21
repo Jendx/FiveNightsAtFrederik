@@ -124,11 +124,12 @@ metadata/_edit_use_anchors_ = true
 [node name="CameraSystemControl" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(0.262118, 0, -0.454002, 0, 0.524236, 0, 0.454002, 0, 0.262118, 1.36604, 1.2276, -0.815546)
 
-[node name="CameraSwitchButtons" parent="CameraSystemControl" instance=ExtResource("7_j0von")]
+[node name="CameraSwitchButtons" parent="CameraSystemControl" node_paths=PackedStringArray("cameraSystem") instance=ExtResource("7_j0von")]
 offset_left = 1.0
 offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 2.0
+cameraSystem = NodePath("../../Camera_System_View")
 
 [node name="Carryableitem" parent="." instance=ExtResource("8_ambqf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186851, 0.65444, -1.7416)
