@@ -96,11 +96,11 @@ public class PlayerController
         if (!(isValidObject && usableObject is not null))
         {
             usableObject = null;
-            player.EmitSignal(nameof(player.UsableObjectChanged), isValidObject);
+            player.EmitSignal(nameof(player.UsableObjectChanged), false);
             return;
         }
 
-        player.EmitSignal(nameof(player.UsableObjectChanged), isValidObject);
+        player.EmitSignal(nameof(player.UsableObjectChanged), usableObject.isInteractionUIDisplayed);
     }
 
     public void Use() => usableObject?.OnBeginUse();

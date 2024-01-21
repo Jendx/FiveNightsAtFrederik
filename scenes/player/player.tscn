@@ -38,7 +38,7 @@ spot_angle = 76.6246
 [node name="RayCast" type="RayCast3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, -4.46947e-08, -1, 0, 1.02249, -4.37114e-08, 0, 0, -0.0637127)
 target_position = Vector3(0, -1.5, 0)
-collision_mask = 2
+collision_mask = 3
 collide_with_areas = true
 debug_shape_custom_color = Color(1, 0.219608, 0.462745, 1)
 

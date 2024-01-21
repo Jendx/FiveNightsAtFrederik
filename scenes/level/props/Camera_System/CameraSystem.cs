@@ -1,5 +1,6 @@
 using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System.Linq;
 
@@ -8,9 +9,12 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 /// <summary>
 /// Camera system which loads it's child cameras & one Control
 /// </summary>
-public partial class CameraSystem : RaycastInteractable2DUiNode3D
+public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 {
-	private Camera3D[] cameras;
+    [Export]
+    public bool isInteractionUIDisplayed { get; set; } = true;
+
+    private Camera3D[] cameras;
 	private Control UI;
 	private int cameraIndex;
 
@@ -67,4 +71,12 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D
 		GD.Print($"Switched to camera: ${selectedCamera?.Name}");
 		selectedCamera?.MakeCurrent();
 	}
+
+    public void OnBeginUse()
+    {
+    }
+
+    public void OnEndUse()
+    {
+    }
 }
