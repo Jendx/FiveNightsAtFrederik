@@ -62,7 +62,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
         {
             idleTimer.Start(random.Next(10, 20));
             audioPlayer.Stream = audioTracks[MrDuckSounds.Deactivate];
-            if (!isActive)
+            if (isActive)
             {
                 audioPlayer.Play();
             }
@@ -73,12 +73,13 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
         }
 
         GD.Print("Duck Activated");
-        isActive = true;
         audioPlayer.Stream = audioTracks[MrDuckSounds.Activate];
-        if (isActive)
+        if (!isActive)
         {
             audioPlayer.Play();
         }
+
+        isActive = true;
     }
 
     protected override void Move(float delta)
