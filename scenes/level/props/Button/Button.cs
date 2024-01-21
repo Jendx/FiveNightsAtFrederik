@@ -28,8 +28,10 @@ public partial class Button : Node, IButton, IPlayerUsable
 	[Export]
 	public AudioStreamOggVorbis? SwitchOffAudio { get; set; }
 
+    [Export]
+    public bool isInteractionUIDisplayed { get; set; } = true;
 
-	private bool isOnCoolDown;
+    private bool isOnCoolDown;
 	private AudioStreamPlayer? audioPlayer;
 
     // Called when the node enters the scene tree for the first time.
