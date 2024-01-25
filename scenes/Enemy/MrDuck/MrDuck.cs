@@ -1,4 +1,5 @@
 ﻿using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
@@ -13,12 +14,12 @@ namespace FiveNightsAtFrederik.Scenes.Enemy;
 /// </summary>
 public partial class MrDuck : BaseEnemy, IMovableCharacter
 {
-    public float MovementSpeed { get; set; } = 1;
+    public float MovementSpeed { get; set; } = 32f;
     public float JumpVelocity { get; set; }
-    public float RotationSpeed { get; set; } = 0.01f;
+    public float RotationSpeed { get; set; } = 0.8f;
 
     private readonly float MaximumTurnMoveAngle = 5;
-    private Random random = new();
+    private Random random = new(1);
 
     [ExportGroup("Dictionary<EnemySounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
     [Export()]
@@ -34,6 +35,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
     public override void _Ready()
     {
         base._Ready();
+        controller = new EnemyMasterController(this);
         interpolationCurrentPosition = LookForwardPosition.GlobalPosition;
 
         animationTree.Active = true;
@@ -108,7 +110,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
             return;
         }
 
-        Velocity = (nextPosition - GlobalPosition).Normalized() * MovementSpeed;
+        Velocity = (nextPosition - GlobalPosition).Normalized() * delta * MovementSpeed;
 
         MoveAndSlide();
     }

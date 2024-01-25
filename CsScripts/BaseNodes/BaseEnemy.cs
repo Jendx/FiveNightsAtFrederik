@@ -7,7 +7,6 @@ using System;
 
 namespace FiveNightsAtFrederik.Scenes.Enemy;
 
-[GlobalClass]
 public partial class BaseEnemy : CharacterBody3D
 {
 	protected bool isFirstDestinationSet;
@@ -49,10 +48,9 @@ public partial class BaseEnemy : CharacterBody3D
     protected virtual void OnIdleTimerTimeout() => throw new NotImplementedException();
 
     public override void _Ready()
-	{
-		controller = new EnemyMasterController(this);
-		navigationAgent = GetNode<NavigationAgent3D>(NodeNames.NavigationAgent.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(navigationAgent)} at {NodeNames.NavigationAgent}");
-		player = GetNode<Player.Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+    {
+        navigationAgent = GetNode<NavigationAgent3D>(NodeNames.NavigationAgent.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(navigationAgent)} at {NodeNames.NavigationAgent}");
+        player = GetNode<Player.Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
         LookForwardPosition = GetNode<Marker3D>(NodeNames.LookForwardPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(LookForwardPosition)} at {NodeNames.LookForwardPosition}");
         idleTimer = GetNode<Timer>(NodeNames.IdleTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(idleTimer)} at {NodeNames.IdleTimer}");
         audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.AudioPlayer}");

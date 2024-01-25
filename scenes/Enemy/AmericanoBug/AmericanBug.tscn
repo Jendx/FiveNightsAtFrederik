@@ -725,9 +725,11 @@ transform = Transform3D(-0.207124, 0, -1.81073e-08, 0, 0.207124, 0, 1.81073e-08,
 shape = SubResource("BoxShape3D_lckok")
 
 [node name="IdleTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="BugActivationTimer" type="Timer" parent="."]
 wait_time = 5.0
+one_shot = true
 
 [node name="AudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.253456, 0)
@@ -737,7 +739,7 @@ max_distance = 25.0
 transform = Transform3D(-0.265993, 0, 2.32538e-08, 0, 0.265993, 0, -2.32538e-08, 0, -0.265993, 0, -0.215255, 0.175032)
 
 [node name="Skeleton3D" parent="brouk/broukrig" index="0"]
-bones/0/position = Vector3(1.71605e-10, 0.912603, -0.27107)
+bones/0/position = Vector3(1.78863e-10, 0.912506, -0.27107)
 bones/0/rotation = Quaternion(0.500005, 0.5, 0.5, 0.499995)
 bones/1/position = Vector3(-1.35877e-05, 0.953053, 1.35643e-05)
 bones/2/position = Vector3(-0.00467509, -0.0271843, 5.47913e-11)
@@ -747,16 +749,16 @@ bones/5/position = Vector3(-0.00476763, -0.0065434, 5.72615e-11)
 bones/6/position = Vector3(-0.00495286, -0.0280437, 5.81127e-11)
 bones/7/position = Vector3(-0.00481389, -0.0164036, 5.59396e-11)
 bones/8/position = Vector3(0.0350073, 1.43964, -4.17652e-10)
-bones/10/rotation = Quaternion(0.204609, -4.10087e-07, -1.10362e-07, 0.978844)
-bones/11/rotation = Quaternion(7.81618e-08, 0.978689, -0.205349, -5.41676e-07)
+bones/10/rotation = Quaternion(0.204599, -4.10085e-07, -1.10366e-07, 0.978846)
+bones/11/rotation = Quaternion(7.81661e-08, 0.97869, -0.205341, -5.41675e-07)
 bones/12/position = Vector3(-0.327703, 0.108796, 1.25216e-07)
 bones/12/rotation = Quaternion(2.61524e-08, -3.90047e-07, 0.0472572, 0.998883)
 bones/13/position = Vector3(0.487437, 0.269886, 0.175238)
 bones/13/rotation = Quaternion(0.142535, -0.0819199, -0.479662, 0.861915)
-bones/14/position = Vector3(-0.289477, 2.17743, 1.8704e-06)
-bones/14/rotation = Quaternion(-0.535971, 0.535977, 0.461226, 0.461231)
-bones/15/position = Vector3(-0.293674, 0.605758, 1.6868e-05)
-bones/17/rotation = Quaternion(1.62487e-05, 1.41389e-07, -0.229764, 0.973247)
+bones/14/position = Vector3(-0.289367, 2.17743, 1.87041e-06)
+bones/14/rotation = Quaternion(-0.536592, 0.536597, 0.460504, 0.460508)
+bones/15/position = Vector3(-0.293563, 0.605758, 1.6869e-05)
+bones/17/rotation = Quaternion(1.62488e-05, 1.3913e-07, -0.229628, 0.973278)
 bones/18/rotation = Quaternion(-9.34201e-06, -1.2265e-06, -0.00381482, 0.999993)
 
 [editable path="brouk"]

@@ -37,6 +37,7 @@ public partial class Gun : RigidBody3D, IPlayerUsable
         {
             Reparent(originalParent);
             player.IsHoldingWeapon = false;
+            isHeld = false;
             Freeze = false;
         }
 

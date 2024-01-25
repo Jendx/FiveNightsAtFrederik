@@ -13,11 +13,11 @@ namespace FiveNightsAtFrederik.Scenes.Enemy;
 /// </summary>
 public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
 {
-    public float MovementSpeed { get; set; } = 6;
+    public float MovementSpeed { get; set; } = 150;
     public float JumpVelocity { get; set; }
     public float RotationSpeed { get; set; } = 3f;
 
-    private Random random = new(1);
+    private Random random = new(2);
     private Timer activationTimer;
 
     [ExportGroup("Dictionary<EnemySounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
@@ -78,15 +78,16 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
             return;
         }
 
-        GD.Print("Bug Activated");
         audioPlayer.Stream = audioTracks[EnemySounds.Activate];
-        if (!isActive)
-        {
-            audioPlayer.Play();
-        }
+        audioPlayer.Play();
 
         idleTimer.Stop();
-        activationTimer.Start();
+
+        if (activationTimer.TimeLeft == 0)
+        {
+            GD.Print("Bug Activated");
+            activationTimer.Start();
+        }
     }
 
     protected override void Move(float delta)
@@ -98,7 +99,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
 
         nextPosition = navigationAgent.GetNextPathPosition();
 
-        Velocity = (nextPosition - GlobalPosition).Normalized() * MovementSpeed;
+        Velocity = (nextPosition - GlobalPosition).Normalized() * delta * MovementSpeed;
 
         MoveAndSlide();
     }
