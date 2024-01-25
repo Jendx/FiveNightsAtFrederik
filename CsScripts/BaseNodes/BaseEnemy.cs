@@ -1,5 +1,6 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Controllers;
+using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System;
@@ -17,7 +18,8 @@ public partial class BaseEnemy : CharacterBody3D
 	protected Marker3D LookForwardPosition;
     protected Timer idleTimer;
     protected AudioStreamPlayer3D audioPlayer;
-
+    protected AnimationTree animationTree;
+    protected EnemyAnimationStates currentAnimation = EnemyAnimationStates.Idle;
 
     public Marker3D CurrentMarker { get; set; }
 
@@ -46,15 +48,15 @@ public partial class BaseEnemy : CharacterBody3D
     /// </summary>
     protected virtual void OnIdleTimerTimeout() => throw new NotImplementedException();
 
-
     public override void _Ready()
 	{
 		controller = new EnemyMasterController(this);
 		navigationAgent = GetNode<NavigationAgent3D>(NodeNames.NavigationAgent.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(navigationAgent)} at {NodeNames.NavigationAgent}");
 		player = GetNode<Player.Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
-        LookForwardPosition = GetNode<Marker3D>(NodeNames.LookForwardPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.LookForwardPosition}");
-        idleTimer = GetNode<Timer>(NodeNames.IdleTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.IdleTimer}");
-        audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.AudioPlayer}");
+        LookForwardPosition = GetNode<Marker3D>(NodeNames.LookForwardPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(LookForwardPosition)} at {NodeNames.LookForwardPosition}");
+        idleTimer = GetNode<Timer>(NodeNames.IdleTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(idleTimer)} at {NodeNames.IdleTimer}");
+        audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.AudioPlayer}");
+        animationTree = GetNode<AnimationTree>(NodeNames.AnimationTree.ToString());
 
         navigationAgent.TargetReached += OnTargetReached;
         idleTimer.Timeout += OnIdleTimerTimeout;
@@ -75,17 +77,4 @@ public partial class BaseEnemy : CharacterBody3D
 		Move((float)delta);
         HandleAnimations();
 	}
-
-    public override void _Process(double delta)
-    {
-		if (isFirstDestinationSet)
-		{
-			return;
-		}
-
-        CurrentMarker = controller.GetNextPossibleDestination();
-        navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
-
-		isFirstDestinationSet = true;
-    }
 }

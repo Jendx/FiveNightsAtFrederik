@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://vps54mweee7u"]
+[gd_scene load_steps=5 format=3 uid="uid://vps54mweee7u"]
 
 [ext_resource type="Texture2D" uid="uid://dl0wh0456p8wv" path="res://scenes/player/Textures/Crosshair_Default.png" id="1_aixlq"]
 [ext_resource type="Script" path="res://scenes/player/2D/Hud.cs" id="1_olt72"]
+[ext_resource type="Texture2D" uid="uid://chrlsc2kgmf8y" path="res://scenes/player/Textures/Crosshair_Use.jpg" id="3_obmtu"]
+[ext_resource type="Texture2D" uid="uid://wwe88b6cmyjj" path="res://scenes/player/Textures/Crosshair_Aim.png" id="4_3atcw"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -14,6 +16,11 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 mouse_filter = 1
 script = ExtResource("1_olt72")
+defaultCrosshairTexture = {
+0: ExtResource("1_aixlq"),
+1: ExtResource("3_obmtu"),
+2: ExtResource("4_3atcw")
+}
 
 [node name="Crosshair" type="TextureRect" parent="."]
 layout_mode = 1

@@ -29,7 +29,7 @@ public partial class Button : Node, IButton, IPlayerUsable
 	public AudioStreamOggVorbis? SwitchOffAudio { get; set; }
 
     [Export]
-    public bool isInteractionUIDisplayed { get; set; } = true;
+    public bool IsInteractionUIDisplayed { get; set; } = true;
 
     private bool isOnCoolDown;
 	private AudioStreamPlayer? audioPlayer;

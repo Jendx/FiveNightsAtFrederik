@@ -32,14 +32,14 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public float CrouchHeight { get; set; } = 0.2f;
 
 	public Camera3D Camera { get; set; }
-
 	public CollisionShape3D CollisionMesh { get; set; }
-
 	public Marker3D CarryableItemPositionMarker { get; set; }
+    public Marker3D EquipableItemPositionMarker { get; set; }
+	public bool IsCrouching { get; set; }
+	public bool IsHoldingWeapon { get; set; }
 
-	public float MovementSpeed => isCrouching ? CrouchSpeed : WalkSpeed;
+    public float MovementSpeed => IsCrouching ? CrouchSpeed : WalkSpeed;
 
-	public bool isCrouching;
 
     [Signal]
 	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
@@ -58,11 +58,12 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	public override void _Ready()
 	{
-		Camera = GetNode<Camera3D>(NodeNames.Camera.ToString());
-		RayCast = Camera.GetNode<RayCast3D>(NodeNames.Camera_RayCast.ToString());
-		CarryableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker.ToString());
-		CollisionMesh = GetNode<CollisionShape3D>(NodeNames.PlayerCollision.ToString());
-		PlayerController = new PlayerController(this);
+		Camera = GetNode<Camera3D>(NodeNames.Camera.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(Camera)} at {NodeNames.Camera}");
+        CollisionMesh = GetNode<CollisionShape3D>(NodeNames.PlayerCollision.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(CollisionMesh)} at {NodeNames.PlayerCollision}");
+        RayCast = Camera.GetNode<RayCast3D>(NodeNames.RayCast.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(RayCast)} at {NodeNames.RayCast}");
+        CarryableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(CarryableItemPositionMarker)} at {NodeNames.Camera_CarryableItemPositionMarker}");
+        EquipableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_EquipableItemPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(EquipableItemPositionMarker)} at {NodeNames.Camera_EquipableItemPosition}");
+        PlayerController = new PlayerController(this);
 	}
 
 	public override void _PhysicsProcess(double delta)

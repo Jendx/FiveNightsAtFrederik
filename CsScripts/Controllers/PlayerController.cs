@@ -1,4 +1,5 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
@@ -93,14 +94,32 @@ public class PlayerController
             ? playerUsable
             : ((Node)colidingObject)?.Owner as IPlayerUsable;
 
+        var hudCrosshairState = GetHudCrosshairTexture();
+
         if (!(isValidObject && usableObject is not null))
         {
             usableObject = null;
-            player.EmitSignal(nameof(player.UsableObjectChanged), false);
+            player.EmitSignal(nameof(player.UsableObjectChanged), (int)hudCrosshairState);
             return;
         }
 
-        player.EmitSignal(nameof(player.UsableObjectChanged), usableObject.isInteractionUIDisplayed);
+        player.EmitSignal(nameof(player.UsableObjectChanged), (int)hudCrosshairState);
+    }
+
+    private HudCrosshairStates GetHudCrosshairTexture()
+    {
+        var hudCrosshairState = HudCrosshairStates.Point;
+        if (usableObject is not null && usableObject.IsInteractionUIDisplayed)
+        {
+            hudCrosshairState = HudCrosshairStates.Use;
+        }
+
+        if (player.IsHoldingWeapon)
+        {
+            hudCrosshairState = HudCrosshairStates.Aim;
+        }
+
+        return hudCrosshairState;
     }
 
     public void Use() => usableObject?.OnBeginUse();
@@ -115,12 +134,12 @@ public class PlayerController
         if (Input.IsActionPressed(ActionNames.Crouch))
         {
             targetHeight = player.CrouchHeight;
-            player.isCrouching = true;
+            player.IsCrouching = true;
         }
         else
         {
             targetHeight = player.StandHeight;
-            player.isCrouching = false;
+            player.IsCrouching = false;
         }
 
         if (!Mathf.IsEqualApprox(currentHeight, targetHeight, 0.1f))

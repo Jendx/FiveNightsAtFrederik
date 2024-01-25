@@ -14,9 +14,9 @@ public static class NodeNames
 
     // Player
     public static readonly StringName Camera = new("Camera");
-    public static readonly StringName Camera_RayCast = new("RayCast");
     public static readonly StringName Camera_CarryableItemPositionMarker = new("CarryableItemPositionMarker");
     public static readonly StringName PlayerCollision = new("PlayerCollision");
+    public static readonly StringName Camera_EquipableItemPosition = new("EquipableItemPosition");
 
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");
@@ -27,9 +27,13 @@ public static class NodeNames
     // BaseEnemy
     public static readonly StringName NavigationAgent = new("NavigationAgent");
     public static readonly StringName LookForwardPosition = new("LookForwardPosition");
-    public static readonly StringName AudioPlayer = new("AudioPlayer");
     public static readonly StringName IdleTimer = new("IdleTimer");
+    public static readonly StringName AnimationTree = new("AnimationTree");
 
-    // MrDuck
-    public static readonly StringName MrDuckAnimationTree = new("MrDuckAnimationTree");
+    // American Bug
+    public static readonly StringName BugActivationTimer = new("BugActivationTimer");
+
+    // Generic
+    public static readonly StringName AudioPlayer = new("AudioPlayer");
+    public static readonly StringName RayCast = new("RayCast");
 }
