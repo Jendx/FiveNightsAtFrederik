@@ -43,9 +43,14 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
         spawnLocation = GlobalPosition;
 
         animationTree.Active = true;
+
+        // TODO: Set correct activation timer value
         idleTimer.Start(5);
     }
 
+    /// <summary>
+    /// When target is reached, kill player. If bug was hit, Deactivate him after getting back to spawn location
+    /// </summary>
     protected override void OnTargetReached()
     {
         isActive = false;
@@ -104,6 +109,14 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
         MoveAndSlide();
     }
 
+    protected override void Rotate(float delta)
+    {
+        interpolationCurrentPosition = nextPosition.Lerp(interpolationCurrentPosition, delta * RotationSpeed);
+        interpolationCurrentPosition.Y = GlobalPosition.Y;
+
+        LookAt(interpolationCurrentPosition);
+    }
+
     protected override void HandleAnimations()
     {
         animationTree.Set(currentAnimation.GetDescription(), false);
@@ -116,14 +129,10 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
         animationTree.Set(currentAnimation.GetDescription(), true);
     }
 
-    protected override void Rotate(float delta)
-    {
-        interpolationCurrentPosition = nextPosition.Lerp(interpolationCurrentPosition, delta * RotationSpeed);
-        interpolationCurrentPosition.Y = GlobalPosition.Y;
 
-        LookAt(interpolationCurrentPosition);
-    }
-
+    /// <summary>
+    /// When bug is shot, set targetPostion = spawnLocation
+    /// </summary>
     public void ApplyDamage()
     {
         if (isActive)

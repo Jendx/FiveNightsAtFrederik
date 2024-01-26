@@ -40,6 +40,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
 
         animationTree.Active = true;
 
+        // TODO: Set correct activation Time
         idleTimer.Start(5);
     }
 
