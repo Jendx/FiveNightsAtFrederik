@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=22 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="7_tqghg"]
 [ext_resource type="PackedScene" uid="uid://cb5qpm0cqxkve" path="res://scenes/player/3D/CarryableItem/CarryableItem.tscn" id="8_ambqf"]
 [ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/MrDuck/MrDuck.tscn" id="9_jp5rx"]
+[ext_resource type="PackedScene" uid="uid://bu6mr7xhtuulk" path="res://scenes/Enemy/AmericanoBug/AmericanBug.tscn" id="10_0u43u"]
+[ext_resource type="PackedScene" uid="uid://djyuwual7g6b4" path="res://scenes/player/3D/Gun/Gun.tscn" id="11_jipue"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -92,7 +94,6 @@ transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09
 
 [node name="Camera_System_View" parent="." instance=ExtResource("5_qsgvn")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 0.859951, 0, 1, 0, -4.37114e-08, 2.33831, 1.84636, 0.477427)
-isInteractionUIDisplayed = false
 
 [node name="OfficeLeft" parent="Camera_System_View" instance=ExtResource("7_tqghg")]
 transform = Transform3D(0.912611, -0.130309, 0.387506, 0, 1.10221, 0.370644, -0.408829, -0.290882, 0.865012, -3.30087, 0.261794, 0.192342)
@@ -167,5 +168,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
 
 [node name="MrDuck" parent="." instance=ExtResource("9_jp5rx")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 22.4265, 0.293166, 1.55002)
+
+[node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10.8735, 0.439323, 0.114175)
+
+[node name="Gun" parent="." instance=ExtResource("11_jipue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.300625, -0.0177829, 2.09144)
 
 [connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]

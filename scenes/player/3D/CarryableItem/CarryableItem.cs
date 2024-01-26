@@ -3,30 +3,23 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System;
 
-namespace FiveNightsAtFrederik.Scenes.Player.PickableItems;
+namespace FiveNightsAtFrederik.Scenes.Player;
 
 public partial class CarryableItem : RigidBody3D, IPlayerUsable
 {
     private const float Speed = 0.001f;
     private const float MaxDistance = 1.5f;
-    
-    [Export]
     private Player player;
 
     [Export]
-    public bool isInteractionUIDisplayed { get; set; } = true;
+    public bool IsInteractionUIDisplayed { get; set; } = true;
 
     private Vector3 direction;
     private bool isHeld;
 
     public override void _Ready()
     {
-        player = GetNode<Player>(NodeNames.PlayerInRoot.ToString());
-
-        if (player is null)
-        {
-            GD.PrintErr($"{Name} did not find player node");
-        }
+        player = GetNode<Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}"); ;
     }
 
     public override void _PhysicsProcess(double delta)

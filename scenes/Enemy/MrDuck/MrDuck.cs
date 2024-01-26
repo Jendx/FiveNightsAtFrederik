@@ -1,8 +1,8 @@
 ﻿using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
-using FiveNightsAtFrederik.scenes.Enemy.MrDuck;
 using Godot;
 using Godot.Collections;
 using System;
@@ -14,18 +14,16 @@ namespace FiveNightsAtFrederik.Scenes.Enemy;
 /// </summary>
 public partial class MrDuck : BaseEnemy, IMovableCharacter
 {
-    public float MovementSpeed { get; set; } = 1;
+    public float MovementSpeed { get; set; } = 32f;
     public float JumpVelocity { get; set; }
-    public float RotationSpeed { get; set; } = 0.01f;
+    public float RotationSpeed { get; set; } = 0.8f;
 
     private readonly float MaximumTurnMoveAngle = 5;
-    private AnimationTree animationTree;
-    private MrDuckAnimations currentAnimations = MrDuckAnimations.Idle;
-    private Random random = new();
+    private Random random = new(1);
 
-    [ExportGroup("Dictionary<MrDuckSounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
+    [ExportGroup("Dictionary<EnemySounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
     [Export()]
-    private Dictionary<MrDuckSounds, AudioStreamMP3> audioTracks = new();
+    private Dictionary<EnemySounds, AudioStreamMP3> audioTracks = new();
     [ExportGroup("")]
 
     /// <summary>
@@ -37,12 +35,26 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
     public override void _Ready()
     {
         base._Ready();
+        controller = new EnemyMasterController(this);
         interpolationCurrentPosition = LookForwardPosition.GlobalPosition;
 
-        animationTree = GetNode<AnimationTree>(NodeNames.MrDuckAnimationTree.ToString());
         animationTree.Active = true;
 
+        // TODO: Set correct activation Time
         idleTimer.Start(5);
+    }
+
+    public override void _Process(double delta)
+    {
+        if (isFirstDestinationSet)
+        {
+            return;
+        }
+
+        CurrentMarker = controller.GetNextPossibleDestination();
+        navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
+
+        isFirstDestinationSet = true;
     }
 
     protected override void OnTargetReached()
@@ -61,7 +73,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
         if (number > 3)
         {
             idleTimer.Start(random.Next(10, 20));
-            audioPlayer.Stream = audioTracks[MrDuckSounds.Deactivate];
+            audioPlayer.Stream = audioTracks[EnemySounds.Deactivate];
             if (isActive)
             {
                 audioPlayer.Play();
@@ -73,7 +85,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
         }
 
         GD.Print("Duck Activated");
-        audioPlayer.Stream = audioTracks[MrDuckSounds.Activate];
+        audioPlayer.Stream = audioTracks[EnemySounds.Activate];
         if (!isActive)
         {
             audioPlayer.Play();
@@ -99,22 +111,22 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
             return;
         }
 
-        Velocity = (nextPosition - GlobalPosition).Normalized() * MovementSpeed;
+        Velocity = (nextPosition - GlobalPosition).Normalized() * delta * MovementSpeed;
 
         MoveAndSlide();
     }
 
     protected override void HandleAnimations()
     {
-        animationTree.Set(currentAnimations.GetDescription(), false);
+        animationTree.Set(currentAnimation.GetDescription(), false);
 
-        currentAnimations = !Velocity.IsZeroApprox() ? MrDuckAnimations.WalkForward : MrDuckAnimations.Idle;
-        animationTree.Set(currentAnimations.GetDescription(), true);
+        currentAnimation = !Velocity.IsZeroApprox() ? EnemyAnimationStates.WalkForward : EnemyAnimationStates.Idle;
+        animationTree.Set(currentAnimation.GetDescription(), true);
     }
 
     protected override void Rotate(float delta)
     {
-        interpolationCurrentPosition = interpolationCurrentPosition.Lerp(nextPosition, RotationSpeed);
+        interpolationCurrentPosition = interpolationCurrentPosition.Lerp(nextPosition, delta * RotationSpeed);
         LookAt(interpolationCurrentPosition);
     }
 }

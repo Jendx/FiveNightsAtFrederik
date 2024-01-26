@@ -12,7 +12,7 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 {
     [Export]
-    public bool isInteractionUIDisplayed { get; set; } = true;
+    public bool IsInteractionUIDisplayed { get; set; } = true;
 
     private Camera3D[] cameras;
 	private Control UI;
