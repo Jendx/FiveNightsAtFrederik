@@ -9,7 +9,7 @@ using System;
 namespace FiveNightsAtFrederik.Scenes.Enemy;
 
 /// <summary>
-/// Mr Duck is enemy which should move like
+/// American Bug is enemy that after some time starts activating and rushes player
 /// </summary>
 public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
 {

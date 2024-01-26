@@ -40,7 +40,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
     public float MovementSpeed => IsCrouching ? CrouchSpeed : WalkSpeed;
 
-
     [Signal]
 	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
 

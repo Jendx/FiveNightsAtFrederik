@@ -152,7 +152,5 @@ public partial class Gun : RigidBody3D, IPlayerUsable
         SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
     }
 
-    public void OnEndUse()
-    {
-    }
+    public void OnEndUse() {}
 }
