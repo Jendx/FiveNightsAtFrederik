@@ -3,5 +3,6 @@
 public enum GunSounds
 {
     Shoot = 0,
-    Reload = 1
+    Reload = 1,
+    ShootEmpty = 2
 }

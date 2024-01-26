@@ -36,4 +36,8 @@ public static class NodeNames
     // Generic
     public static readonly StringName AudioPlayer = new("AudioPlayer");
     public static readonly StringName RayCast = new("RayCast");
+
+    // Gun
+    public static readonly StringName DelayTimer = new("DelayTimer");
+    public static readonly StringName AutomaticReloadTimer = new("AutomaticReloadTimer");
 }

@@ -13,9 +13,9 @@ namespace FiveNightsAtFrederik.Scenes.Enemy;
 /// </summary>
 public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
 {
-    public float MovementSpeed { get; set; } = 150;
+    public float MovementSpeed { get; set; } = 400f;
     public float JumpVelocity { get; set; }
-    public float RotationSpeed { get; set; } = 3f;
+    public float RotationSpeed { get; set; } = 0.8f;
 
     private Random random = new(2);
     private Timer activationTimer;
