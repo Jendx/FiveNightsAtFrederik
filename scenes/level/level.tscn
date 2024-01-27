@@ -172,6 +172,6 @@ transform = Transform3D(0.571788, -0.820401, 0, 0.820401, 0.571788, 0, 0, 0, 1, 
 
 [node name="PickupSpawner" parent="." instance=ExtResource("12_ibpqg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31158, 0.6195, 3.70455)
-carryableItemTemplate = ExtResource("13_scj51")
+carryableItemTemplateScene = ExtResource("13_scj51")
 
 [connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]

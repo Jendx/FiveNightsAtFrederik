@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://kop7avw15nny"]
+[gd_scene load_steps=2 format=3 uid="uid://kop7avw15nny"]
 
-[ext_resource type="PackedScene" uid="uid://cb5qpm0cqxkve" path="res://scenes/player/3D/CarryableItem/CarryableItem.tscn" id="1_5vxij"]
 [ext_resource type="Script" path="res://scenes/level/props/PickupSpawner/PickupSpawner.cs" id="1_q6ihg"]
 
 [node name="PickupSpawner" type="Node3D"]
 script = ExtResource("1_q6ihg")
-carryableItemTemplate = ExtResource("1_5vxij")

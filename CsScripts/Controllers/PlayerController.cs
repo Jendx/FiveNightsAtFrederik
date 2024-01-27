@@ -1,6 +1,7 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.scenes.player;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 
@@ -13,7 +14,6 @@ public class PlayerController
 
     private GodotObject colidingObject;
     private IPlayerUsable usableObject;
-    private readonly float cameraOffset;
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     private readonly float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
@@ -21,7 +21,6 @@ public class PlayerController
     public PlayerController(Player player)
     {
         this.player = player;
-        cameraOffset = player.Camera.Position.Y - player.CollisionMesh.Position.Y;
     }
 
     /// <summary>
@@ -34,19 +33,19 @@ public class PlayerController
 
         if (direction != Vector3.Zero)
         {
-            velocity.X = direction.X * player.MovementSpeed;
-            velocity.Z = direction.Z * player.MovementSpeed;
+            velocity.X = direction.X * player.MovementSpeed * (float)delta;
+            velocity.Z = direction.Z * player.MovementSpeed * (float)delta;
         }
         else
         {
-            velocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.MovementSpeed);
-            velocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.MovementSpeed);
+            velocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.MovementSpeed * (float)delta);
+            velocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.MovementSpeed * (float)delta);
         }
 
         float fallingVelocity = 0f;
         if (!player.IsOnFloor())
         {
-            fallingVelocity = velocity.Y - gravity * (float)delta;
+            fallingVelocity = velocity.Y - gravity;
         }
 
         velocity.Y = fallingVelocity;
@@ -122,31 +121,33 @@ public class PlayerController
         return hudCrosshairState;
     }
 
-    public void Use() => usableObject?.OnBeginUse();
-
-    public void StopUsing() => usableObject?.OnEndUse();
-
     public void HandleCrouch(double delta)
     {
-        float targetHeight;
+        float targetHeight = player.StandHeight;
         float currentHeight = default;
 
         if (Input.IsActionPressed(ActionNames.Crouch))
         {
             targetHeight = player.CrouchHeight;
-            player.IsCrouching = true;
-        }
-        else
-        {
-            targetHeight = player.StandHeight;
-            player.IsCrouching = false;
+            player.CurrentStateSpeed = PlayerStateSpeeds.Crouch;
         }
 
         if (!Mathf.IsEqualApprox(currentHeight, targetHeight, 0.1f))
         {
-            currentHeight = Mathf.Lerp(player.CollisionMesh.Scale.Y, targetHeight, player.StandSpeed * (float)delta);
+            currentHeight = Mathf.Lerp(player.CollisionMesh.Scale.Y, targetHeight, (float)PlayerStateSpeeds.CrouchTransition * (float)delta);
             player.CollisionMesh.Scale = new Vector3(player.CollisionMesh.Scale.X, currentHeight, player.CollisionMesh.Scale.Z);
-            player.Camera.Position = new Vector3(player.Camera.Position.X, (currentHeight + cameraOffset), player.Camera.Position.Z);
         }
     }
+
+    public void HandleSprint()
+    {
+        if (Input.IsActionPressed(ActionNames.Sprint))
+        {
+            player.CurrentStateSpeed = PlayerStateSpeeds.Sprint;
+        }
+    }
+
+    public void Use() => usableObject?.OnBeginUse();
+
+    public void StopUsing() => usableObject?.OnEndUse();
 }
