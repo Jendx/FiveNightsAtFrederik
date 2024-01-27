@@ -21,9 +21,6 @@ public static class NodeNames
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");
 
-    // CarryableItem
-    public static readonly StringName PlayerInRoot = new("../player");
-
     // BaseEnemy
     public static readonly StringName NavigationAgent = new("NavigationAgent");
     public static readonly StringName LookForwardPosition = new("LookForwardPosition");
@@ -36,6 +33,7 @@ public static class NodeNames
     // Generic
     public static readonly StringName AudioPlayer = new("AudioPlayer");
     public static readonly StringName RayCast = new("RayCast");
+    public static readonly StringName PlayerInRoot = new("player");
 
     // Gun
     public static readonly StringName DelayTimer = new("DelayTimer");

@@ -4,7 +4,7 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System.Linq;
 
-namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
+namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 
 /// <summary>
 /// Camera system which loads it's child cameras & one Control

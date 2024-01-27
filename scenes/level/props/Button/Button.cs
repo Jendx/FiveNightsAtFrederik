@@ -5,7 +5,7 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Models.Interfaces;
 using Godot;
 
-namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Button;
+namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 
 #nullable enable
 public partial class Button : Node, IButton, IPlayerUsable
