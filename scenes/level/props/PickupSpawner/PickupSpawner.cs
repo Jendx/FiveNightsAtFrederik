@@ -3,16 +3,19 @@ using Godot;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 
+/// <summary>
+/// Spawns carryableItemTemplateScene instances when player moves the item far from spawn location 
+/// </summary>
 public partial class PickupSpawner : Node3D
 {
     [Export]
-    private PackedScene carryableItemTemplate;
+    private PackedScene carryableItemTemplateScene;
     
     private CarryableItem currentItem;
 
     public override void _Ready()
     {
-        currentItem = carryableItemTemplate.Instantiate() as CarryableItem;
+        currentItem = carryableItemTemplateScene.Instantiate() as CarryableItem;
         AddChild(currentItem);
     }
 
@@ -21,7 +24,7 @@ public partial class PickupSpawner : Node3D
         if (GlobalPosition.DistanceTo(currentItem.GlobalPosition) > 1f)
         {
             GD.Print("Created new Item");
-            currentItem = carryableItemTemplate.Instantiate() as CarryableItem;
+            currentItem = carryableItemTemplateScene.Instantiate() as CarryableItem;
 
             AddChild(currentItem);
         }
