@@ -7,12 +7,13 @@ radius = 0.4
 
 [sub_resource type="SphereMesh" id="SphereMesh_1vp5a"]
 
-[node name="Carryableitem" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.877887, 0)
-collision_layer = 2
-collision_mask = 2
+[node name="Carryableitem" type="RigidBody3D" node_paths=PackedStringArray("CollisionShape", "MeshInstance")]
+collision_layer = 3
+collision_mask = 3
 freeze = true
 script = ExtResource("1_tsql1")
+CollisionShape = NodePath("CollisionShape3D")
+MeshInstance = NodePath("CollisionShape3D/MeshInstance3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_0rifx")

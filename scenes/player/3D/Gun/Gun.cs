@@ -4,6 +4,7 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.player._3D.Gun.Enums;
 using Godot;
 using Godot.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
@@ -42,7 +43,7 @@ public partial class Gun : RigidBody3D, IPlayerUsable
 
     public override void _Ready()
     {
-        player = GetNode<Player>(NodeNames.PlayerInRoot.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}"); ;
+        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}"); ;
         audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.AudioPlayer}"); ;
         rayCast = GetNode<RayCast3D>(NodeNames.RayCast.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(rayCast)} at {NodeNames.RayCast}"); ;
         fireCooldownTimer = GetNode<Timer>(NodeNames.DelayTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(fireCooldownTimer)} at {NodeNames.DelayTimer}"); ;
