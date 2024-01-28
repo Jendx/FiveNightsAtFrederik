@@ -57,5 +57,3 @@ transform = Transform3D(0.672465, -0.148401, 0.725098, 0.131826, 0.988043, 0.079
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 visible = false
 mesh = SubResource("BoxMesh_5inq6")
-
-[connection signal="UsableObjectChanged" from="." to="Camera/HUD" method="OnPlayerUpdateCrosshairTexture"]
