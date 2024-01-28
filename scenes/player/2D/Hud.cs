@@ -1,6 +1,6 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
-using FiveNightsAtFrederik.scenes.player;
+using FiveNightsAtFrederik.scenes.player.Enums;
 using Godot;
 using Godot.Collections;
 using System.Linq;

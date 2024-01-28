@@ -2,9 +2,9 @@ using Godot;
 using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Constants;
-using FiveNightsAtFrederik.scenes.player;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using System;
+using FiveNightsAtFrederik.scenes.player.Enums;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 

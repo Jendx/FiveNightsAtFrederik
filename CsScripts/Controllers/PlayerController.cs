@@ -1,7 +1,7 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
-using FiveNightsAtFrederik.scenes.player;
+using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 
@@ -153,6 +153,12 @@ public class PlayerController
         if (!player.CanSprint && player.CurrentStamina >= (float)SprintTresholds.Middle)
         {
             player.CanSprint = true;
+        }
+
+        // If player can't sprint. He must have depleted stamina => Slower movement speed punishment
+        if (!player.CanSprint)
+        {
+            player.CurrentStateSpeed = PlayerStateSpeeds.ExhaustedWalk;
         }
 
         if (
