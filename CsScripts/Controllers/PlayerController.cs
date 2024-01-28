@@ -98,11 +98,11 @@ public class PlayerController
         if (!(isValidObject && usableObject is not null))
         {
             usableObject = null;
-            player.EmitSignal(nameof(player.UsableObjectChanged), (int)hudCrosshairState);
+            player.UpdateCrosshairState(hudCrosshairState);
             return;
         }
 
-        player.EmitSignal(nameof(player.UsableObjectChanged), (int)hudCrosshairState);
+        player.UpdateCrosshairState(hudCrosshairState);
     }
 
     private HudCrosshairStates GetHudCrosshairTexture()
@@ -139,12 +139,35 @@ public class PlayerController
         }
     }
 
+    /// <summary>
+    /// Player can sprint if current stamina is > 0
+    /// If player depleats stamina, he won't be able to sprint until the stamina is bigger than (float)SprintTresholds.Middle
+    /// </summary>
     public void HandleSprint()
     {
-        if (Input.IsActionPressed(ActionNames.Sprint))
+        if (player.CurrentStamina <= (float)SprintTresholds.Min)
+        {
+            player.CanSprint = false;
+        }
+
+        if (!player.CanSprint && player.CurrentStamina >= (float)SprintTresholds.Middle)
+        {
+            player.CanSprint = true;
+        }
+
+        if (
+            Input.IsActionPressed(ActionNames.Sprint)
+            && !player.Velocity.IsZeroApprox()
+            && player.CanSprint)
         {
             player.CurrentStateSpeed = PlayerStateSpeeds.Sprint;
+            player.CurrentStamina -= player.StaminaDrainRate;
+
+            return;
         }
+
+        const float rechargeRate = 0.2f;
+        player.CurrentStamina += player.CurrentStamina < (float)SprintTresholds.Low ? rechargeRate : rechargeRate + 0.1f;
     }
 
     public void Use() => usableObject?.OnBeginUse();

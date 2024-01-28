@@ -2,9 +2,9 @@
 
 public enum PlayerStateSpeeds
 {
-	// speed of standing up/down
+	// speed of standing up/down. Values > 5 can introduce unexpected behaviour (teleporting to random direction when standing up)
 	CrouchTransition = 3,
 	Crouch = 100,
 	Walk = 200,	
-	Sprint = 250,
+	Sprint = 275,
 }
