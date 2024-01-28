@@ -36,11 +36,11 @@ public partial class Hud : Control
 
     public override void _Process(double delta)
     {
-        staminaBar.Visible = player.CurrentStamina < (float)SprintTresholds.Max;
+        staminaBar.Visible = player.CurrentStamina < (float)SprintThresholds.Max;
         style.BgColor = player.CurrentStamina switch
         {
-            < (float)SprintTresholds.Low => new Color(0xe2433eff),
-            < (float)SprintTresholds.Middle => new Color(0xff9c3cff),
+            < (float)SprintThresholds.Low => new Color(0xe2433eff),
+            < (float)SprintThresholds.Middle => new Color(0xff9c3cff),
             _ => new Color(0x898da2ff)
         };
 

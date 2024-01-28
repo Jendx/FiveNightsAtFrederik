@@ -145,12 +145,12 @@ public class PlayerController
     /// </summary>
     public void HandleSprint()
     {
-        if (player.CurrentStamina <= (float)SprintTresholds.Min)
+        if (player.CurrentStamina <= (float)SprintThresholds.Min)
         {
             player.CanSprint = false;
         }
 
-        if (!player.CanSprint && player.CurrentStamina >= (float)SprintTresholds.Middle)
+        if (!player.CanSprint && player.CurrentStamina >= (float)SprintThresholds.Middle)
         {
             player.CanSprint = true;
         }
@@ -173,7 +173,7 @@ public class PlayerController
         }
 
         const float rechargeRate = 0.2f;
-        player.CurrentStamina += player.CurrentStamina < (float)SprintTresholds.Low ? rechargeRate : rechargeRate + 0.1f;
+        player.CurrentStamina += player.CurrentStamina < (float)SprintThresholds.Low ? rechargeRate : rechargeRate + 0.1f;
     }
 
     public void Use() => usableObject?.OnBeginUse();

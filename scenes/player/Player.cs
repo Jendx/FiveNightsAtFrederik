@@ -36,7 +36,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
     public float CurrentStamina
     {
         get => _currentStamina;
-        set => _currentStamina = Mathf.Clamp(value, 0, (float)SprintTresholds.Max);
+        set => _currentStamina = Mathf.Clamp(value, 0, (float)SprintThresholds.Max);
     }
 
     public float MovementSpeed 
@@ -57,7 +57,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	private PlayerController PlayerController;
 	private RayCast3D RayCast;
     private float movementSpeed = (float)PlayerStateSpeeds.Walk;
-    private float _currentStamina = (float)SprintTresholds.Max;
+    private float _currentStamina = (float)SprintThresholds.Max;
 
     public Player()
 	{

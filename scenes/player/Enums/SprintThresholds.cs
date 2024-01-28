@@ -1,6 +1,6 @@
 ﻿namespace FiveNightsAtFrederik.scenes.player.Enums;
 
-public enum SprintTresholds
+public enum SprintThresholds
 {
     Min = 0,
     Low = 20,
