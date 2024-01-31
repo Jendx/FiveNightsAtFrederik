@@ -11,6 +11,8 @@ height = 1.8
 background_energy_multiplier = 0.1
 ambient_light_energy = 0.15
 volumetric_fog_enabled = true
+volumetric_fog_density = 0.2075
+volumetric_fog_albedo = Color(0.174028, 0.174028, 0.174028, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_5inq6"]
 
@@ -31,9 +33,11 @@ environment = SubResource("Environment_s26cr")
 fov = 90.0
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0159578, -0.00878954)
-spot_range = 6.73753
-spot_angle = 76.6246
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3098, -0.196599, -0.00878954)
+shadow_enabled = true
+distance_fade_enabled = true
+spot_range = 17.2534
+spot_angle = 33.1497
 
 [node name="RayCast" type="RayCast3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, -4.46947e-08, -1, 0, 1.02249, -4.37114e-08, 0, 0, -0.0637127)
