@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=23 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
@@ -7,8 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_qsgvn"]
 [ext_resource type="PackedScene" uid="uid://dca4iajlg18cr" path="res://scenes/level/props/Camera_System/2D/Camera_switch_buttons.tscn" id="7_j0von"]
 [ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="7_tqghg"]
-[ext_resource type="PackedScene" uid="uid://cb5qpm0cqxkve" path="res://scenes/player/3D/CarryableItem/CarryableItem.tscn" id="8_ambqf"]
 [ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/MrDuck/MrDuck.tscn" id="9_jp5rx"]
+[ext_resource type="PackedScene" uid="uid://bu6mr7xhtuulk" path="res://scenes/Enemy/AmericanoBug/AmericanBug.tscn" id="10_0u43u"]
+[ext_resource type="PackedScene" uid="uid://djyuwual7g6b4" path="res://scenes/player/3D/Gun/Gun.tscn" id="11_jipue"]
+[ext_resource type="PackedScene" uid="uid://kop7avw15nny" path="res://scenes/level/props/PickupSpawner/PickupSpawner.tscn" id="12_ibpqg"]
+[ext_resource type="PackedScene" uid="uid://cx78f5yanshxx" path="res://scenes/player/3D/CarryableItem/Pizza/CarryableItem_Pizza.tscn" id="13_scj51"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -84,7 +87,7 @@ volume_db = -7.518
 pitch_scale = 0.86
 autoplay = true
 
-[node name="player" parent="." instance=ExtResource("1_2vk4x")]
+[node name="player" parent="." groups=["player"] instance=ExtResource("1_2vk4x")]
 transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, 0.800945, -0.0188706, 0.401057)
 
 [node name="Button" parent="." instance=ExtResource("4_ec2ve")]
@@ -129,12 +132,6 @@ offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 2.0
 
-[node name="Carryableitem" parent="." instance=ExtResource("8_ambqf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186851, 0.65444, -1.7416)
-collision_layer = 3
-collision_mask = 3
-mass = 0.4
-
 [node name="NavigationMesh" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_35owg")
 
@@ -166,5 +163,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
 
 [node name="MrDuck" parent="." instance=ExtResource("9_jp5rx")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 22.4265, 0.293166, 1.55002)
+
+[node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10.8735, 0.439323, 0.114175)
+
+[node name="Gun" parent="." instance=ExtResource("11_jipue")]
+transform = Transform3D(0.571788, -0.820401, 0, 0.820401, 0.571788, 0, 0, 0, 1, 1.46671, 0.65754, 0.284676)
+
+[node name="PickupSpawner" parent="." instance=ExtResource("12_ibpqg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31158, 0.6195, 3.70455)
+carryableItemTemplateScene = ExtResource("13_scj51")
 
 [connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]

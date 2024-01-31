@@ -4,7 +4,7 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System.Linq;
 
-namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
+namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 
 /// <summary>
 /// Camera system which loads it's child cameras & one Control
@@ -12,7 +12,7 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Camera_System;
 public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 {
     [Export]
-    public bool isInteractionUIDisplayed { get; set; } = true;
+    public bool IsInteractionUIDisplayed { get; set; } = true;
 
     private Camera3D[] cameras;
 	private Control UI;
@@ -21,10 +21,10 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		uiArea = GetNode<Area3D>("CameraView/CameraSystemViewArea");
-		subViewport = GetNode<SubViewport>("CameraSystemViewport");
-		cameraViewDisplayMesh = GetNode<MeshInstance3D>("CameraView");
-		var children = GetChildren();
+		uiArea = GetNode<Area3D>(NodeNames.CameraSystemViewArea.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(uiArea)} at {NodeNames.CameraSystemViewArea}");
+        subViewport = GetNode<SubViewport>(NodeNames.CameraSystemViewport.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(subViewport)} at {NodeNames.CameraSystemViewport}");
+        cameraViewDisplayMesh = GetNode<MeshInstance3D>(NodeNames.CameraView.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(cameraViewDisplayMesh)} at {NodeNames.CameraView}");
+        var children = GetChildren();
 
 		cameras = children.Where(ch => ch is Camera3D).Cast<Camera3D>().ToArray();
 		UI = (Control)children.SingleOrDefault(ch => ch is Control);

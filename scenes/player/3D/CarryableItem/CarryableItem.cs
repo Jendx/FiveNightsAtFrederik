@@ -2,31 +2,32 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System;
+using System.Linq;
 
-namespace FiveNightsAtFrederik.Scenes.Player.PickableItems;
+namespace FiveNightsAtFrederik.Scenes.Player;
 
+[GlobalClass]
 public partial class CarryableItem : RigidBody3D, IPlayerUsable
 {
-    private const float Speed = 0.001f;
-    private const float MaxDistance = 1.5f;
-    
-    [Export]
-    private Player player;
+    public bool isHeld { get; set; }
 
     [Export]
-    public bool isInteractionUIDisplayed { get; set; } = true;
+    public bool IsInteractionUIDisplayed { get; set; } = true;
+
+    [Export]
+    public CollisionShape3D CollisionShape { get; set; }
+
+    [Export]
+    public MeshInstance3D MeshInstance { get; set; }
 
     private Vector3 direction;
-    private bool isHeld;
+    private Player player;
+    private const float Speed = 0.001f;
+    private const float MaxDistance = 1.5f;
 
     public override void _Ready()
     {
-        player = GetNode<Player>(NodeNames.PlayerInRoot.ToString());
-
-        if (player is null)
-        {
-            GD.PrintErr($"{Name} did not find player node");
-        }
+        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}"); ;
     }
 
     public override void _PhysicsProcess(double delta)

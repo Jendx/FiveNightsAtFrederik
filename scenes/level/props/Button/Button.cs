@@ -5,7 +5,7 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Models.Interfaces;
 using Godot;
 
-namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props.Button;
+namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 
 #nullable enable
 public partial class Button : Node, IButton, IPlayerUsable
@@ -29,7 +29,7 @@ public partial class Button : Node, IButton, IPlayerUsable
 	public AudioStreamOggVorbis? SwitchOffAudio { get; set; }
 
     [Export]
-    public bool isInteractionUIDisplayed { get; set; } = true;
+    public bool IsInteractionUIDisplayed { get; set; } = true;
 
     private bool isOnCoolDown;
 	private AudioStreamPlayer? audioPlayer;

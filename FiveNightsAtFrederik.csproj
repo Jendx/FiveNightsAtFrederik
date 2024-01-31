@@ -13,9 +13,4 @@
     <EmbeddedResource Remove="CsScripts\Handlers\**" />
     <EmbeddedResource Remove="Scripts\**" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CsScripts\Enums\" />
-    <Folder Include="Scenes\Enemy\MrDuck\Enums\" />
-    <Folder Include="Scenes\player\" />
-  </ItemGroup>
 </Project>
