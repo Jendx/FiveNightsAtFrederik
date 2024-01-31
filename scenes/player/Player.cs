@@ -13,9 +13,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	[Export]
 	public float WalkSpeed { get; set; } = 5f;	
 
-    /// <summary>
-    /// speed of player when transitioning to/from crouch 
-    /// </summary>
+	/// <summary>
+	/// speed of player when transitioning to/from crouch 
+	/// </summary>
 	[Export]
 	public float StandSpeed { get; set; } = 4f;
 
@@ -41,7 +41,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	public bool isCrouching;
 
-    [Signal]
+	[Signal]
 	public delegate void UsableObjectChangedEventHandler(bool isUsableObject);
 
 	[Signal]

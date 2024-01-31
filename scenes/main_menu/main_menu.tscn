@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=3 uid="uid://durtdv4taqv5u"]
+
+[ext_resource type="PackedScene" uid="uid://blvpp5vdu26jv" path="res://scenes/main_menu/3D/main_menu.glb" id="1_diivr"]
+[ext_resource type="AudioStream" uid="uid://wyl1ofkqk5un" path="res://scenes/main_menu/sound/car_engine_loop.mp3" id="2_agnqw"]
+[ext_resource type="AudioStream" uid="uid://b8064dubhgl37" path="res://scenes/main_menu/sound/wind_woosh_loop.ogg" id="3_t5bsh"]
+[ext_resource type="AudioStream" uid="uid://bje23q7bc6brs" path="res://scenes/level/sound/Ukolina_slowedreverb.mp3" id="4_l0sr4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k8m4u"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ipv6c"]
+sky_material = SubResource("ProceduralSkyMaterial_k8m4u")
+
+[sub_resource type="Environment" id="Environment_pemnp"]
+background_energy_multiplier = 0.0
+sky = SubResource("Sky_ipv6c")
+glow_enabled = true
+fog_light_color = Color(0.517647, 0.552941, 0.607843, 1)
+fog_light_energy = 0.0
+volumetric_fog_enabled = true
+volumetric_fog_albedo = Color(0.337255, 0.337255, 0.337255, 1)
+
+[node name="MainMenu" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pemnp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.444145, -0.0530096, 0.894386, 0.660439, 0.655192, 0.366802, -0.605438, 0.7536, -0.255991, 3.56379, 2.29597, 7.09427)
+light_color = Color(0.27451, 0.333333, 0.584314, 1)
+shadow_enabled = true
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.243101, 0.94849, 0.203149, -0.675035, -0.315823, 0.666771, 0.696584, 0.02496, 0.717041, 3.56379, 2.29597, 7.09427)
+light_color = Color(0.309804, 0.32549, 0.439216, 1)
+light_energy = 0.083
+shadow_enabled = true
+
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.737627, 0.307677, -0.601034, -0.675035, -0.315823, 0.666771, 0.0153294, 0.897547, 0.440652, 3.56379, 2.29597, 7.09427)
+light_color = Color(0.309804, 0.32549, 0.439216, 1)
+light_energy = 0.083
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(0.448065, -0.120737, -0.885811, 0.0954681, 0.991635, -0.0868708, 0.888889, -0.0456429, 0.455843, -8.46268, 0.065371, 3.22905)
+current = true
+fov = 22.8952
+near = 0.1
+far = 1000.0
+
+[node name="main_menu" parent="." instance=ExtResource("1_diivr")]
+
+[node name="Sound" type="Node" parent="."]
+
+[node name="EngineLoop" type="AudioStreamPlayer3D" parent="Sound"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.30336, 0, 2.60719)
+stream = ExtResource("2_agnqw")
+volume_db = -6.588
+unit_size = 5.79
+max_db = -1.941
+pitch_scale = 0.79
+autoplay = true
+
+[node name="WindLoop" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("3_t5bsh")
+autoplay = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("4_l0sr4")
+pitch_scale = 0.91
+autoplay = true
+
+[node name="Lights" type="Node" parent="."]
+
+[node name="CarLights" type="Node" parent="Lights"]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lights/CarLights"]
+transform = Transform3D(1, 0, 0, 0, 0.896772, 0.442492, 0, -0.442492, 0.896772, -3.00336, 0.134375, 1.95463)
+light_color = Color(1, 0.92549, 0.698039, 1)
+shadow_enabled = true
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Lights/CarLights"]
+transform = Transform3D(1, 0, 0, 0, 0.896772, 0.442492, 0, -0.442492, 0.896772, -3.71892, 0.134375, 1.95463)
+light_color = Color(1, 0.92549, 0.698039, 1)
+shadow_enabled = true
+
+[node name="StreetLights" type="Node" parent="Lights"]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lights/StreetLights"]
+transform = Transform3D(0.866025, 2.18557e-08, -0.5, 0.5, -3.78552e-08, 0.866025, 0, -1, -4.37114e-08, 7.22293, 3.80207, -4.14517)
+shadow_enabled = true
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Lights/StreetLights"]
+transform = Transform3D(1, 0, 0, 0, 0.235176, 0.971953, 0, -0.971953, 0.235176, 11.0194, 2.96983, 0.35115)
+shadow_enabled = true
+spot_range = 8.69447
