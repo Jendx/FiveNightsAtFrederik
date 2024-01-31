@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bu6mr7xhtuulk"]
+[gd_scene load_steps=20 format=3 uid="uid://bu6mr7xhtuulk"]
 
 [ext_resource type="Script" path="res://scenes/Enemy/AmericanoBug/AmericanBug.cs" id="1_i3lv0"]
 [ext_resource type="AudioStream" uid="uid://brc6ldtdi5h5j" path="res://scenes/Enemy/AmericanoBug/Sounds/Activation.mp3" id="2_ujuva"]
@@ -667,11 +667,6 @@ switch_mode = 1
 advance_mode = 2
 advance_condition = &"IsInJumpscareRange"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ilr5g"]
-xfade_time = 10.0
-switch_mode = 1
-advance_mode = 2
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vm6p8"]
 advance_mode = 2
 
@@ -683,10 +678,10 @@ states/jumpscare/node = SubResource("AnimationNodeAnimation_en8h8")
 states/jumpscare/position = Vector2(626, 148)
 states/walk_forward/node = SubResource("AnimationNodeAnimation_rji6l")
 states/walk_forward/position = Vector2(385, 100)
-transitions = ["walk_forward", "Idle", SubResource("AnimationNodeStateMachineTransition_3ej2a"), "Idle", "walk_forward", SubResource("AnimationNodeStateMachineTransition_3wlk2"), "walk_forward", "jumpscare", SubResource("AnimationNodeStateMachineTransition_hr1ul"), "Idle", "jumpscare", SubResource("AnimationNodeStateMachineTransition_vlou2"), "jumpscare", "End", SubResource("AnimationNodeStateMachineTransition_ilr5g"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vm6p8")]
+transitions = ["walk_forward", "Idle", SubResource("AnimationNodeStateMachineTransition_3ej2a"), "Idle", "walk_forward", SubResource("AnimationNodeStateMachineTransition_3wlk2"), "walk_forward", "jumpscare", SubResource("AnimationNodeStateMachineTransition_hr1ul"), "Idle", "jumpscare", SubResource("AnimationNodeStateMachineTransition_vlou2"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vm6p8")]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lckok"]
-size = Vector3(3.54156, 3.48032, 6.40161)
+size = Vector3(3.09492, 3.12588, 4.55786)
 
 [node name="AmericanBug" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.253456, 0)
@@ -722,7 +717,7 @@ debug_path_custom_point_size = 9.13
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.483517)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(-0.207124, 0, -1.81073e-08, 0, 0.207124, 0, 1.81073e-08, 0, -0.207124, -0.00551818, 0.188371, -0.0730861)
+transform = Transform3D(-0.207124, 0, -1.81073e-08, 0, 0.207124, 0, 1.81073e-08, 0, -0.207124, -0.00643327, 0.151664, 0.0619794)
 shape = SubResource("BoxShape3D_lckok")
 
 [node name="IdleTimer" type="Timer" parent="."]
@@ -740,7 +735,7 @@ max_distance = 25.0
 transform = Transform3D(-0.265993, 0, 2.32538e-08, 0, 0.265993, 0, -2.32538e-08, 0, -0.265993, 0, -0.215255, 0.175032)
 
 [node name="Skeleton3D" parent="brouk/broukrig" index="0"]
-bones/0/position = Vector3(1.82718e-09, 0.890675, -0.27107)
+bones/0/position = Vector3(8.28297e-10, 0.903905, -0.27107)
 bones/0/rotation = Quaternion(0.500005, 0.5, 0.5, 0.499995)
 bones/1/position = Vector3(-1.35877e-05, 0.953053, 1.35643e-05)
 bones/2/position = Vector3(-0.00467509, -0.0271843, 5.47913e-11)
@@ -750,16 +745,16 @@ bones/5/position = Vector3(-0.00476763, -0.0065434, 5.72615e-11)
 bones/6/position = Vector3(-0.00495286, -0.0280437, 5.81127e-11)
 bones/7/position = Vector3(-0.00481389, -0.0164036, 5.59396e-11)
 bones/8/position = Vector3(0.0350073, 1.43964, -4.17652e-10)
-bones/10/rotation = Quaternion(0.206733, -4.10325e-07, -1.09471e-07, 0.978397)
-bones/11/rotation = Quaternion(7.61338e-08, 0.977913, -0.209011, -5.41964e-07)
+bones/10/rotation = Quaternion(0.205321, -4.10167e-07, -1.10063e-07, 0.978695)
+bones/11/rotation = Quaternion(7.69155e-08, 0.978214, -0.2076, -5.41854e-07)
 bones/12/position = Vector3(-0.327703, 0.108796, 1.25216e-07)
 bones/12/rotation = Quaternion(2.61524e-08, -3.90047e-07, 0.0472572, 0.998883)
 bones/13/position = Vector3(0.487437, 0.269886, 0.175238)
 bones/13/rotation = Quaternion(0.142535, -0.0819199, -0.479662, 0.861915)
-bones/14/position = Vector3(-0.275549, 2.17743, 1.87145e-06)
-bones/14/rotation = Quaternion(-0.443259, 0.443263, 0.550924, 0.550929)
-bones/15/position = Vector3(-0.279746, 0.605758, 1.69876e-05)
-bones/17/rotation = Quaternion(1.62486e-05, 1.56359e-07, -0.23066, 0.973034)
+bones/14/position = Vector3(-0.284428, 2.17743, 1.87078e-06)
+bones/14/rotation = Quaternion(-0.316318, 0.316321, 0.632407, 0.632413)
+bones/15/position = Vector3(-0.288624, 0.605758, 1.69114e-05)
+bones/17/rotation = Quaternion(1.62491e-05, 9.73008e-08, -0.227122, 0.973866)
 bones/18/rotation = Quaternion(-9.34201e-06, -1.2265e-06, -0.00381482, 0.999993)
 
 [node name="JumpscareCameraPosition" type="Marker3D" parent="."]

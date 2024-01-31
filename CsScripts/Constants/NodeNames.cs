@@ -27,6 +27,7 @@ public static class NodeNames
     public static readonly StringName LookForwardPosition = new("LookForwardPosition");
     public static readonly StringName IdleTimer = new("IdleTimer");
     public static readonly StringName AnimationTree = new("AnimationTree");
+    public static readonly StringName JumpscareCameraPosition = new("JumpscareCameraPosition");
 
     // American Bug
     public static readonly StringName BugActivationTimer = new("BugActivationTimer");

@@ -49,7 +49,8 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     }
 
     /// <summary>
-    /// When target is reached, kill player. If bug was hit, Deactivate him after getting back to spawn location
+    /// When target is reached, kill player.
+    /// If bug was hit, Deactivate him after getting back to spawn location
     /// </summary>
     protected override void OnTargetReached()
     {
@@ -65,8 +66,11 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
         }
 
         currentAnimation = EnemyAnimationStates.Jumpscare;
+        animationTree.AnimationFinished += (_) => { GD.Print("U are ded"); };
         audioPlayer.Stream = audioTracks[EnemySounds.Jumpscare];
         audioPlayer.Play();
+        
+        player.HandleJumpscare(jumpscareCameraPositionMarker.GlobalPosition, GlobalPosition + new Vector3(0, 0.5f, 0));
     }
 
     /// <summary>

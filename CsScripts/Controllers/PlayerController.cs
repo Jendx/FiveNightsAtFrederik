@@ -1,9 +1,11 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
+using System;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
@@ -12,8 +14,8 @@ public class PlayerController
     private readonly Player player;
     private Vector3 velocity = new();
 
-    private GodotObject colidingObject;
-    private IPlayerUsable usableObject;
+    private GodotObject? colidingObject;
+    private IPlayerUsable? usableObject;
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     private readonly float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
@@ -159,6 +161,7 @@ public class PlayerController
         if (!player.CanSprint)
         {
             player.CurrentStateSpeed = PlayerStateSpeeds.ExhaustedWalk;
+            HandleHandAnimation();
         }
 
         if (
@@ -167,6 +170,7 @@ public class PlayerController
             && player.CanSprint)
         {
             player.CurrentStateSpeed = PlayerStateSpeeds.Sprint;
+            HandleHandAnimation();
             player.CurrentStamina -= player.StaminaDrainRate;
 
             return;
@@ -176,7 +180,54 @@ public class PlayerController
         player.CurrentStamina += player.CurrentStamina < (float)SprintThresholds.Low ? rechargeRate : rechargeRate + 0.1f;
     }
 
-    public void Use() => usableObject?.OnBeginUse();
+    /// <summary>
+    /// Set's state of PlayerHandAnimation based on PlayerStateSpeeds
+    /// </summary>
+    public void HandleHandAnimation()
+    {
+        player.AnimationTree.Set(player.CurrentAnimation.GetDescription(), false);
 
-    public void StopUsing() => usableObject?.OnEndUse();
+        player.CurrentAnimation = player.CurrentStateSpeed switch
+        {
+            PlayerStateSpeeds.ExhaustedWalk or
+            PlayerStateSpeeds.Crouch or
+            PlayerStateSpeeds.Walk => PlayerAnimationStates.Idle,
+            PlayerStateSpeeds.Sprint => PlayerAnimationStates.Running,
+            _ => player.CurrentAnimation
+        };
+
+        player.AnimationTree.Set(player.CurrentAnimation.GetDescription(), true);
+    }
+
+    /// <summary>
+    /// Set's state of PlayerHandAnimation
+    /// </summary>
+    private void HandleHandAnimation(PlayerAnimationStates newState)
+    {
+        player.AnimationTree.Set(player.CurrentAnimation.GetDescription(), false);
+
+        player.CurrentAnimation = newState;
+
+        player.AnimationTree.Set(player.CurrentAnimation.GetDescription(), true);
+    }
+
+    /// <summary>
+    /// Tryes to use object.
+    /// </summary>
+    /// <returns>If the object is not usable returns false</returns>
+    public bool TryUse()
+    {
+        var isUsable = usableObject is not null;
+        if (isUsable)
+        {
+            usableObject?.OnBeginUse();
+            HandleHandAnimation(PlayerAnimationStates.Press);
+        }
+
+        return isUsable;
+    }
+
+    public void StopUsing() {
+        usableObject?.OnEndUse();
+    }
 }
