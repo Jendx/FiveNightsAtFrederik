@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bajedfq5iay2f"]
+
+[ext_resource type="PackedScene" uid="uid://blvpp5vdu26jv" path="res://scenes/main_menu/3D/main_menu.glb" id="1_qqgdf"]
+
+[node name="main_menu" instance=ExtResource("1_qqgdf")]
