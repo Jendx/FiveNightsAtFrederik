@@ -221,23 +221,21 @@ public class PlayerController
     /// Tries to use object.
     /// </summary>
     /// <returns>If the object is not usable returns false</returns>
-    public bool TryUse()
+    public void TryUse()
     {
-        var isUsable = usableObject is not null;
-        if (!isUsable)
+        player.IsUsing = usableObject is not null;
+        if (!player.IsUsing)
         {
-            return isUsable;
+            return;
         }
 
-        usableObject?.OnBeginUse();
+        usableObject!.OnBeginUse();
 
         if (!player.IsHoldingWeapon)
         {
             nextAnimation = PlayerAnimationStates.Press;
             player.useDelayTimer.Start();
         }
-
-        return isUsable;
     }
 
     public void StopUsing() {

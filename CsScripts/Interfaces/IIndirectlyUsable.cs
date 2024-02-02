@@ -2,6 +2,7 @@
 
 namespace FiveNightsAtFrederik.CsScripts.Interfaces;
 
+#nullable enable
 /// <summary>
 /// Objects that inherit this Interface should respond to IPlayerUsable object calls
 /// </summary>

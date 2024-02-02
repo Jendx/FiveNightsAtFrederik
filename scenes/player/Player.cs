@@ -75,9 +75,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	private PlayerController PlayerController;
 	private RayCast3D RayCast;
+    private PlayerAnimationStates currentAnimation;
     private float currentStamina = (float)SprintThresholds.Max;
     private bool isInputDisabled;
-    private PlayerAnimationStates currentAnimation;
 
     public Player()
 	{
@@ -111,7 +111,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
             return;
         }
 
-        // Do not move these lines.
+        // Do not move these lines. The order must be maintained Because some actions have higher priority for animation
         CurrentStateSpeed = PlayerStateSpeeds.Walk;
 
         PlayerController.HandleCrouch(delta);
@@ -121,7 +121,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
         if (Input.IsActionJustPressed(ActionNames.Use) && !IsUsing && useDelayTimer.TimeLeft == 0)
         {
-            IsUsing = PlayerController.TryUse();
+            PlayerController.TryUse();
         }
 
         if (Input.IsActionJustReleased(ActionNames.Use) && IsUsing)

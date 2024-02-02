@@ -66,7 +66,6 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
         }
 
         currentAnimation = EnemyAnimationStates.Jumpscare;
-        animationTree.AnimationFinished += (_) => { GD.Print("U are ded"); };
         audioPlayer.Stream = audioTracks[EnemySounds.Jumpscare];
         audioPlayer.Play();
         

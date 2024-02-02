@@ -21,7 +21,6 @@ public partial class BaseEnemy : CharacterBody3D
     protected EnemyAnimationStates currentAnimation = EnemyAnimationStates.Idle;
     protected Marker3D jumpscareCameraPositionMarker;
 
-
     public Marker3D CurrentMarker { get; set; }
 
     /// <summary>
@@ -58,6 +57,15 @@ public partial class BaseEnemy : CharacterBody3D
         audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.AudioPlayer}");
         animationTree = GetNode<AnimationTree>(NodeNames.AnimationTree.ToString());
         jumpscareCameraPositionMarker = GetNode<Marker3D>(NodeNames.JumpscareCameraPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(jumpscareCameraPositionMarker)} at {NodeNames.JumpscareCameraPosition}");
+
+        animationTree.AnimationFinished += (animationName) =>
+        {
+            if (string.Equals(animationName.ToString() == EnemyAnimationStates.Jumpscare.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                //TODO: Add Proper death screen
+                GD.Print("U are ded");
+            }
+        };
 
         navigationAgent.TargetReached += OnTargetReached;
         idleTimer.Timeout += OnIdleTimerTimeout;
