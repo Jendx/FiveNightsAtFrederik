@@ -6,6 +6,7 @@ using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using System.Linq;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
@@ -93,10 +94,8 @@ public class PlayerController
             player.EmitSignal(nameof(player.OnRaycastCollide), collidingObject);
         }
 
-        // Sometimes the colision can be on child of the node. 
-        var newUsableObject = collidingObject is IPlayerUsable playerUsable
-            ? playerUsable
-            : ((Node)collidingObject)?.Owner as IPlayerUsable;
+        // Sometimes the collision can be on child of the node.
+        var newUsableObject = collidingObject.TryConvertTo<IPlayerUsable>();
 
 
         // If player looks away from the usableObject and is still interacting with the usableObject stop using it

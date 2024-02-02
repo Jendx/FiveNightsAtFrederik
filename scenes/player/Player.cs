@@ -5,7 +5,6 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using System;
 using FiveNightsAtFrederik.scenes.player.Enums;
-using FiveNightsAtFrederik.CsScripts.Extensions;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 
