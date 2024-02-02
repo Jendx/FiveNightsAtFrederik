@@ -19,6 +19,7 @@ public partial class BaseEnemy : CharacterBody3D
     protected AudioStreamPlayer3D audioPlayer;
     protected AnimationTree animationTree;
     protected EnemyAnimationStates currentAnimation = EnemyAnimationStates.Idle;
+    protected Marker3D jumpscareCameraPositionMarker;
 
     public Marker3D CurrentMarker { get; set; }
 
@@ -55,6 +56,16 @@ public partial class BaseEnemy : CharacterBody3D
         idleTimer = GetNode<Timer>(NodeNames.IdleTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(idleTimer)} at {NodeNames.IdleTimer}");
         audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.AudioPlayer}");
         animationTree = GetNode<AnimationTree>(NodeNames.AnimationTree.ToString());
+        jumpscareCameraPositionMarker = GetNode<Marker3D>(NodeNames.JumpscareCameraPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(jumpscareCameraPositionMarker)} at {NodeNames.JumpscareCameraPosition}");
+
+        animationTree.AnimationFinished += (animationName) =>
+        {
+            if (string.Equals(animationName.ToString() == EnemyAnimationStates.Jumpscare.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                //TODO: Add Proper death screen
+                GD.Print("U are ded");
+            }
+        };
 
         navigationAgent.TargetReached += OnTargetReached;
         idleTimer.Timeout += OnIdleTimerTimeout;
@@ -66,6 +77,8 @@ public partial class BaseEnemy : CharacterBody3D
     /// <param name="delta"></param>
     public override void _PhysicsProcess(double delta) 
 	{
+        HandleAnimations();
+
         if (!isActive) 
         {
             return;
@@ -73,6 +86,5 @@ public partial class BaseEnemy : CharacterBody3D
 
 		Rotate((float)delta);
 		Move((float)delta);
-        HandleAnimations();
 	}
 }

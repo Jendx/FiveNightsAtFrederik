@@ -131,11 +131,16 @@ offset_left = 1.0
 offset_top = 2.0
 offset_right = 1.0
 offset_bottom = 2.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 
 [node name="NavigationMesh" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_35owg")
 
 [node name="map" parent="NavigationMesh" instance=ExtResource("2_ledho")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="NavigationMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43155, 0)
 
 [node name="E_Marker_ToiletLowr" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3411, 0.23, 13.0751)
@@ -174,4 +179,4 @@ transform = Transform3D(0.571788, -0.820401, 0, 0.820401, 0.571788, 0, 0, 0, 1, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31158, 0.6195, 3.70455)
 carryableItemTemplateScene = ExtResource("13_scj51")
 
-[connection signal="OnRaycastColide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
+[connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]

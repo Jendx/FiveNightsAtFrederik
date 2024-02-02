@@ -19,7 +19,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
     public float RotationSpeed { get; set; } = 0.8f;
 
     private readonly float MaximumTurnMoveAngle = 5;
-    private Random random = new(1);
+    private readonly Random random = new(1);
 
     [ExportGroup("Dictionary<EnemySounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
     [Export()]

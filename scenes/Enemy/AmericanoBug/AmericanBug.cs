@@ -17,7 +17,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     public float JumpVelocity { get; set; }
     public float RotationSpeed { get; set; } = 0.8f;
 
-    private Random random = new(2);
+    private readonly Random random = new(2);
     private Timer activationTimer;
 
     [ExportGroup("Dictionary<EnemySounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
@@ -49,7 +49,8 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     }
 
     /// <summary>
-    /// When target is reached, kill player. If bug was hit, Deactivate him after getting back to spawn location
+    /// When target is reached, kill player.
+    /// If bug was hit, Deactivate him after getting back to spawn location
     /// </summary>
     protected override void OnTargetReached()
     {
@@ -67,6 +68,8 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
         currentAnimation = EnemyAnimationStates.Jumpscare;
         audioPlayer.Stream = audioTracks[EnemySounds.Jumpscare];
         audioPlayer.Play();
+        
+        player.HandleJumpscare(jumpscareCameraPositionMarker.GlobalPosition, GlobalPosition + new Vector3(0, 0.5f, 0));
     }
 
     /// <summary>

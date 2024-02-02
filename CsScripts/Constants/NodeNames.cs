@@ -13,9 +13,10 @@ public static class NodeNames
     public static readonly StringName CameraSystemViewArea = new("CameraView/CameraSystemViewArea");
 
     // Player
+    public static readonly StringName UseDelayTimer = new("UseDelayTimer");
+    public static readonly StringName PlayerCollision = new("PlayerCollision");
     public static readonly StringName Camera = new("Camera");
     public static readonly StringName Camera_CarryableItemPositionMarker = new("CarryableItemPositionMarker");
-    public static readonly StringName PlayerCollision = new("PlayerCollision");
     public static readonly StringName Camera_EquipableItemPosition = new("EquipableItemPosition");
 
     // Hud
@@ -27,6 +28,7 @@ public static class NodeNames
     public static readonly StringName LookForwardPosition = new("LookForwardPosition");
     public static readonly StringName IdleTimer = new("IdleTimer");
     public static readonly StringName AnimationTree = new("AnimationTree");
+    public static readonly StringName JumpscareCameraPosition = new("JumpscareCameraPosition");
 
     // American Bug
     public static readonly StringName BugActivationTimer = new("BugActivationTimer");

@@ -1,7 +1,6 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
-using System;
 using System.Linq;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
@@ -9,7 +8,7 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 [GlobalClass]
 public partial class CarryableItem : RigidBody3D, IPlayerUsable
 {
-    public bool isHeld { get; set; }
+    public bool IsHeld { get; set; }
 
     [Export]
     public bool IsInteractionUIDisplayed { get; set; } = true;
@@ -32,7 +31,7 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
 
     public override void _PhysicsProcess(double delta)
     {
-        if(!isHeld)
+        if(!IsHeld)
         {
             return;
         }
@@ -59,14 +58,14 @@ public partial class CarryableItem : RigidBody3D, IPlayerUsable
     private void Drop()
     {
         Freeze = false;
-        isHeld = false;
+        IsHeld = false;
 
         ApplyCentralImpulse(direction);
     }
 
     public void OnBeginUse()
     {
-        isHeld = true;
+        IsHeld = true;
         Freeze = true;
     }
 

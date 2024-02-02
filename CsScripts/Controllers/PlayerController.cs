@@ -1,19 +1,24 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
+using System.Linq;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
+
+#nullable enable
 
 public class PlayerController
 {
     private readonly Player player;
     private Vector3 velocity = new();
-
-    private GodotObject colidingObject;
-    private IPlayerUsable usableObject;
+    private IPlayerUsable? usableObject;
+    private PlayerAnimationStates nextAnimation;
+    private readonly string[] forbiddenSprintPressedActions = new[] { ActionNames.Move_Left.ToString(), ActionNames.Move_Backwards.ToString(), ActionNames.Move_Right.ToString() };
+    
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     private readonly float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
@@ -30,6 +35,12 @@ public class PlayerController
     {
         Vector2 inputDir = Input.GetVector(ActionNames.Move_Left, ActionNames.Move_Right, ActionNames.Move_Forward, ActionNames.Move_Backwards);
         Vector3 direction = (player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+
+        // if player is not moving set next animation to Idle
+        if (inputDir == Vector2.Zero)
+        {
+            nextAnimation = PlayerAnimationStates.Idle;
+        }
 
         if (direction != Vector3.Zero)
         {
@@ -74,41 +85,45 @@ public class PlayerController
 
     public void UpdateLookAtObject(RayCast3D rayCast)
     {
-        var newColidingObject = rayCast.GetCollider();
-        if (colidingObject != newColidingObject && Input.IsActionPressed(ActionNames.Use))
-        {
-            StopUsing();
-        }
+        var collidingObject = rayCast.GetCollider();
 
-        colidingObject = newColidingObject;
-
-        var isValidObject = colidingObject is not null;
+        var isValidObject = collidingObject is not null;
         if (isValidObject)
         {
-            player.EmitSignal(nameof(player.OnRaycastColide), newColidingObject);
+            player.EmitSignal(nameof(player.OnRaycastCollide), collidingObject);
         }
 
         // Sometimes the colision can be on child of the node. 
-        usableObject = colidingObject is IPlayerUsable playerUsable
+        var newUsableObject = collidingObject is IPlayerUsable playerUsable
             ? playerUsable
-            : ((Node)colidingObject)?.Owner as IPlayerUsable;
+            : ((Node)collidingObject)?.Owner as IPlayerUsable;
 
-        var hudCrosshairState = GetHudCrosshairTexture();
 
-        if (!(isValidObject && usableObject is not null))
+        // If player looks away from the usableObject and is still interacting with the usableObject stop using it
+        if (newUsableObject is null
+            && usableObject is not null
+            && player.IsUsing)
+        {
+            GD.Print($"Looked away. Stoped Using!");
+            StopUsing();
+        }
+
+        var hudCrosshairState = GetHudCrosshairTexture(newUsableObject);
+        if (!(isValidObject && newUsableObject is not null))
         {
             usableObject = null;
             player.UpdateCrosshairState(hudCrosshairState);
             return;
         }
 
+        usableObject = newUsableObject;
         player.UpdateCrosshairState(hudCrosshairState);
     }
 
-    private HudCrosshairStates GetHudCrosshairTexture()
+    private HudCrosshairStates GetHudCrosshairTexture(IPlayerUsable playerUsable)
     {
         var hudCrosshairState = HudCrosshairStates.Point;
-        if (usableObject is not null && usableObject.IsInteractionUIDisplayed)
+        if (playerUsable is not null && playerUsable.IsInteractionUIDisplayed)
         {
             hudCrosshairState = HudCrosshairStates.Use;
         }
@@ -130,6 +145,7 @@ public class PlayerController
         {
             targetHeight = player.CrouchHeight;
             player.CurrentStateSpeed = PlayerStateSpeeds.Crouch;
+            nextAnimation = PlayerAnimationStates.Idle;
         }
 
         if (!Mathf.IsEqualApprox(currentHeight, targetHeight, 0.1f))
@@ -141,7 +157,7 @@ public class PlayerController
 
     /// <summary>
     /// Player can sprint if current stamina is > 0
-    /// If player depleats stamina, he won't be able to sprint until the stamina is bigger than (float)SprintTresholds.Middle
+    /// If player depletes stamina, he won't be able to sprint until the stamina is bigger than (float)SprintThresholds.Middle
     /// </summary>
     public void HandleSprint()
     {
@@ -150,6 +166,7 @@ public class PlayerController
             player.CanSprint = false;
         }
 
+        // If player had depleted stamina & it finally recharged above Middle threshold Make him available to sprint again
         if (!player.CanSprint && player.CurrentStamina >= (float)SprintThresholds.Middle)
         {
             player.CanSprint = true;
@@ -161,12 +178,16 @@ public class PlayerController
             player.CurrentStateSpeed = PlayerStateSpeeds.ExhaustedWalk;
         }
 
+        // Player can sprint if he is not carrying anything, is moving forward, is not moving backwards and is holding sprint button
         if (
             Input.IsActionPressed(ActionNames.Sprint)
+            && forbiddenSprintPressedActions.Any(fspa => Input.IsActionPressed(fspa)) == false
             && !player.Velocity.IsZeroApprox()
+            && !player.IsCarrying
             && player.CanSprint)
         {
             player.CurrentStateSpeed = PlayerStateSpeeds.Sprint;
+            nextAnimation = PlayerAnimationStates.Running;
             player.CurrentStamina -= player.StaminaDrainRate;
 
             return;
@@ -174,9 +195,51 @@ public class PlayerController
 
         const float rechargeRate = 0.2f;
         player.CurrentStamina += player.CurrentStamina < (float)SprintThresholds.Low ? rechargeRate : rechargeRate + 0.1f;
+        nextAnimation = PlayerAnimationStates.Idle;
     }
 
-    public void Use() => usableObject?.OnBeginUse();
+    /// <summary>
+    /// Set's state of PlayerHandAnimation
+    /// </summary>
+    public void UpdateHandAnimation()
+    {
+        if (player.CurrentAnimation == nextAnimation)
+        {
+            return;
+        }
 
-    public void StopUsing() => usableObject?.OnEndUse();
+        player.AnimationTree.Set(player.CurrentAnimation.GetDescription(), false);
+
+        player.CurrentAnimation = nextAnimation;
+
+        player.AnimationTree.Set(player.CurrentAnimation.GetDescription(), true);
+
+        GD.PrintErr("Current anim: " + player.CurrentAnimation);
+    }
+
+    /// <summary>
+    /// Tries to use object.
+    /// </summary>
+    /// <returns>If the object is not usable returns false</returns>
+    public void TryUse()
+    {
+        player.IsUsing = usableObject is not null;
+        if (!player.IsUsing)
+        {
+            return;
+        }
+
+        usableObject!.OnBeginUse();
+
+        if (!player.IsHoldingWeapon)
+        {
+            nextAnimation = PlayerAnimationStates.Press;
+            player.useDelayTimer.Start();
+        }
+    }
+
+    public void StopUsing() {
+        usableObject?.OnEndUse();
+        player.IsUsing = false;
+    }
 }
