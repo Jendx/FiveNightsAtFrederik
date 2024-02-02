@@ -31,10 +31,24 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public Marker3D CarryableItemPositionMarker { get; set; }
 	public Marker3D EquipableItemPositionMarker { get; set; }
     public AnimationTree AnimationTree { get; set; }
+
+    // Wait time must be equal to the animationTransitionTime (0.6 currently to transition from and back pressing)
+    public Timer useDelayTimer { get; set; }
+    public PlayerStateSpeeds CurrentStateSpeed { get; set; }
+    public PlayerAnimationStates CurrentAnimation { get; internal set; }
+
+    /// <summary>
+    /// Determines if player has some object reparented to him self (Gun, basket...)
+    /// </summary>
     public bool IsHoldingWeapon { get; set; }
+
+    /// <summary>
+    /// Determines if player is carrying something in front of him (Ingredient, Fuse...)
+    /// </summary>
+    public bool IsCarrying { get; set; }
 	public bool CanSprint { get; set; } = true;
-	public PlayerStateSpeeds CurrentStateSpeed { get; set; }
-    public PlayerAnimationStates CurrentAnimation { get; set; }
+    public bool IsUsing { get; set; }
+    public float MovementSpeed { get; internal set; } = (float)PlayerStateSpeeds.Walk;
 
     public float CurrentStamina
     {
@@ -42,28 +56,28 @@ public partial class Player : CharacterBody3D, IMovableCharacter
         set => currentStamina = Mathf.Clamp(value, 0, (float)SprintThresholds.Max);
     }
 
-    public float MovementSpeed 
-	{ 
-		get
-		{
-            movementSpeed = Mathf.Lerp(movementSpeed, (float)CurrentStateSpeed, 0.1f);
-			return movementSpeed;
-        } 
-	}
+    /// <summary>
+    /// Calculates movement speed for next frame
+    /// Handles interpolating between current MovementSpeed and CurrentStateSpeed
+    /// </summary>
+    /// <returns></returns>
+    private float CalculateMovementSpeed()
+    {
+        MovementSpeed = Mathf.Lerp(MovementSpeed, (float)CurrentStateSpeed, 0.5f);
+		return MovementSpeed;
+    }
 
     public delegate void UsableObjectChangedEventHandler(HudCrosshairStates crosshairState);
 	public event UsableObjectChangedEventHandler OnPlayerUpdateCrosshairTexture;
 
 	[Signal]
-	public delegate void OnRaycastColideEventHandler(Node colidedObject);
+	public delegate void OnRaycastCollideEventHandler(Node colidedObject);
 
 	private PlayerController PlayerController;
 	private RayCast3D RayCast;
-    private float movementSpeed = (float)PlayerStateSpeeds.Walk;
     private float currentStamina = (float)SprintThresholds.Max;
     private bool isInputDisabled;
     private PlayerAnimationStates currentAnimation;
-    private bool isInteracting;
 
     public Player()
 	{
@@ -80,16 +94,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
         CarryableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(CarryableItemPositionMarker)} at {NodeNames.Camera_CarryableItemPositionMarker}");
         EquipableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_EquipableItemPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(EquipableItemPositionMarker)} at {NodeNames.Camera_EquipableItemPosition}");
         AnimationTree = GetNode<AnimationTree>(NodeNames.AnimationTree.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(AnimationTree)} at {NodeNames.AnimationTree}");
-        
+        useDelayTimer = GetNode<Timer>(NodeNames.UseDelayTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(useDelayTimer)} at {NodeNames.UseDelayTimer}");
+         
         PlayerController = new PlayerController(this);
-        AnimationTree.AnimationFinished += (animationName) =>
-        {
-            if (animationName.ToString().Equals(PlayerAnimationStates.Press.ToString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-                isInteracting = false;
-                GD.Print("IS NOT INTERACTING");
-            }
-        };
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -104,15 +111,28 @@ public partial class Player : CharacterBody3D, IMovableCharacter
             return;
         }
 
-        // Do not move these lines. Animation must be handled at start
+        // Do not move these lines.
         CurrentStateSpeed = PlayerStateSpeeds.Walk;
-        PlayerController.HandleHandAnimation();
 
         PlayerController.HandleCrouch(delta);
 		PlayerController.HandleSprint();
 		PlayerController.HandleMovement(delta);
 		PlayerController.UpdateLookAtObject(RayCast);
-	}
+
+        if (Input.IsActionJustPressed(ActionNames.Use) && !IsUsing && useDelayTimer.TimeLeft == 0)
+        {
+            IsUsing = PlayerController.TryUse();
+        }
+
+        if (Input.IsActionJustReleased(ActionNames.Use) && IsUsing)
+        {
+            PlayerController.StopUsing();
+        }
+
+        // Animation is handled at the end of the frame so animations with priority are used
+        PlayerController.UpdateHandAnimation();
+        CalculateMovementSpeed();
+    }
 
 	public override void _Input(InputEvent @event)
 	{
@@ -125,18 +145,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		{
 			PlayerController.RotateByMouseDelta(eventMouseMotion.Relative, Camera);
 		}
-
-        if (Input.IsActionJustPressed(ActionNames.Use) && !isInteracting)
-        {
-            GD.Print("Was used");
-            isInteracting = PlayerController.TryUse();
-        }
-
-        if (Input.IsActionJustReleased(ActionNames.Use) && isInteracting)
-        {
-            GD.Print("STOP USING");
-            PlayerController.StopUsing();
-        }
     }
 
     public void HandleJumpscare(Vector3 JumpscarePosition, Vector3 enemyPosition)

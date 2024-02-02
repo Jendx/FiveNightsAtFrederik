@@ -6,7 +6,6 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>FiveNightsAtFrederik</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="CsScripts\Handlers\**" />

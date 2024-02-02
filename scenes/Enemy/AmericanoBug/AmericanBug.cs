@@ -17,7 +17,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     public float JumpVelocity { get; set; }
     public float RotationSpeed { get; set; } = 0.8f;
 
-    private Random random = new(2);
+    private readonly Random random = new(2);
     private Timer activationTimer;
 
     [ExportGroup("Dictionary<EnemySounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
