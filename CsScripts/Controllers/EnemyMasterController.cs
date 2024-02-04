@@ -46,7 +46,7 @@ public class EnemyMasterController
         markers[nextMarker.Key].OccupiedBy = enemyName;
 
 		// Make current Marker visit-able again
-		if(markers.TryGetValue(baseEnemy?.CurrentDestinationMarker?.Name ?? string.Empty, out var value))
+		if(markers.TryGetValue(baseEnemy?.CurrentDestinationMarker?.Name ?? string.Empty, out var value) && value.OccupiedBy == enemyName)
 		{
 			markers[baseEnemy.CurrentDestinationMarker.Name].IsOccupied = false;
 			GD.Print($"Resetting {baseEnemy.CurrentDestinationMarker.Name}");

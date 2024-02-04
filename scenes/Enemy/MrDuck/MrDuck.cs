@@ -56,7 +56,6 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
         };
 
         ChaseCooldownTimer = this.TryGetNode<Timer>(NodeNames.ChaseCooldownTimer, nameof(ChaseCooldownTimer));
-
         interpolationCurrentPosition = LookForwardMarker.GlobalPosition;
         animationTree.Active = true;
 
