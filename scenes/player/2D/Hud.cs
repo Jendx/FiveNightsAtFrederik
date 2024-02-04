@@ -1,5 +1,6 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.scenes.player.Enums;
 using Godot;
 using Godot.Collections;
@@ -20,8 +21,8 @@ public partial class Hud : Control
 
     public override void _Ready()
 	{
-		crosshair = GetNode<TextureRect>(NodeNames.Crosshair.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(crosshair)} at {NodeNames.Crosshair}");
-		staminaBar = GetNode<ProgressBar>(NodeNames.StaminaBar.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(staminaBar)} at {NodeNames.StaminaBar}");
+		crosshair = this.TryGetNode<TextureRect>(NodeNames.Crosshair, nameof(crosshair));
+		staminaBar = this.TryGetNode<ProgressBar>(NodeNames.StaminaBar, nameof(staminaBar));
         player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {GroupNames.playerGroup}");
         style = new StyleBoxFlat();
 

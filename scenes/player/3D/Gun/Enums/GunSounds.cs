@@ -1,4 +1,4 @@
-﻿namespace FiveNightsAtFrederik.Scenes.player._3D.Gun.Enums;
+﻿namespace FiveNightsAtFrederik.Scenes.Player._3D.Gun.Enums;
 
 public enum GunSounds
 {

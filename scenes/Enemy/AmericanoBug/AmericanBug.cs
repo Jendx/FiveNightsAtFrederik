@@ -15,7 +15,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
 {
     public float MovementSpeed { get; set; } = 400f;
     public float JumpVelocity { get; set; }
-    public float RotationSpeed { get; set; } = 0.8f;
+    public float RotationSpeed { get; set; } = 7f;
 
     private readonly Random random = new(2);
     private Timer activationTimer;
@@ -37,9 +37,9 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     {
         base._Ready();
         activationTimer = GetNode<Timer>(NodeNames.BugActivationTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(activationTimer)} at {NodeNames.BugActivationTimer}");
-        activationTimer.Timeout += () => isActive = true;
+        activationTimer.Timeout += () => IsActive = true;
 
-        interpolationCurrentPosition = LookForwardPosition.GlobalPosition;
+        interpolationCurrentPosition = LookForwardMarker.GlobalPosition;
         spawnLocation = GlobalPosition;
 
         animationTree.Active = true;
@@ -54,7 +54,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     /// </summary>
     protected override void OnTargetReached()
     {
-        isActive = false;
+        IsActive = false;
 
         if (isHit)
         {
@@ -65,15 +65,15 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
             return;
         }
 
-        currentAnimation = EnemyAnimationStates.Jumpscare;
+        CurrentAnimation = EnemyAnimationStates.Jumpscare;
         audioPlayer.Stream = audioTracks[EnemySounds.Jumpscare];
         audioPlayer.Play();
         
-        player.HandleJumpscare(jumpscareCameraPositionMarker.GlobalPosition, GlobalPosition + new Vector3(0, 0.5f, 0));
+        player.HandleJumpscare(JumpscareCameraPositionMarker.GlobalPosition, GlobalPosition + new Vector3(0, 0.5f, 0));
     }
 
     /// <summary>
-    /// Tries to activate bug If succeded, there is a warmup, before it is unleashed
+    /// Tries to activate bug If succeeded, there is a warmup, before it is unleashed
     /// </summary>
     protected override void OnIdleTimerTimeout()
     {
@@ -102,34 +102,17 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     {
         if (!isHit)
         {
-            navigationAgent.TargetPosition = player.GlobalPosition;
+            NavigationAgent.TargetPosition = player.GlobalPosition;
         }
 
-        nextPosition = navigationAgent.GetNextPathPosition();
-
+        nextPosition = NavigationAgent.GetNextPathPosition();
         Velocity = (nextPosition - GlobalPosition).Normalized() * delta * MovementSpeed;
-
         MoveAndSlide();
     }
 
     protected override void Rotate(float delta)
     {
-        interpolationCurrentPosition = nextPosition.Lerp(interpolationCurrentPosition, delta * RotationSpeed);
-        interpolationCurrentPosition.Y = GlobalPosition.Y;
-
-        LookAt(interpolationCurrentPosition);
-    }
-
-    protected override void HandleAnimations()
-    {
-        animationTree.Set(currentAnimation.GetDescription(), false);
-
-        if (currentAnimation != EnemyAnimationStates.Jumpscare)
-        {
-            currentAnimation = !Velocity.IsZeroApprox() ? EnemyAnimationStates.WalkForward : EnemyAnimationStates.Idle;
-        }
-
-        animationTree.Set(currentAnimation.GetDescription(), true);
+        this.RotateYByShortestWayToTarget(LookForwardMarker, nextPosition, RotationSpeed, delta);
     }
 
 
@@ -138,9 +121,9 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     /// </summary>
     public void ApplyDamage()
     {
-        if (isActive)
+        if (IsActive)
         {
-            navigationAgent.TargetPosition = spawnLocation;
+            NavigationAgent.TargetPosition = spawnLocation;
             audioPlayer.Stop();
             isHit = true;
         }

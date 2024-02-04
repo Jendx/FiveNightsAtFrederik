@@ -26,15 +26,15 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	[Export]
 	public float StaminaDrainRate { get; set; } = 0.4f;
 
-	public Camera3D Camera { get; set; }
-	public CollisionShape3D CollisionMesh { get; set; }
-	public Marker3D CarryableItemPositionMarker { get; set; }
-	public Marker3D EquipableItemPositionMarker { get; set; }
-    public AnimationTree AnimationTree { get; set; }
+	public Camera3D Camera { get; private set; }
+	public CollisionShape3D CollisionMesh { get; private set; }
+	public Marker3D CarryableItemPositionMarker { get; private set; }
+	public Marker3D EquipableItemPositionMarker { get; private set; }
+    public AnimationTree AnimationTree { get; private set; }
 
     // Wait time must be equal to the animationTransitionTime (0.6 currently to transition from and back pressing)
     public Timer useDelayTimer { get; set; }
-    public PlayerStateSpeeds CurrentStateSpeed { get; set; }
+    public PlayerSpeeds CurrentStateSpeed { get; internal set; }
     public PlayerAnimationStates CurrentAnimation { get; internal set; }
 
     /// <summary>
@@ -46,9 +46,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
     /// Determines if player is carrying something in front of him (Ingredient, Fuse...)
     /// </summary>
     public bool IsCarrying { get; set; }
-	public bool CanSprint { get; set; } = true;
+	public bool CanSprint { get; internal set; } = true;
     public bool IsUsing { get; set; }
-    public float MovementSpeed { get; internal set; } = (float)PlayerStateSpeeds.Walk;
+    public float MovementSpeed { get; internal set; } = (float)PlayerSpeeds.Walk;
 
     public float CurrentStamina
     {
@@ -88,14 +88,14 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
     public override void _Ready()
 	{
-		Camera = GetNode<Camera3D>(NodeNames.Camera.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(Camera)} at {NodeNames.Camera}");
-        CollisionMesh = GetNode<CollisionShape3D>(NodeNames.PlayerCollision.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(CollisionMesh)} at {NodeNames.PlayerCollision}");
-        RayCast = Camera.GetNode<RayCast3D>(NodeNames.RayCast.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(RayCast)} at {NodeNames.RayCast}");
-        CarryableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(CarryableItemPositionMarker)} at {NodeNames.Camera_CarryableItemPositionMarker}");
-        EquipableItemPositionMarker = Camera.GetNode<Marker3D>(NodeNames.Camera_EquipableItemPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(EquipableItemPositionMarker)} at {NodeNames.Camera_EquipableItemPosition}");
-        AnimationTree = GetNode<AnimationTree>(NodeNames.AnimationTree.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(AnimationTree)} at {NodeNames.AnimationTree}");
-        useDelayTimer = GetNode<Timer>(NodeNames.UseDelayTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(useDelayTimer)} at {NodeNames.UseDelayTimer}");
-         
+        Camera = this.TryGetNode<Camera3D>(NodeNames.Camera, nameof(Camera));
+        CollisionMesh = this.TryGetNode<CollisionShape3D>(NodeNames.PlayerCollision, nameof(CollisionMesh));
+        RayCast = Camera.TryGetNode<RayCast3D>(NodeNames.RayCast, nameof(RayCast));
+        CarryableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker, nameof(CarryableItemPositionMarker));
+        EquipableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_EquipableItemPosition, nameof(EquipableItemPositionMarker));
+        AnimationTree = this.TryGetNode<AnimationTree>(NodeNames.AnimationTree, nameof(AnimationTree));
+        useDelayTimer = this.TryGetNode<Timer>(NodeNames.UseDelayTimer, nameof(useDelayTimer));
+
         PlayerController = new PlayerController(this);
 	}
 
@@ -112,7 +112,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
         }
 
         // Do not move these lines. The order must be maintained Because some actions have higher priority for animation
-        CurrentStateSpeed = PlayerStateSpeeds.Walk;
+        CurrentStateSpeed = PlayerSpeeds.Walk;
 
         PlayerController.HandleCrouch(delta);
 		PlayerController.HandleSprint();

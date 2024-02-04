@@ -1,5 +1,6 @@
 using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System.Linq;
@@ -21,9 +22,9 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		uiArea = GetNode<Area3D>(NodeNames.CameraSystemViewArea.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(uiArea)} at {NodeNames.CameraSystemViewArea}");
-        subViewport = GetNode<SubViewport>(NodeNames.CameraSystemViewport.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(subViewport)} at {NodeNames.CameraSystemViewport}");
-        cameraViewDisplayMesh = GetNode<MeshInstance3D>(NodeNames.CameraView.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(cameraViewDisplayMesh)} at {NodeNames.CameraView}");
+		uiArea = this.TryGetNode<Area3D>(NodeNames.CameraSystemViewArea, nameof(uiArea)); 
+        subViewport = this.TryGetNode<SubViewport>(NodeNames.CameraSystemViewport, nameof(subViewport));
+        cameraViewDisplayMesh = this.TryGetNode<MeshInstance3D>(NodeNames.CameraView, nameof(cameraViewDisplayMesh)); 
         var children = GetChildren();
 
 		cameras = children.Where(ch => ch is Camera3D).Cast<Camera3D>().ToArray();

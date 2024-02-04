@@ -1,7 +1,8 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
-using FiveNightsAtFrederik.Scenes.player._3D.Gun.Enums;
+using FiveNightsAtFrederik.Scenes.Player._3D.Gun.Enums;
 using Godot;
 using Godot.Collections;
 using System.Linq;
@@ -43,13 +44,13 @@ public partial class Gun : RigidBody3D, IPlayerUsable
 
     public override void _Ready()
     {
-        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}"); ;
-        audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.AudioPlayer}"); ;
-        rayCast = GetNode<RayCast3D>(NodeNames.RayCast.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(rayCast)} at {NodeNames.RayCast}"); ;
-        fireCooldownTimer = GetNode<Timer>(NodeNames.DelayTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(fireCooldownTimer)} at {NodeNames.DelayTimer}"); ;
+        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+        audioPlayer = this.TryGetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString(), nameof(audioPlayer));
+        rayCast = this.TryGetNode<RayCast3D>(NodeNames.RayCast, nameof(rayCast));
+        fireCooldownTimer = this.TryGetNode<Timer>(NodeNames.DelayTimer, nameof(fireCooldownTimer));
         fireCooldownTimer.Timeout += () => isOnFireCooldown = false;
 
-        automaticReloadTimer = GetNode<Timer>(NodeNames.AutomaticReloadTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(automaticReloadDelay)} at {NodeNames.AutomaticReloadTimer}"); ;
+        automaticReloadTimer = this.TryGetNode<Timer>(NodeNames.AutomaticReloadTimer, nameof(automaticReloadDelay));
         automaticReloadTimer.Timeout += async () =>
         {
             if (isHeld)
