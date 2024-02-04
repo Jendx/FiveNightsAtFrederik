@@ -34,6 +34,9 @@ public static class NodeNames
     public static readonly StringName AnimationTree = new("AnimationTree");
     public static readonly StringName JumpscareCameraPosition = new("JumpscareCameraPosition");
 
+    // Mr Duck
+    public static readonly StringName ChaseCooldownTimer = new("ChaseCooldownTimer");
+
     // American Bug
     public static readonly StringName BugActivationTimer = new("BugActivationTimer");
 

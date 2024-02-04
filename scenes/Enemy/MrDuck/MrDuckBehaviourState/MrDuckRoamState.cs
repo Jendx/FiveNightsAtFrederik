@@ -3,6 +3,7 @@ using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourFactory.Abstraction;
 using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourState.Enums;
+using FiveNightsAtFrederik.Scenes.Enemy;
 using Godot;
 using Godot.Collections;
 using System;
@@ -11,6 +12,7 @@ namespace FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourFactory;
 
 public class MrDuckRoamState : MrDuckBaseState
 {
+    private const int roamTargetDesiredDistance = 1;
     private readonly EnemyMasterController controller;
 
     public MrDuckRoamState(
@@ -25,6 +27,12 @@ public class MrDuckRoamState : MrDuckBaseState
 
     public override void HandleBehaviour()
     {
+        if (mrDuck.NavigationAgent.TargetDesiredDistance > roamTargetDesiredDistance)
+        {
+            mrDuck.NavigationAgent.TargetDesiredDistance = roamTargetDesiredDistance;
+            HandleTargetReached();
+        }
+
         if (TryDeactivateDuck(audioTracks[EnemySounds.Deactivate]))
         {
             return;
@@ -59,10 +67,9 @@ public class MrDuckRoamState : MrDuckBaseState
             return false;
         }
 
-        audioPlayer.Stream = deactivationAudio;
         if (mrDuck.IsActive)
         {
-            audioPlayer.Play();
+            audioPlayer.PlayStream(deactivationAudio);
         }
 
         GD.Print("Duck Deactivated");
@@ -75,7 +82,7 @@ public class MrDuckRoamState : MrDuckBaseState
     /// </summary>
     public override MrDuckBehaviourStates HandleTargetReached()
     {
-        mrDuck.CurrentDestinationMarker = controller.GetNextPossibleDestination();
+        mrDuck.CurrentDestinationMarker = controller.GetNextPossibleDestination(mrDuck.Name);
         mrDuck.NavigationAgent.TargetPosition = mrDuck.CurrentDestinationMarker.GlobalPosition;
 
         GD.Print($"Target Location switched to: {mrDuck.CurrentDestinationMarker.Name}");

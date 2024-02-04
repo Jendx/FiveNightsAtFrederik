@@ -15,7 +15,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
 {
     public float MovementSpeed { get; set; } = 400f;
     public float JumpVelocity { get; set; }
-    public float RotationSpeed { get; set; } = 0.8f;
+    public float RotationSpeed { get; set; } = 7f;
 
     private readonly Random random = new(2);
     private Timer activationTimer;
@@ -65,7 +65,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
             return;
         }
 
-        currentAnimation = EnemyAnimationStates.Jumpscare;
+        CurrentAnimation = EnemyAnimationStates.Jumpscare;
         audioPlayer.Stream = audioTracks[EnemySounds.Jumpscare];
         audioPlayer.Play();
         
@@ -112,22 +112,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
 
     protected override void Rotate(float delta)
     {
-        interpolationCurrentPosition = nextPosition.Lerp(interpolationCurrentPosition, delta * RotationSpeed);
-        interpolationCurrentPosition.Y = GlobalPosition.Y;
-
-        LookAt(interpolationCurrentPosition);
-    }
-
-    protected override void HandleAnimations()
-    {
-        animationTree.Set(currentAnimation.GetDescription(), false);
-
-        if (currentAnimation != EnemyAnimationStates.Jumpscare)
-        {
-            currentAnimation = !Velocity.IsZeroApprox() ? EnemyAnimationStates.WalkForward : EnemyAnimationStates.Idle;
-        }
-
-        animationTree.Set(currentAnimation.GetDescription(), true);
+        this.RotateYByShortestWayToTarget(LookForwardMarker, nextPosition, RotationSpeed, delta);
     }
 
 

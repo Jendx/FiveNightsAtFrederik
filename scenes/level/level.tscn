@@ -170,7 +170,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
 transform = Transform3D(0.999922, 0, 0.0125137, 0, 1, 0, -0.0125137, 0, 0.999922, 21.7684, 0.293166, 0.634852)
 
 [node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.3037, 1.25427, 0.114175)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10.3919, 0.392418, 0.114175)
 
 [node name="Gun" parent="." instance=ExtResource("11_jipue")]
 transform = Transform3D(0.571788, -0.820401, 0, 0.820401, 0.571788, 0, 0, 0, 1, 1.46671, 0.65754, 0.284676)

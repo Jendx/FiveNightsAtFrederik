@@ -12,6 +12,7 @@ public partial class BaseEnemy : CharacterBody3D
 {
     public bool IsActive { get; set; }
     public Marker3D CurrentDestinationMarker { get; set; }
+    public EnemyAnimationStates CurrentAnimation { get; set; } = EnemyAnimationStates.Idle;
     public NavigationAgent3D NavigationAgent { get; protected set; }
     public Marker3D JumpscareCameraPositionMarker { get; protected set; }
 
@@ -21,7 +22,6 @@ public partial class BaseEnemy : CharacterBody3D
     protected Timer idleTimer;
     protected AudioStreamPlayer3D audioPlayer;
     protected AnimationTree animationTree;
-    protected EnemyAnimationStates currentAnimation = EnemyAnimationStates.Idle;
 
     /// <summary>
     /// Move method responsible for moving the enemy
@@ -36,7 +36,17 @@ public partial class BaseEnemy : CharacterBody3D
     /// <summary>
     /// Method for handling animations
     /// </summary>
-    protected virtual void HandleAnimations() => throw new NotImplementedException();
+    protected virtual void HandleAnimations()
+    {
+        animationTree.Set(CurrentAnimation.GetDescription(), false);
+
+        if (CurrentAnimation != EnemyAnimationStates.Jumpscare)
+        {
+            CurrentAnimation = !Velocity.IsZeroApprox() ? EnemyAnimationStates.WalkForward : EnemyAnimationStates.Idle;
+        }
+
+        animationTree.Set(CurrentAnimation.GetDescription(), true);
+    }
 
     /// <summary>
     /// Defines what happens when enemy reaches point

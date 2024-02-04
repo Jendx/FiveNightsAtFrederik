@@ -11,7 +11,7 @@ public static class CharacterBody3DExtensions
     /// <param name="node"></param>
     /// <param name="forwardPositionOrigin"></param>
     /// <param name="nextPosition"></param>
-    /// <param name="rotationSpeed"> recommended value is between <0.1, 5> and 5 is really fast!</param>
+    /// <param name="rotationSpeed"> recommended value is between <0.1, 10> and 10 is really fast!</param>
     /// <param name="delta"></param>
     /// <returns></returns>
     public static void RotateYByShortestWayToTarget(this CharacterBody3D node, Marker3D LookForwardMarker, Vector3 nextPosition, float rotationSpeed, float delta)
@@ -27,7 +27,6 @@ public static class CharacterBody3DExtensions
             ? node.GlobalRotation.Y - rotationSpeed * delta
             : node.GlobalRotation.Y + rotationSpeed * delta;
 
-        GD.Print(Mathf.RadToDeg(clockwiseDifference), Mathf.RadToDeg(counterClockwiseDifference));
         node.GlobalRotation = new Vector3()
         {
             X = node.GlobalRotation.X,

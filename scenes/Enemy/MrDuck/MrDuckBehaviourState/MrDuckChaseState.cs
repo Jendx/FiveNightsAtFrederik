@@ -1,7 +1,9 @@
-﻿using FiveNightsAtFrederik.CsScripts.Enums;
+﻿using FiveNightsAtFrederik.CsScripts.Controllers;
+using FiveNightsAtFrederik.CsScripts.Enums;
+using FiveNightsAtFrederik.CsScripts.Extensions;
+using FiveNightsAtFrederik.CsScripts.Helpers;
 using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourFactory.Abstraction;
 using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourState.Enums;
-using FiveNightsAtFrederik.Scenes.Enemy;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using Godot.Collections;
@@ -22,19 +24,26 @@ public class MrDuckChaseState : MrDuckBaseState
         Player player) : base(idleTimer, audioTracks, random, audioPlayer, mrDuck)
     {
         this.player = player;
+        mrDuck.ChaseCooldownTimer.Timeout += ChaseCooldownTimer_OnTimeout;
     }
 
     public override void HandleBehaviour()
     {
-        mrDuck.IsActive = true;
+        mrDuck.NavigationAgent.TargetDesiredDistance = 2.5f;
+        GD.Print(mrDuck.NavigationAgent.DistanceToTarget());
 
         // If player is in sight the duck will follow the player
         // If not the duck will go to last know player position
         if (mrDuck.sight.IsPlayerInSight)
         {
+            audioPlayer.PitchScale = MathF.Max(0.1f, MathFHelper.Map(mrDuck.NavigationAgent.DistanceToTarget(), .0f, 7, 1.5f, 3.2f));
+            audioPlayer.PlayStream(audioTracks[EnemySounds.Chase]);
             mrDuck.NavigationAgent.TargetPosition = player.GlobalPosition;
+            mrDuck.ChaseCooldownTimer.Stop();
+
             return;
         }
+
     }
 
     /// <summary>
@@ -42,12 +51,26 @@ public class MrDuckChaseState : MrDuckBaseState
     /// </summary>
     public override MrDuckBehaviourStates HandleTargetReached()
     {
+        audioPlayer.PitchScale = 1;
         if (mrDuck.GlobalPosition.DistanceTo(player.GlobalPosition) <= mrDuck.NavigationAgent.TargetDesiredDistance)
         {
-            player.HandleJumpscare(mrDuck.JumpscareCameraPositionMarker.GlobalPosition, mrDuck.GlobalPosition);
+            mrDuck.CurrentAnimation = EnemyAnimationStates.Jumpscare;
+            audioPlayer.PlayStream(audioTracks[EnemySounds.Jumpscare]);
+            mrDuck.IsActive = false;
+
+            player.HandleJumpscare(mrDuck.JumpscareCameraPositionMarker.GlobalPosition, mrDuck.GlobalPosition + new Vector3(0, 0.5f, 0));
+
+            return MrDuckBehaviourStates.Roam;
         }
 
-        //TODO: Set to Roam when not found
-        return MrDuckBehaviourStates.Chase;
+        EnemyMasterController.ResetUsedMarkers(mrDuck.Name);
+        mrDuck.ChaseCooldownTimer.Start(random.Next(5, 8));
+
+        return MrDuckBehaviourStates.Roam;
+    }
+
+    private void ChaseCooldownTimer_OnTimeout()
+    {
+        idleTimer.Start(random.Next(5, 10));
     }
 }

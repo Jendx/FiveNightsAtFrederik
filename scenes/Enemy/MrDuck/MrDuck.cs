@@ -21,6 +21,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
     public float JumpVelocity { get; set; }
     public float RotationSpeed { get; set; } = 1f;
     public Sight sight { get; private set; }
+    public Timer ChaseCooldownTimer { get; private set; }
 
     private readonly float MaximumTurnMoveAngle = 5;
     private readonly Random random = new(1);
@@ -46,10 +47,15 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
         sight = this.TryGetNode<Sight>(NodeNames.Sight, nameof(sight));
         sight.OnPlayerSighted += () =>
         {
-            currentBehaviour = MrDuckBehaviourStates.Chase;
-            currentBehaviourState = behaviourController.UpdateBehaviour(currentBehaviour);
-            currentBehaviourState.HandleBehaviour();
+            if (IsActive)
+            {
+                currentBehaviour = MrDuckBehaviourStates.Chase;
+                currentBehaviourState = behaviourController.UpdateBehaviour(currentBehaviour);
+                currentBehaviourState.HandleBehaviour();
+            }
         };
+
+        ChaseCooldownTimer = this.TryGetNode<Timer>(NodeNames.ChaseCooldownTimer, nameof(ChaseCooldownTimer));
 
         interpolationCurrentPosition = LookForwardMarker.GlobalPosition;
         animationTree.Active = true;
@@ -84,7 +90,7 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
     /// </summary>
     protected override void OnTargetReached()
     {
-        currentBehaviourState.HandleTargetReached();
+        currentBehaviour = currentBehaviourState.HandleTargetReached();
     }
 
     /// <summary>
@@ -118,35 +124,8 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
         MoveAndSlide();
     }
 
-    protected override void HandleAnimations()
-    {
-        animationTree.Set(currentAnimation.GetDescription(), false);
-
-        currentAnimation = !Velocity.IsZeroApprox() ? EnemyAnimationStates.WalkForward : EnemyAnimationStates.Idle;
-        animationTree.Set(currentAnimation.GetDescription(), true);
-    }
-
     protected override void Rotate(float delta)
     {
-        //Vector3 directionToNextPosition = (nextPosition - LookForwardMarker.GlobalTransform.Origin).Normalized();
-        //float targetYRotation = Mathf.Atan2(directionToNextPosition.X, directionToNextPosition.Z);
-
-        //float currentYRotation = GlobalTransform.Basis.GetEuler().Y;
-        //float clockwiseDifference = (targetYRotation - currentYRotation + 2 * Mathf.Pi) % (2 * Mathf.Pi);
-        //float counterClockwiseDifference = (currentYRotation - targetYRotation + 2 * Mathf.Pi) % (2 * Mathf.Pi);
-
-        //var newRotation = clockwiseDifference < counterClockwiseDifference
-        //    ? GlobalRotation.Y - 0.01f * delta
-        //    : GlobalRotation.Y + 0.01f * delta;
-
-        //GD.Print(Mathf.RadToDeg(clockwiseDifference), Mathf.RadToDeg(counterClockwiseDifference));
-        //GlobalRotation = new Vector3()
-        //{
-        //    X = GlobalRotation.X,
-        //    Y = newRotation,
-        //    Z = GlobalRotation.Z,
-        //};
-
         this.RotateYByShortestWayToTarget(LookForwardMarker, nextPosition, RotationSpeed, delta);
     }
 
