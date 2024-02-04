@@ -37,9 +37,9 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     {
         base._Ready();
         activationTimer = GetNode<Timer>(NodeNames.BugActivationTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(activationTimer)} at {NodeNames.BugActivationTimer}");
-        activationTimer.Timeout += () => isActive = true;
+        activationTimer.Timeout += () => IsActive = true;
 
-        interpolationCurrentPosition = LookForwardPosition.GlobalPosition;
+        interpolationCurrentPosition = LookForwardMarker.GlobalPosition;
         spawnLocation = GlobalPosition;
 
         animationTree.Active = true;
@@ -54,7 +54,7 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     /// </summary>
     protected override void OnTargetReached()
     {
-        isActive = false;
+        IsActive = false;
 
         if (isHit)
         {
@@ -69,11 +69,11 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
         audioPlayer.Stream = audioTracks[EnemySounds.Jumpscare];
         audioPlayer.Play();
         
-        player.HandleJumpscare(jumpscareCameraPositionMarker.GlobalPosition, GlobalPosition + new Vector3(0, 0.5f, 0));
+        player.HandleJumpscare(JumpscareCameraPositionMarker.GlobalPosition, GlobalPosition + new Vector3(0, 0.5f, 0));
     }
 
     /// <summary>
-    /// Tries to activate bug If succeded, there is a warmup, before it is unleashed
+    /// Tries to activate bug If succeeded, there is a warmup, before it is unleashed
     /// </summary>
     protected override void OnIdleTimerTimeout()
     {
@@ -102,13 +102,11 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     {
         if (!isHit)
         {
-            navigationAgent.TargetPosition = player.GlobalPosition;
+            NavigationAgent.TargetPosition = player.GlobalPosition;
         }
 
-        nextPosition = navigationAgent.GetNextPathPosition();
-
+        nextPosition = NavigationAgent.GetNextPathPosition();
         Velocity = (nextPosition - GlobalPosition).Normalized() * delta * MovementSpeed;
-
         MoveAndSlide();
     }
 
@@ -138,9 +136,9 @@ public partial class AmericanBug : BaseEnemy, IMovableCharacter, IDamagable
     /// </summary>
     public void ApplyDamage()
     {
-        if (isActive)
+        if (IsActive)
         {
-            navigationAgent.TargetPosition = spawnLocation;
+            NavigationAgent.TargetPosition = spawnLocation;
             audioPlayer.Stop();
             isHit = true;
         }

@@ -1,6 +1,7 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using Godot;
 using System;
 using System.Linq;
@@ -9,19 +10,18 @@ namespace FiveNightsAtFrederik.Scenes.Enemy;
 
 public partial class BaseEnemy : CharacterBody3D
 {
+    public bool IsActive { get; set; }
+    public Marker3D CurrentDestinationMarker { get; set; }
+    public NavigationAgent3D NavigationAgent { get; protected set; }
+    public Marker3D JumpscareCameraPositionMarker { get; protected set; }
+
 	protected bool isFirstDestinationSet;
-    protected bool isActive;
-    protected NavigationAgent3D navigationAgent;
     protected Player.Player player;
-    protected EnemyMasterController controller;
-	protected Marker3D LookForwardPosition;
+	protected Marker3D LookForwardMarker;
     protected Timer idleTimer;
     protected AudioStreamPlayer3D audioPlayer;
     protected AnimationTree animationTree;
     protected EnemyAnimationStates currentAnimation = EnemyAnimationStates.Idle;
-    protected Marker3D jumpscareCameraPositionMarker;
-
-    public Marker3D CurrentMarker { get; set; }
 
     /// <summary>
     /// Move method responsible for moving the enemy
@@ -50,13 +50,13 @@ public partial class BaseEnemy : CharacterBody3D
 
     public override void _Ready()
     {
-        navigationAgent = GetNode<NavigationAgent3D>(NodeNames.NavigationAgent.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(navigationAgent)} at {NodeNames.NavigationAgent}");
         player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player.Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
-        LookForwardPosition = GetNode<Marker3D>(NodeNames.LookForwardPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(LookForwardPosition)} at {NodeNames.LookForwardPosition}");
-        idleTimer = GetNode<Timer>(NodeNames.IdleTimer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(idleTimer)} at {NodeNames.IdleTimer}");
-        audioPlayer = GetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.AudioPlayer}");
-        animationTree = GetNode<AnimationTree>(NodeNames.AnimationTree.ToString());
-        jumpscareCameraPositionMarker = GetNode<Marker3D>(NodeNames.JumpscareCameraPosition.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(jumpscareCameraPositionMarker)} at {NodeNames.JumpscareCameraPosition}");
+        NavigationAgent = this.TryGetNode<NavigationAgent3D>(NodeNames.NavigationAgent, nameof(NavigationAgent));
+        LookForwardMarker = this.TryGetNode<Marker3D>(NodeNames.LookForwardPosition, nameof(LookForwardMarker));
+        idleTimer = this.TryGetNode<Timer>(NodeNames.IdleTimer, nameof(idleTimer));
+        audioPlayer = this.TryGetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer, nameof(audioPlayer));
+        animationTree = this.TryGetNode<AnimationTree>(NodeNames.AnimationTree, nameof(animationTree));
+        JumpscareCameraPositionMarker = this.TryGetNode<Marker3D>(NodeNames.JumpscareCameraPosition, nameof(JumpscareCameraPositionMarker));
 
         animationTree.AnimationFinished += (animationName) =>
         {
@@ -67,7 +67,7 @@ public partial class BaseEnemy : CharacterBody3D
             }
         };
 
-        navigationAgent.TargetReached += OnTargetReached;
+        NavigationAgent.TargetReached += OnTargetReached;
         idleTimer.Timeout += OnIdleTimerTimeout;
     }
 
@@ -79,7 +79,7 @@ public partial class BaseEnemy : CharacterBody3D
 	{
         HandleAnimations();
 
-        if (!isActive) 
+        if (!IsActive) 
         {
             return;
         }

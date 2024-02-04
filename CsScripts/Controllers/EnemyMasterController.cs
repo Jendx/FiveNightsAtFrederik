@@ -28,10 +28,10 @@ public class EnemyMasterController
 		markers[nextMarker.Key] = (true, markers[nextMarker.Key].Item2);
 
 		// Make current Marker visitable again
-		if(markers.TryGetValue(baseEnemy?.CurrentMarker?.Name ?? string.Empty, out var value))
+		if(markers.TryGetValue(baseEnemy?.CurrentDestinationMarker?.Name ?? string.Empty, out var value))
 		{
-			markers[baseEnemy.CurrentMarker.Name] = (false, value.Item2);
-			GD.Print($"Reseting {baseEnemy.CurrentMarker.Name}");
+			markers[baseEnemy.CurrentDestinationMarker.Name] = (false, value.Item2);
+			GD.Print($"Reseting {baseEnemy.CurrentDestinationMarker.Name}");
 		}
 
 		return nextMarker.Value.Item2;

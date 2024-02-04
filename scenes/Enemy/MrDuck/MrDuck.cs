@@ -3,6 +3,9 @@ using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourFactory;
+using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourFactory.Abstraction;
+using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourState.Enums;
 using Godot;
 using Godot.Collections;
 using System;
@@ -14,12 +17,17 @@ namespace FiveNightsAtFrederik.Scenes.Enemy;
 /// </summary>
 public partial class MrDuck : BaseEnemy, IMovableCharacter
 {
-    public float MovementSpeed { get; set; } = 32f;
+    public float MovementSpeed { get; private set; } = 32f;
     public float JumpVelocity { get; set; }
-    public float RotationSpeed { get; set; } = 0.8f;
+    public float RotationSpeed { get; set; } = 1f;
+    public Sight sight { get; private set; }
 
     private readonly float MaximumTurnMoveAngle = 5;
     private readonly Random random = new(1);
+
+    private MrDuckBehaviourStateManager behaviourController;
+    private MrDuckBaseState currentBehaviourState;
+    private MrDuckBehaviourStates currentBehaviour = MrDuckBehaviourStates.Roam;
 
     [ExportGroup("Dictionary<EnemySounds, AudioStreamMp3> EnumValues: 0:Deactivate, 1:Activate, 2:Jumpscare")]
     [Export()]
@@ -35,74 +43,68 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
     public override void _Ready()
     {
         base._Ready();
-        controller = new EnemyMasterController(this);
-        interpolationCurrentPosition = LookForwardPosition.GlobalPosition;
+        sight = this.TryGetNode<Sight>(NodeNames.Sight, nameof(sight));
+        sight.OnPlayerSighted += () =>
+        {
+            currentBehaviour = MrDuckBehaviourStates.Chase;
+            currentBehaviourState = behaviourController.UpdateBehaviour(currentBehaviour);
+            currentBehaviourState.HandleBehaviour();
+        };
 
+        interpolationCurrentPosition = LookForwardMarker.GlobalPosition;
         animationTree.Active = true;
 
         // TODO: Set correct activation Time
         idleTimer.Start(5);
+
+        behaviourController = new MrDuckBehaviourStateManager(this, audioPlayer, random, audioTracks, idleTimer, player);
+        currentBehaviourState = behaviourController.UpdateBehaviour(currentBehaviour);
     }
 
+    /// <summary>
+    /// In here it is used as init only... & calculateSpeed
+    /// When ready is fired, the navigation is not ready yet
+    /// </summary>
+    /// <param name="delta"></param>
     public override void _Process(double delta)
     {
+        CalculateMovementSpeed();
         if (isFirstDestinationSet)
         {
             return;
         }
 
-        CurrentMarker = controller.GetNextPossibleDestination();
-        navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
-
+        // Get first destination
+        currentBehaviourState.HandleTargetReached();
         isFirstDestinationSet = true;
     }
 
+    /// <summary>
+    /// Get next position to roam to or Execute jumpscare
+    /// </summary>
     protected override void OnTargetReached()
     {
-        CurrentMarker = controller.GetNextPossibleDestination();
-        navigationAgent.TargetPosition = CurrentMarker.GlobalPosition;
-        GD.Print($"Target Location switched to: {CurrentMarker.Name}");
+        currentBehaviourState.HandleTargetReached();
     }
 
     /// <summary>
-    /// Determines when is MrDuck active. Basicly this is very simple state machine
+    /// Determines when is MrDuck active. Basically this is very simple state machine
     /// </summary>
     protected override void OnIdleTimerTimeout()
     {
-        var number = random.Next(11);
-        if (number > 3)
-        {
-            idleTimer.Start(random.Next(10, 20));
-            audioPlayer.Stream = audioTracks[EnemySounds.Deactivate];
-            if (isActive)
-            {
-                audioPlayer.Play();
-            }
-
-            isActive = false;
-            GD.Print("Duck Deactivated");
-            return;
-        }
-
-        GD.Print("Duck Activated");
-        audioPlayer.Stream = audioTracks[EnemySounds.Activate];
-        if (!isActive)
-        {
-            audioPlayer.Play();
-        }
-
-        isActive = true;
+        currentBehaviourState = behaviourController.UpdateBehaviour(currentBehaviour);
+        currentBehaviourState.HandleBehaviour();
     }
 
     protected override void Move(float delta)
     {
-        nextPosition = navigationAgent.GetNextPathPosition();
+        nextPosition = NavigationAgent.GetNextPathPosition();
 
         // Calculates vector with direction from GlobalPosition to nextPosition
         var nextPositionDirection = nextPosition.DirectionTo(GlobalPosition);
 
         // Calculates vector with direction from LookForwardPosition to GlobalPosition So I do not have to figure out how to get forward vector in Global Cords 
-        var forwardDirection = LookForwardPosition.GlobalPosition.DirectionTo(GlobalPosition);
+        var forwardDirection = LookForwardMarker.GlobalPosition.DirectionTo(GlobalPosition);
         var angleToNextPosition = forwardDirection.AngleTo(nextPositionDirection);
 
         if (angleToNextPosition > Mathf.DegToRad(MaximumTurnMoveAngle))
@@ -126,7 +128,36 @@ public partial class MrDuck : BaseEnemy, IMovableCharacter
 
     protected override void Rotate(float delta)
     {
-        interpolationCurrentPosition = interpolationCurrentPosition.Lerp(nextPosition, delta * RotationSpeed);
-        LookAt(interpolationCurrentPosition);
+        //Vector3 directionToNextPosition = (nextPosition - LookForwardMarker.GlobalTransform.Origin).Normalized();
+        //float targetYRotation = Mathf.Atan2(directionToNextPosition.X, directionToNextPosition.Z);
+
+        //float currentYRotation = GlobalTransform.Basis.GetEuler().Y;
+        //float clockwiseDifference = (targetYRotation - currentYRotation + 2 * Mathf.Pi) % (2 * Mathf.Pi);
+        //float counterClockwiseDifference = (currentYRotation - targetYRotation + 2 * Mathf.Pi) % (2 * Mathf.Pi);
+
+        //var newRotation = clockwiseDifference < counterClockwiseDifference
+        //    ? GlobalRotation.Y - 0.01f * delta
+        //    : GlobalRotation.Y + 0.01f * delta;
+
+        //GD.Print(Mathf.RadToDeg(clockwiseDifference), Mathf.RadToDeg(counterClockwiseDifference));
+        //GlobalRotation = new Vector3()
+        //{
+        //    X = GlobalRotation.X,
+        //    Y = newRotation,
+        //    Z = GlobalRotation.Z,
+        //};
+
+        this.RotateYByShortestWayToTarget(LookForwardMarker, nextPosition, RotationSpeed, delta);
+    }
+
+    /// <summary>
+    /// Calculates movement speed for next frame
+    /// Handles interpolating between current MovementSpeed and CurrentStateSpeed
+    /// </summary>
+    /// <returns></returns>
+    private float CalculateMovementSpeed()
+    {
+        MovementSpeed = Mathf.Lerp(MovementSpeed, (float)currentBehaviour, 0.5f);
+        return MovementSpeed;
     }
 }
