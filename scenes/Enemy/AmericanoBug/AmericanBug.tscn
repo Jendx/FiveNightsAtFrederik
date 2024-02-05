@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bxh3vdppnfri3" path="res://scenes/Enemy/AmericanoBug/3D/brouk.glb" id="4_khw0r"]
 [ext_resource type="AudioStream" uid="uid://bvpmljbywx1fx" path="res://scenes/Enemy/AmericanoBug/Sounds/Jumpscare.mp3" id="4_uxvxa"]
 
-[sub_resource type="Animation" id="Animation_cteln"]
+[sub_resource type="Animation" id="Animation_w47hm"]
 resource_name = "jumpscare"
 length = 0.983333
 tracks/0/type = "position_3d"
@@ -213,7 +213,7 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, -0.295454, 0.605758, 1.68528e-05)
 
-[sub_resource type="Animation" id="Animation_xmphq"]
+[sub_resource type="Animation" id="Animation_hcjsh"]
 resource_name = "Idle-loop"
 length = 1.33333
 loop_mode = 1
@@ -421,7 +421,7 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, -2.05214e-10, -7.54954e-08, -0.00234731, 0.999997)
 
-[sub_resource type="Animation" id="Animation_ou6ld"]
+[sub_resource type="Animation" id="Animation_10tcb"]
 resource_name = "walkforward-loop"
 length = 1.33333
 loop_mode = 1
@@ -629,11 +629,11 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, -7.72113e-06, -8.70914e-07, -0.0263026, 0.999654)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7jvfq"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_15eql"]
 _data = {
-"Idle": SubResource("Animation_xmphq"),
-"jumpscare": SubResource("Animation_cteln"),
-"walkforward": SubResource("Animation_ou6ld")
+"Idle": SubResource("Animation_hcjsh"),
+"jumpscare": SubResource("Animation_w47hm"),
+"walkforward": SubResource("Animation_10tcb")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dyhpb"]
@@ -695,7 +695,7 @@ audioTracks = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../brouk")
 libraries = {
-"": SubResource("AnimationLibrary_7jvfq")
+"": SubResource("AnimationLibrary_15eql")
 }
 tree_root = SubResource("AnimationNodeStateMachine_mnxyo")
 anim_player = NodePath("../brouk/AnimationPlayer")
@@ -729,14 +729,13 @@ one_shot = true
 
 [node name="AudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.253456, 0)
-volume_db = -48.454
 max_distance = 25.0
 
 [node name="brouk" parent="." instance=ExtResource("4_khw0r")]
 transform = Transform3D(-0.265993, 0, 2.32538e-08, 0, 0.265993, 0, -2.32538e-08, 0, -0.265993, 0, -0.215255, 0.175032)
 
 [node name="Skeleton3D" parent="brouk/broukrig" index="0"]
-bones/0/position = Vector3(1.54495e-10, 0.912829, -0.27107)
+bones/0/position = Vector3(6.56603e-10, 0.90618, -0.27107)
 bones/0/rotation = Quaternion(0.500005, 0.5, 0.5, 0.499995)
 bones/1/position = Vector3(-1.35877e-05, 0.953053, 1.35643e-05)
 bones/2/position = Vector3(-0.00467509, -0.0271843, 5.47913e-11)
@@ -746,16 +745,16 @@ bones/5/position = Vector3(-0.00476763, -0.0065434, 5.72615e-11)
 bones/6/position = Vector3(-0.00495286, -0.0280437, 5.81127e-11)
 bones/7/position = Vector3(-0.00481389, -0.0164036, 5.59396e-11)
 bones/8/position = Vector3(0.0350073, 1.43964, -4.17652e-10)
-bones/10/rotation = Quaternion(0.200831, -4.09658e-07, -1.11943e-07, 0.979626)
-bones/11/rotation = Quaternion(8.18967e-08, 0.980082, -0.198593, -5.41124e-07)
+bones/10/rotation = Quaternion(0.207123, -4.10369e-07, -1.09308e-07, 0.978315)
+bones/11/rotation = Quaternion(7.59174e-08, 0.97783, -0.209401, -5.41995e-07)
 bones/12/position = Vector3(-0.327703, 0.108796, 1.25216e-07)
 bones/12/rotation = Quaternion(2.61524e-08, -3.90047e-07, 0.0472572, 0.998883)
 bones/13/position = Vector3(0.487437, 0.269886, 0.175238)
 bones/13/rotation = Quaternion(0.142535, -0.0819199, -0.479662, 0.861915)
-bones/14/position = Vector3(-0.288036, 2.17743, 1.87051e-06)
-bones/14/rotation = Quaternion(-0.485821, 0.485826, 0.513783, 0.513788)
-bones/15/position = Vector3(-0.292232, 0.605758, 1.68804e-05)
-bones/17/rotation = Quaternion(1.62481e-05, 1.99626e-07, -0.23325, 0.972417)
+bones/14/position = Vector3(-0.288003, 2.17743, 1.87051e-06)
+bones/14/rotation = Quaternion(-0.421775, 0.421779, 0.567539, 0.567545)
+bones/15/position = Vector3(-0.292199, 0.605758, 1.68807e-05)
+bones/17/rotation = Quaternion(1.6249e-05, 1.00771e-07, -0.22733, 0.973818)
 bones/18/rotation = Quaternion(-9.34201e-06, -1.2265e-06, -0.00381482, 0.999993)
 
 [node name="JumpscareCameraPosition" type="Marker3D" parent="."]

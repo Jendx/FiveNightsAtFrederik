@@ -41,7 +41,7 @@ public partial class Button : Node, IButton, IPlayerUsable
 			GD.PrintErr($"{Name} UsableNode Is null and won't be executed");
 		}
 
-		audioPlayer = GetNode<AudioStreamPlayer>(NodeNames.UseAudio.ToString()) ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(audioPlayer)} at {NodeNames.UseAudio}"); ;
+		audioPlayer = this.TryGetNode<AudioStreamPlayer>(NodeNames.UseAudio.ToString(), nameof(audioPlayer));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

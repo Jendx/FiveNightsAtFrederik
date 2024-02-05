@@ -6,6 +6,7 @@ using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using System.Linq;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
@@ -93,10 +94,8 @@ public class PlayerController
             player.EmitSignal(nameof(player.OnRaycastCollide), collidingObject);
         }
 
-        // Sometimes the colision can be on child of the node. 
-        var newUsableObject = collidingObject is IPlayerUsable playerUsable
-            ? playerUsable
-            : ((Node)collidingObject)?.Owner as IPlayerUsable;
+        // Sometimes the collision can be on child of the node.
+        var newUsableObject = collidingObject.TryConvertTo<IPlayerUsable>();
 
 
         // If player looks away from the usableObject and is still interacting with the usableObject stop using it
@@ -104,7 +103,6 @@ public class PlayerController
             && usableObject is not null
             && player.IsUsing)
         {
-            GD.Print($"Looked away. Stoped Using!");
             StopUsing();
         }
 
@@ -144,13 +142,13 @@ public class PlayerController
         if (Input.IsActionPressed(ActionNames.Crouch))
         {
             targetHeight = player.CrouchHeight;
-            player.CurrentStateSpeed = PlayerStateSpeeds.Crouch;
+            player.CurrentStateSpeed = PlayerSpeeds.Crouch;
             nextAnimation = PlayerAnimationStates.Idle;
         }
 
         if (!Mathf.IsEqualApprox(currentHeight, targetHeight, 0.1f))
         {
-            currentHeight = Mathf.Lerp(player.CollisionMesh.Scale.Y, targetHeight, (float)PlayerStateSpeeds.CrouchTransition * (float)delta);
+            currentHeight = Mathf.Lerp(player.CollisionMesh.Scale.Y, targetHeight, (float)PlayerSpeeds.CrouchTransition * (float)delta);
             player.CollisionMesh.Scale = new Vector3(player.CollisionMesh.Scale.X, currentHeight, player.CollisionMesh.Scale.Z);
         }
     }
@@ -175,18 +173,18 @@ public class PlayerController
         // If player can't sprint. He must have depleted stamina => Slower movement speed punishment
         if (!player.CanSprint)
         {
-            player.CurrentStateSpeed = PlayerStateSpeeds.ExhaustedWalk;
+            player.CurrentStateSpeed = PlayerSpeeds.ExhaustedWalk;
         }
 
         // Player can sprint if he is not carrying anything, is moving forward, is not moving backwards and is holding sprint button
         if (
             Input.IsActionPressed(ActionNames.Sprint)
-            && forbiddenSprintPressedActions.Any(fspa => Input.IsActionPressed(fspa)) == false
-            && !player.Velocity.IsZeroApprox()
+            && Input.IsActionPressed(ActionNames.Move_Forward)
+            && !Input.IsActionPressed(ActionNames.Move_Backwards)
             && !player.IsCarrying
             && player.CanSprint)
         {
-            player.CurrentStateSpeed = PlayerStateSpeeds.Sprint;
+            player.CurrentStateSpeed = PlayerSpeeds.Sprint;
             nextAnimation = PlayerAnimationStates.Running;
             player.CurrentStamina -= player.StaminaDrainRate;
 
@@ -213,8 +211,6 @@ public class PlayerController
         player.CurrentAnimation = nextAnimation;
 
         player.AnimationTree.Set(player.CurrentAnimation.GetDescription(), true);
-
-        GD.PrintErr("Current anim: " + player.CurrentAnimation);
     }
 
     /// <summary>
