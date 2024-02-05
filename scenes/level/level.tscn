@@ -1,6 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=24 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
+[ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]
 [ext_resource type="PackedScene" uid="uid://c6sikusc050yp" path="res://scenes/level/map/map.glb" id="2_ledho"]
 [ext_resource type="AudioStream" uid="uid://dfv6kkfjigy2k" path="res://scenes/level/sound/Factory.ogg" id="3_83qj5"]
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
@@ -139,9 +140,6 @@ navigation_mesh = SubResource("NavigationMesh_35owg")
 
 [node name="map" parent="NavigationMesh" instance=ExtResource("2_ledho")]
 
-[node name="OmniLight3D" type="OmniLight3D" parent="NavigationMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43155, 0)
-
 [node name="E_Marker_ToiletLowr" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3411, 0.23, 13.0751)
 
@@ -170,7 +168,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 22.4265, 0.293166, 1.55002)
 
 [node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10.8735, 0.439323, 0.114175)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.1453, 1.4569, 0.114175)
 
 [node name="Gun" parent="." instance=ExtResource("11_jipue")]
 transform = Transform3D(0.571788, -0.820401, 0, 0.820401, 0.571788, 0, 0, 0, 1, 1.46671, 0.65754, 0.284676)
@@ -179,4 +177,30 @@ transform = Transform3D(0.571788, -0.820401, 0, 0.820401, 0.571788, 0, 0, 0, 1, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31158, 0.6195, 3.70455)
 carryableItemTemplateScene = ExtResource("13_scj51")
 
+[node name="LightsControl" type="Node3D" parent="."]
+script = ExtResource("1_ldrlg")
+
+[node name="Lights" type="Node3D" parent="LightsControl"]
+
+[node name="LightOffice" type="OmniLight3D" parent="LightsControl/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43155, 0)
+shadow_enabled = true
+
+[node name="LightLeft" type="OmniLight3D" parent="LightsControl/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.0256, 1.43155, -5.27717)
+shadow_enabled = true
+
+[node name="LightRight" type="OmniLight3D" parent="LightsControl/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1781, 1.43155, 3.84313)
+shadow_enabled = true
+
+[node name="LightStage" type="OmniLight3D" parent="LightsControl/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.9056, 1.43155, 0)
+shadow_enabled = true
+
+[node name="LightSelectionTimer" type="Timer" parent="LightsControl"]
+one_shot = true
+autostart = true
+
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
+[connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]
