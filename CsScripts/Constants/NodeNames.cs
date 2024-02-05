@@ -49,4 +49,7 @@ public static class NodeNames
     // Gun
     public static readonly StringName DelayTimer = new("DelayTimer");
     public static readonly StringName AutomaticReloadTimer = new("AutomaticReloadTimer");
+
+    // Basket
+    public static readonly StringName BasketArea = new("BasketArea");
 }

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://w0ybjbah0qxv" path="res://scenes/Enemy/Sight/Sight.tscn" id="5_4ipn1"]
 [ext_resource type="AudioStream" uid="uid://bvnmjc68lbvri" path="res://scenes/Enemy/MrDuck/Sounds/Chase.mp3" id="5_jkg48"]
 
-[sub_resource type="Animation" id="Animation_ugbdc"]
+[sub_resource type="Animation" id="Animation_jlvni"]
 resource_name = "jumpscare"
 length = 1.46667
 tracks/0/type = "position_3d"
@@ -215,7 +215,7 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, -0.146789, -1.79581e-14, -3.49972e-08, 0.989168)
 
-[sub_resource type="Animation" id="Animation_aj6qr"]
+[sub_resource type="Animation" id="Animation_mw4fk"]
 resource_name = "Idle-loop"
 length = 1.33333
 loop_mode = 1
@@ -423,7 +423,7 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, 0.0933889, 0, 0, 0.99563)
 
-[sub_resource type="Animation" id="Animation_0iuax"]
+[sub_resource type="Animation" id="Animation_v0fyp"]
 resource_name = "walk_forward-loop"
 length = 1.38333
 loop_mode = 1
@@ -631,11 +631,11 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, 1.66764, 1.66764, 1.66764)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_3khke"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_66rnu"]
 _data = {
-"Idle": SubResource("Animation_aj6qr"),
-"jumpscare": SubResource("Animation_ugbdc"),
-"walk_forward": SubResource("Animation_0iuax")
+"Idle": SubResource("Animation_mw4fk"),
+"jumpscare": SubResource("Animation_jlvni"),
+"walk_forward": SubResource("Animation_v0fyp")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dyhpb"]
@@ -698,7 +698,7 @@ audioTracks = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../MrDuck")
 libraries = {
-"": SubResource("AnimationLibrary_3khke")
+"": SubResource("AnimationLibrary_66rnu")
 }
 tree_root = SubResource("AnimationNodeStateMachine_mnxyo")
 anim_player = NodePath("../MrDuck/AnimationPlayer")
@@ -726,31 +726,26 @@ shape = SubResource("BoxShape3D_lckok")
 transform = Transform3D(-0.19, 0, -2.86892e-08, 0, 0.19, 0, 2.86892e-08, 0, -0.19, 0, -0.203114, 0)
 
 [node name="Skeleton3D" parent="MrDuck/duck_rig" index="0"]
-bones/0/position = Vector3(0.00477274, 0.874237, -0.678131)
+bones/0/position = Vector3(0.00477274, 0.644874, -0.682297)
 bones/0/rotation = Quaternion(-0.740685, 0, 0, 0.671853)
-bones/1/rotation = Quaternion(-0.0174576, 0.790067, -0.612221, 0.0259814)
-bones/2/rotation = Quaternion(0.324966, -0.0072325, -0.0670702, 0.943317)
-bones/3/position = Vector3(-0.0635745, 1.02848, 0.280548)
-bones/3/rotation = Quaternion(-0.348653, -0.10629, -0.245857, 0.898164)
-bones/4/position = Vector3(0.00772643, -0.0183072, 0.382494)
-bones/4/rotation = Quaternion(0.993788, -0.0260135, -0.0565192, 0.0922692)
-bones/5/rotation = Quaternion(-0.146789, -1.80403e-14, -3.49972e-08, 0.989168)
-bones/6/rotation = Quaternion(0.75935, -0.0126652, 0.0147123, 0.650393)
-bones/7/rotation = Quaternion(0.79391, -0.00107326, 0.000143326, 0.608034)
-bones/8/rotation = Quaternion(-0.269095, -2.08645e-09, -6.85843e-08, 0.963114)
-bones/9/rotation = Quaternion(-0.269095, -2.30752e-07, -5.50737e-09, 0.963114)
-bones/10/rotation = Quaternion(0.9947, 1.61312e-08, 2.37166e-07, -0.102825)
-bones/11/rotation = Quaternion(0.9947, 4.2928e-08, 8.05677e-10, -0.102825)
-bones/12/position = Vector3(0.554838, -0.141712, -0.102634)
-bones/13/rotation = Quaternion(0.0174576, 0.790067, -0.612221, -0.0259814)
-bones/14/position = Vector3(-0.554838, -0.141712, -0.102634)
-bones/15/position = Vector3(-0.0771521, 3.23064, -2.13735)
-bones/15/rotation = Quaternion(-0.738788, -0.0320007, 0.00753367, 0.673135)
-bones/16/position = Vector3(0.333106, 0.192234, 0.730756)
-bones/16/rotation = Quaternion(0.760782, -0.00126231, 0.00908455, 0.648942)
+bones/1/position = Vector3(0.627649, 0.30498, 0.315985)
+bones/1/rotation = Quaternion(-0.0178999, 0.779468, -0.62566, 0.0256787)
+bones/3/position = Vector3(9.59767e-10, 0.50835, 0.003661)
+bones/3/rotation = Quaternion(-0.0167831, -0.00356822, 0.000309825, 0.999853)
+bones/4/rotation = Quaternion(0.820816, 3.67065e-09, 1.9305e-07, 0.571193)
+bones/5/position = Vector3(2.71479e-10, 0.715854, -0.000434524)
+bones/5/rotation = Quaternion(-0.153376, 2.88455e-10, -3.49534e-08, 0.988168)
+bones/6/rotation = Quaternion(0.654333, 0.00526095, -0.00501321, 0.756172)
+bones/7/rotation = Quaternion(0.65457, 0.00450479, -0.0056051, 0.755967)
+bones/8/rotation = Quaternion(-0.269095, -1.45526e-09, -6.93658e-08, 0.963114)
+bones/9/rotation = Quaternion(-0.269095, -2.31079e-07, -5.20856e-09, 0.963114)
+bones/10/rotation = Quaternion(0.9947, 1.79158e-08, 2.39006e-07, -0.102825)
+bones/11/rotation = Quaternion(0.9947, 4.24313e-08, 1.85111e-09, -0.102825)
+bones/12/position = Vector3(0.554838, -0.141253, -0.102599)
+bones/13/position = Vector3(-0.635161, 0.305182, 0.315111)
+bones/13/rotation = Quaternion(0.0176845, 0.784675, -0.619117, -0.0258275)
+bones/14/position = Vector3(-0.554838, -0.141253, -0.102599)
 bones/16/scale = Vector3(1.66764, 1.66764, 1.66764)
-bones/17/position = Vector3(-0.0520377, 0.188689, 0.725694)
-bones/17/rotation = Quaternion(0.760792, -0.000263397, 0.00688711, 0.648959)
 bones/17/scale = Vector3(1.66764, 1.66764, 1.66764)
 
 [node name="IdleTimer" type="Timer" parent="."]

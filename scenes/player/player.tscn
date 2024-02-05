@@ -17,7 +17,7 @@ volumetric_fog_albedo = Color(0.174028, 0.174028, 0.174028, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_5inq6"]
 
-[sub_resource type="Animation" id="Animation_m14jh"]
+[sub_resource type="Animation" id="Animation_t56yr"]
 resource_name = "grab"
 length = 0.783333
 tracks/0/type = "position_3d"
@@ -371,7 +371,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284097, 0.67727, -0.139126, 0.721902)
 
-[sub_resource type="Animation" id="Animation_sfay1"]
+[sub_resource type="Animation" id="Animation_kcdkp"]
 resource_name = "idle"
 length = 1.13333
 tracks/0/type = "rotation_3d"
@@ -725,7 +725,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284097, 0.67727, -0.139126, 0.721902)
 
-[sub_resource type="Animation" id="Animation_gqfts"]
+[sub_resource type="Animation" id="Animation_podj1"]
 resource_name = "jumpscared"
 length = 1.06667
 tracks/0/type = "position_3d"
@@ -1079,7 +1079,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284097, 0.67727, -0.139126, 0.721902)
 
-[sub_resource type="Animation" id="Animation_b7o3x"]
+[sub_resource type="Animation" id="Animation_hcpss"]
 resource_name = "press"
 length = 0.516667
 tracks/0/type = "position_3d"
@@ -1433,7 +1433,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0330722, 0.01247, 0.02502, 0.999062)
 
-[sub_resource type="Animation" id="Animation_ddckb"]
+[sub_resource type="Animation" id="Animation_ntotu"]
 resource_name = "running-loop"
 loop_mode = 1
 tracks/0/type = "position_3d"
@@ -1787,13 +1787,13 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284097, 0.67727, -0.139126, 0.721902)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_q8xls"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_irf7y"]
 _data = {
-"grab": SubResource("Animation_m14jh"),
-"idle": SubResource("Animation_sfay1"),
-"jumpscared": SubResource("Animation_gqfts"),
-"press": SubResource("Animation_b7o3x"),
-"running": SubResource("Animation_ddckb")
+"grab": SubResource("Animation_t56yr"),
+"idle": SubResource("Animation_kcdkp"),
+"jumpscared": SubResource("Animation_podj1"),
+"press": SubResource("Animation_hcpss"),
+"running": SubResource("Animation_ntotu")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fyjww"]
@@ -1922,12 +1922,12 @@ states/press/position = Vector2(442, -101)
 states/running/node = SubResource("AnimationNodeAnimation_tocpn")
 states/running/position = Vector2(645, 261)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_46q4j"), "idle", "running", SubResource("AnimationNodeStateMachineTransition_0k05m"), "running", "idle", SubResource("AnimationNodeStateMachineTransition_w44ke"), "idle", "grab", SubResource("AnimationNodeStateMachineTransition_q57fk"), "idle", "jumpscared", SubResource("AnimationNodeStateMachineTransition_4iw7h"), "idle", "press", SubResource("AnimationNodeStateMachineTransition_bkr4e"), "press", "idle", SubResource("AnimationNodeStateMachineTransition_m48jl"), "grab", "idle", SubResource("AnimationNodeStateMachineTransition_xupyi"), "jumpscared", "End", SubResource("AnimationNodeStateMachineTransition_ijftk"), "press", "running", SubResource("AnimationNodeStateMachineTransition_6kul8"), "running", "press", SubResource("AnimationNodeStateMachineTransition_ga5f5"), "grab", "running", SubResource("AnimationNodeStateMachineTransition_qv1m7"), "running", "grab", SubResource("AnimationNodeStateMachineTransition_p5urn"), "grab", "jumpscared", SubResource("AnimationNodeStateMachineTransition_81nmr"), "running", "jumpscared", SubResource("AnimationNodeStateMachineTransition_y633g"), "press", "jumpscared", SubResource("AnimationNodeStateMachineTransition_ctvqu")]
-graph_offset = Vector2(31, -133)
+graph_offset = Vector2(-106, -115)
 
 [node name="Player" type="CharacterBody3D"]
 disable_mode = 2
-collision_layer = 7
-collision_mask = 3
+collision_layer = 9
+collision_mask = 9
 script = ExtResource("1_khwmd")
 RotationSpeed = 0.001
 
@@ -2025,7 +2025,7 @@ bones/46/rotation = Quaternion(0.708123, -0.0646923, -0.271196, 0.648714)
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Camera/hands")
 libraries = {
-"": SubResource("AnimationLibrary_q8xls")
+"": SubResource("AnimationLibrary_irf7y")
 }
 tree_root = SubResource("AnimationNodeStateMachine_nt53e")
 anim_player = NodePath("../Camera/hands/AnimationPlayer")

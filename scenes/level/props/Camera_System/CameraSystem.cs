@@ -12,10 +12,10 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 /// </summary>
 public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 {
-    [Export]
-    public bool IsInteractionUIDisplayed { get; set; } = true;
+	[Export]
+	public bool IsInteractionUIDisplayed { get; set; } = true;
 
-    private Camera3D[] cameras;
+	private Camera3D[] cameras;
 	private Control UI;
 	private int cameraIndex;
 
@@ -23,9 +23,9 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 	public override void _Ready()
 	{
 		uiArea = this.TryGetNode<Area3D>(NodeNames.CameraSystemViewArea, nameof(uiArea)); 
-        subViewport = this.TryGetNode<SubViewport>(NodeNames.CameraSystemViewport, nameof(subViewport));
-        cameraViewDisplayMesh = this.TryGetNode<MeshInstance3D>(NodeNames.CameraView, nameof(cameraViewDisplayMesh)); 
-        var children = GetChildren();
+		subViewport = this.TryGetNode<SubViewport>(NodeNames.CameraSystemViewport, nameof(subViewport));
+		cameraViewDisplayMesh = this.TryGetNode<MeshInstance3D>(NodeNames.CameraView, nameof(cameraViewDisplayMesh)); 
+		var children = GetChildren();
 
 		cameras = children.Where(ch => ch is Camera3D).Cast<Camera3D>().ToArray();
 		UI = (Control)children.SingleOrDefault(ch => ch is Control);
@@ -73,11 +73,11 @@ public partial class CameraSystem : RaycastInteractable2DUiNode3D, IPlayerUsable
 		selectedCamera?.MakeCurrent();
 	}
 
-    public void OnBeginUse()
-    {
-    }
+	public void OnBeginUse()
+	{
+	}
 
-    public void OnEndUse()
-    {
-    }
+	public void OnEndUse()
+	{
+	}
 }

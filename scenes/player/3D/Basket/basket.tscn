@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dhqcpkxwawdge"]
+
+[ext_resource type="Script" path="res://scenes/player/3D/Basket/Basket.cs" id="1_44nun"]
+[ext_resource type="PackedScene" uid="uid://cmvtn0ua7ntdn" path="res://scenes/player/3D/Basket/3D/box.glb" id="1_r827v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3p7ti"]
+size = Vector3(1.05817, 0.0691223, 0.598145)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t8jua"]
+size = Vector3(1.06079, 0.320313, 0.0605774)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dg33s"]
+size = Vector3(0.0368958, 0.3246, 0.4804)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q6l4b"]
+size = Vector3(0.928223, 0.0837402, 0.453369)
+
+[node name="basket" type="RigidBody3D"]
+script = ExtResource("1_44nun")
+
+[node name="box" parent="." instance=ExtResource("1_r827v")]
+transform = Transform3D(0.365, 0, 0, 0, 0.365, 0, 0, 0, 0.365, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00131226, -0.0355117, 0.000732422)
+shape = SubResource("BoxShape3D_3p7ti")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00172222, 0.162109, 0.270042)
+shape = SubResource("BoxShape3D_t8jua")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00344443, 0.161957, -0.268539)
+shape = SubResource("BoxShape3D_t8jua")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.510742, 0.16066, 0.00125909)
+shape = SubResource("BoxShape3D_dg33s")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.508202, 0.155068, 4.24385e-05)
+shape = SubResource("BoxShape3D_dg33s")
+
+[node name="BasketArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.508202, 0.155068, 4.24385e-05)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BasketArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.503898, -0.103208, 0.00231934)
+shape = SubResource("BoxShape3D_q6l4b")

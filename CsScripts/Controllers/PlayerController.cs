@@ -126,7 +126,7 @@ public class PlayerController
             hudCrosshairState = HudCrosshairStates.Use;
         }
 
-        if (player.IsHoldingWeapon)
+        if (player.IsHoldingItem)
         {
             hudCrosshairState = HudCrosshairStates.Aim;
         }
@@ -227,7 +227,7 @@ public class PlayerController
 
         usableObject!.OnBeginUse();
 
-        if (!player.IsHoldingWeapon)
+        if (!player.IsHoldingItem)
         {
             nextAnimation = PlayerAnimationStates.Press;
             player.useDelayTimer.Start();
