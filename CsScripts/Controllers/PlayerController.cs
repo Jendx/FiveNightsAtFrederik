@@ -7,6 +7,7 @@ using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using System.Linq;
 using FiveNightsAtFrederik.CsScripts.Extensions;
+using FiveNightsAtFrederik.CsScripts.BaseNodes;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 
@@ -181,7 +182,7 @@ public class PlayerController
             Input.IsActionPressed(ActionNames.Sprint)
             && Input.IsActionPressed(ActionNames.Move_Forward)
             && !Input.IsActionPressed(ActionNames.Move_Backwards)
-            && !player.IsCarrying
+            && !player.IsCarryingItem
             && player.CanSprint)
         {
             player.CurrentStateSpeed = PlayerSpeeds.Sprint;
@@ -226,10 +227,21 @@ public class PlayerController
         }
 
         usableObject!.OnBeginUse();
-
-        if (!player.IsHoldingItem)
+        
+        var isCarriableObject = usableObject is BaseCarriableItem;
+        var isHoldableObject = usableObject is BaseHoldableItem;
+        if (!isHoldableObject && !isCarriableObject)
         {
             nextAnimation = PlayerAnimationStates.Press;
+            player.useDelayTimer.Start();
+
+            return;
+        }
+
+        if (isCarriableObject)
+        {
+            GD.Print("Carrying");
+            nextAnimation = PlayerAnimationStates.Grab;
             player.useDelayTimer.Start();
         }
     }

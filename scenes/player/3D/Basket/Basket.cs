@@ -38,10 +38,10 @@ public partial class Basket : BaseHoldableItem
 			return;
 		}
 		
-		AddItemToBox((BaseCarryableItem)item);
+		AddItemToBox((BaseCarriableItem)item);
 	}
 
-	private void AddItemToBox(BaseCarryableItem body)
+	private void AddItemToBox(BaseCarriableItem body)
 	{
 		itemsInBasket.Add((IStashable)body);
 

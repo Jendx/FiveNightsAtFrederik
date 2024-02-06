@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=26 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]

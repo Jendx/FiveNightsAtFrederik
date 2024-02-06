@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://w0ybjbah0qxv" path="res://scenes/Enemy/Sight/Sight.tscn" id="5_4ipn1"]
 [ext_resource type="AudioStream" uid="uid://bvnmjc68lbvri" path="res://scenes/Enemy/MrDuck/Sounds/Chase.mp3" id="5_jkg48"]
 
-[sub_resource type="Animation" id="Animation_jlvni"]
+[sub_resource type="Animation" id="Animation_ugbdc"]
 resource_name = "jumpscare"
 length = 1.46667
 tracks/0/type = "position_3d"
@@ -215,7 +215,7 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, -0.146789, -1.79581e-14, -3.49972e-08, 0.989168)
 
-[sub_resource type="Animation" id="Animation_mw4fk"]
+[sub_resource type="Animation" id="Animation_aj6qr"]
 resource_name = "Idle-loop"
 length = 1.33333
 loop_mode = 1
@@ -423,7 +423,7 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, 0.0933889, 0, 0, 0.99563)
 
-[sub_resource type="Animation" id="Animation_v0fyp"]
+[sub_resource type="Animation" id="Animation_0iuax"]
 resource_name = "walk_forward-loop"
 length = 1.38333
 loop_mode = 1
@@ -631,11 +631,11 @@ tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/keys = PackedFloat32Array(0, 1, 1.66764, 1.66764, 1.66764)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_66rnu"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3khke"]
 _data = {
-"Idle": SubResource("Animation_mw4fk"),
-"jumpscare": SubResource("Animation_jlvni"),
-"walk_forward": SubResource("Animation_v0fyp")
+"Idle": SubResource("Animation_aj6qr"),
+"jumpscare": SubResource("Animation_ugbdc"),
+"walk_forward": SubResource("Animation_0iuax")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dyhpb"]
@@ -698,7 +698,7 @@ audioTracks = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../MrDuck")
 libraries = {
-"": SubResource("AnimationLibrary_66rnu")
+"": SubResource("AnimationLibrary_3khke")
 }
 tree_root = SubResource("AnimationNodeStateMachine_mnxyo")
 anim_player = NodePath("../MrDuck/AnimationPlayer")

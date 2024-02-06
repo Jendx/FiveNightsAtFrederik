@@ -7,7 +7,7 @@ using System.Linq;
 namespace FiveNightsAtFrederik.Scenes.Player;
 
 [GlobalClass]
-public partial class CarryableItem : BaseCarryableItem
+public partial class CarryableItem : BaseCarriableItem
 {
 
 }
