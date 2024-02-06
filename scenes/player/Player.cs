@@ -45,7 +45,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	/// <summary>
 	/// Determines if player is carrying something in front of him (Ingredient, Fuse...)
 	/// </summary>
-	public bool IsCarrying { get; set; }
+	public bool IsCarryingItem { get; set; }
 	public bool CanSprint { get; internal set; } = true;
 	public bool IsUsing { get; set; }
 	public float MovementSpeed { get; internal set; } = (float)PlayerSpeeds.Walk;

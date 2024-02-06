@@ -16,9 +16,6 @@ func _on_light_timer_timeout():
 	#Stop the selection timer
 	light_selection_timer.stop()
 	
-	print("-------------------------------------")
-	print("Timer stopped")
-	
 	#Get random time and number of flashes
 	var time_between_selections = randf_range(1, 5)
 	var number_of_flashes = randi_range(1, 5)
@@ -28,8 +25,6 @@ func _on_light_timer_timeout():
 	
 	#check if there is at least one light
 	if current_light != null :
-		
-		print(number_of_flashes)
 		
 		#flash the number of times
 		for flashes in number_of_flashes:
@@ -49,14 +44,8 @@ func _on_light_timer_timeout():
 			#turn the light on
 			current_light.light_energy = 1.0
 			
-			print("Flashed")
-			
 	#set new time for the selection timer
 	light_selection_timer.set_wait_time(time_between_selections)
 		
 	#Start the selection timer to chose the new light to flash
 	light_selection_timer.start()
-	print("Timer waiting to chose a light")
-	print("-------------------------------------")
-		#urrent_light.light_energy = 1.0 - time / flash_duration  # Gradually turn the light back on
-

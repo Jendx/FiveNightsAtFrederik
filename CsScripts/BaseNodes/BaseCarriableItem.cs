@@ -6,7 +6,8 @@ using Godot;
 using System.Linq;
 
 namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
-public partial class BaseCarryableItem : RigidBody3D, IPlayerUsable
+
+public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
 {
     public bool IsHeld { get; set; }
 
@@ -69,6 +70,7 @@ public partial class BaseCarryableItem : RigidBody3D, IPlayerUsable
     {
         Freeze = false;
         IsHeld = false;
+        player.IsCarryingItem = false;
 
         ApplyCentralImpulse(direction);
     }
@@ -77,6 +79,8 @@ public partial class BaseCarryableItem : RigidBody3D, IPlayerUsable
     {
         IsHeld = true;
         Freeze = true;
+        player.IsCarryingItem = true;
+
         Reparent(originalParent);
         SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, true);
     }

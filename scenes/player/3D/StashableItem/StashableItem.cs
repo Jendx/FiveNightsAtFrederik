@@ -7,7 +7,7 @@ using System.Linq;
 namespace FiveNightsAtFrederik.Scenes.Player;
 
 [GlobalClass]
-public partial class StashableItem : BaseCarryableItem, IStashable
+public partial class StashableItem : BaseCarriableItem, IStashable
 {
 	[Export]
 	public bool IsDecayable { get; set; }
