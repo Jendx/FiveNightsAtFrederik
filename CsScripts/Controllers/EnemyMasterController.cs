@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiveNightsAtFrederik.Scenes.Enemy;
 using FiveNightsAtFrederik.CsScripts.Models;
+using FiveNightsAtFrederik.CsScripts.BaseNodes;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
 

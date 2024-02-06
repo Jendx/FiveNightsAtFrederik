@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=25 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]
@@ -12,7 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://bu6mr7xhtuulk" path="res://scenes/Enemy/AmericanoBug/AmericanBug.tscn" id="10_0u43u"]
 [ext_resource type="PackedScene" uid="uid://djyuwual7g6b4" path="res://scenes/player/3D/Gun/Gun.tscn" id="11_jipue"]
 [ext_resource type="PackedScene" uid="uid://kop7avw15nny" path="res://scenes/level/props/PickupSpawner/PickupSpawner.tscn" id="12_ibpqg"]
+[ext_resource type="PackedScene" uid="uid://dhqcpkxwawdge" path="res://scenes/player/3D/Basket/basket.tscn" id="13_nsjbx"]
 [ext_resource type="PackedScene" uid="uid://cx78f5yanshxx" path="res://scenes/player/3D/CarryableItem/Pizza/CarryableItem_Pizza.tscn" id="13_scj51"]
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/StashableItem/Stashable_item.tscn" id="14_d2bv4"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -201,6 +203,16 @@ shadow_enabled = true
 [node name="LightSelectionTimer" type="Timer" parent="LightsControl"]
 one_shot = true
 autostart = true
+
+[node name="basket" parent="." instance=ExtResource("13_nsjbx")]
+transform = Transform3D(0.556049, 0, 0.831149, 0, 1, 0, -0.831149, 0, 0.556049, 11.8423, 1.18468, -2.33015)
+collision_mask = 3
+
+[node name="StashableItem" parent="." instance=ExtResource("14_d2bv4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.87719, 0.571123, 0)
+
+[node name="StashableItem2" parent="." instance=ExtResource("14_d2bv4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19979, 0.344787, 0.627099)
 
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]

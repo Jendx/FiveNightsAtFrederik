@@ -1,12 +1,12 @@
 using FiveNightsAtFrederik.CsScripts.Constants;
-using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
+using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using System;
 using System.Linq;
 
-namespace FiveNightsAtFrederik.Scenes.Enemy;
+namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 
 public partial class BaseEnemy : CharacterBody3D
 {
@@ -17,7 +17,7 @@ public partial class BaseEnemy : CharacterBody3D
     public Marker3D JumpscareCameraPositionMarker { get; protected set; }
 
 	protected bool isFirstDestinationSet;
-    protected Player.Player player;
+    protected Player player;
 	protected Marker3D LookForwardMarker;
     protected Timer idleTimer;
     protected AudioStreamPlayer3D audioPlayer;
@@ -60,7 +60,7 @@ public partial class BaseEnemy : CharacterBody3D
 
     public override void _Ready()
     {
-        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player.Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
         NavigationAgent = this.TryGetNode<NavigationAgent3D>(NodeNames.NavigationAgent, nameof(NavigationAgent));
         LookForwardMarker = this.TryGetNode<Marker3D>(NodeNames.LookForwardPosition, nameof(LookForwardMarker));
         idleTimer = this.TryGetNode<Timer>(NodeNames.IdleTimer, nameof(idleTimer));

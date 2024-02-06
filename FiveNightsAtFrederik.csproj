@@ -13,4 +13,7 @@
     <EmbeddedResource Remove="CsScripts\Handlers\**" />
     <EmbeddedResource Remove="Scripts\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scenes\player\3D\StashableItem\" />
+  </ItemGroup>
 </Project>

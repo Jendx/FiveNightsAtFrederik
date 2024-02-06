@@ -23,7 +23,7 @@ script = ExtResource("1_t4tio")
 
 [node name="RayCast" type="RayCast3D" parent="."]
 target_position = Vector3(0, 0, -4)
-collision_mask = 2
+collision_mask = 10
 debug_shape_custom_color = Color(0.894118, 0, 0, 1)
 debug_shape_thickness = 4
 
