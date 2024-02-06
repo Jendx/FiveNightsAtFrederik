@@ -57,6 +57,14 @@ public partial class BaseCarryableItem : RigidBody3D, IPlayerUsable
         MoveAndCollide(motion);
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (Input.IsActionJustReleased(ActionNames.Use) && IsHeld)
+        {
+            Drop();
+        }
+    }
+
     private void Drop()
     {
         Freeze = false;
