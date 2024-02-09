@@ -31,7 +31,11 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public Marker3D CarryableItemPositionMarker { get; private set; }
 	public Marker3D EquipableItemPositionMarker { get; private set; }
 	public AnimationTree AnimationTree { get; private set; }
-
+	public Node3D Hands { get; private set; }
+	public Node3D HandsRig { get; private set; }
+	public Skeleton3D HandsSkeleton { get; private set; }
+	public BoneAttachment3D GunBone { get; private set; }
+	public Marker3D GunPosition { get; private set; }
 	// Wait time must be equal to the animationTransitionTime (0.6 currently to transition from and back pressing)
 	public Timer useDelayTimer { get; set; }
 	public PlayerSpeeds CurrentStateSpeed { get; internal set; }
@@ -41,7 +45,8 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	/// Determines if player has some object reparented to him self (Gun, basket...)
 	/// </summary>
 	public bool IsHoldingItem { get; set; }
-
+	public bool IsHoldingGun { get; set; }
+	public bool IsReloading { get; set; }
 	/// <summary>
 	/// Determines if player is carrying something in front of him (Ingredient, Fuse...)
 	/// </summary>
@@ -95,7 +100,11 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		EquipableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_EquipableItemPosition, nameof(EquipableItemPositionMarker));
 		AnimationTree = this.TryGetNode<AnimationTree>(NodeNames.AnimationTree, nameof(AnimationTree));
 		useDelayTimer = this.TryGetNode<Timer>(NodeNames.UseDelayTimer, nameof(useDelayTimer));
-
+		Hands = Camera.TryGetNode<Node3D>(NodeNames.Hands, nameof(Hands));
+		HandsRig = Hands.TryGetNode<Node3D>(NodeNames.Hands_Rig, nameof(HandsRig));
+		HandsSkeleton = HandsRig.TryGetNode<Skeleton3D>(NodeNames.HandsSkeleton, nameof(HandsSkeleton));
+		GunBone = HandsSkeleton.TryGetNode<BoneAttachment3D>(NodeNames.Gun, nameof(GunBone));
+		GunPosition= GunBone.TryGetNode<Marker3D>(NodeNames.GunPosition, nameof(GunPosition));
 		PlayerController = new PlayerController(this);
 	}
 
@@ -131,6 +140,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 		// Animation is handled at the end of the frame so animations with priority are used
 		PlayerController.UpdateHandAnimation();
+	
 		CalculateMovementSpeed();
 	}
 

@@ -1,8 +1,10 @@
 using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player._3D.Gun.Enums;
 using Godot;
 using Godot.Collections;
@@ -13,7 +15,7 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 public partial class Gun : BaseHoldableItem
 {
 	[Export]
-	private const int reloadTime = 1;
+	private const float reloadTime = 1.2f;
 
 	// Cooldown between shots
 	[Export]
@@ -31,11 +33,9 @@ public partial class Gun : BaseHoldableItem
 	private RayCast3D rayCast;
 	private Timer fireCooldownTimer;
 	private Timer automaticReloadTimer;
-
 	private bool isOnFireCooldown;
 	private bool isLoaded = true;
-	private bool isReloading;
-
+	
 	public override void _Ready()
 	{
 		base._Ready();
@@ -43,7 +43,6 @@ public partial class Gun : BaseHoldableItem
 		rayCast = this.TryGetNode<RayCast3D>(NodeNames.RayCast, nameof(rayCast));
 		fireCooldownTimer = this.TryGetNode<Timer>(NodeNames.DelayTimer, nameof(fireCooldownTimer));
 		fireCooldownTimer.Timeout += () => isOnFireCooldown = false;
-
 		automaticReloadTimer = this.TryGetNode<Timer>(NodeNames.AutomaticReloadTimer, nameof(automaticReloadDelay));
 		automaticReloadTimer.Timeout += async () =>
 		{
@@ -56,7 +55,7 @@ public partial class Gun : BaseHoldableItem
 
 	public override void _Input(InputEvent @event)
 	{
-		if (isReloading)
+		if (player.IsReloading)
 		{
 			return;
 		}
@@ -70,11 +69,11 @@ public partial class Gun : BaseHoldableItem
 	/// </summary>
 	protected override void Drop()
 	{
-		if (!(IsHeld && Input.IsActionJustPressed(ActionNames.Drop)) || isReloading)
+		if (!(IsHeld && Input.IsActionJustPressed(ActionNames.Drop)) || player.IsReloading)
 		{
 			return;
 		}
-
+		player.IsHoldingGun = false;
 		// Stop automaticReloadTimer so when player drops the gun, it is not reloaded
 		automaticReloadTimer.Stop();
 
@@ -94,7 +93,7 @@ public partial class Gun : BaseHoldableItem
 		{
 			return;
 		}
-
+		
 		audioPlayer.Stream = gunSounds[isLoaded ? GunSounds.Shoot : GunSounds.ShootEmpty];
 		audioPlayer.Play();
 
@@ -117,16 +116,25 @@ public partial class Gun : BaseHoldableItem
 	private async Task Reload()
 	{
 		// TODO: Add & Play reload Animation
-
+		player.IsReloading = true;
 		audioPlayer.Stream = gunSounds[GunSounds.Reload];
-		audioPlayer.Play();
-
-		isReloading = true;
+		audioPlayer.Play(); 	
 		var timer = GetTree().CreateTimer(reloadTime);
 		await ToSignal(timer, "timeout");
-		isReloading = false;
-
+		player.IsReloading = false;
 		isLoaded = true;
 		return;
+	}
+	public override void OnBeginUse()
+	{
+		player.IsHoldingGun = true;
+		Freeze = true;
+		Reparent(player.GunPosition);
+
+		GlobalPosition = player.GunPosition.GlobalPosition;
+		Rotation = Vector3.Zero;
+		player.IsHoldingItem = true;
+		IsHeld = true;
+		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
 	}
 }

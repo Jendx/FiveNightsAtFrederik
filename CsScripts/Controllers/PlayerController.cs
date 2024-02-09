@@ -41,7 +41,13 @@ public class PlayerController
         // if player is not moving set next animation to Idle
         if (inputDir == Vector2.Zero)
         {
-            nextAnimation = PlayerAnimationStates.Idle;
+            if(!player.IsHoldingGun)
+            {
+                nextAnimation = PlayerAnimationStates.Idle;
+            }
+       
+
+
         }
 
         if (direction != Vector3.Zero)
@@ -146,7 +152,7 @@ public class PlayerController
             player.CurrentStateSpeed = PlayerSpeeds.Crouch;
             nextAnimation = PlayerAnimationStates.Idle;
         }
-
+        
         if (!Mathf.IsEqualApprox(currentHeight, targetHeight, 0.1f))
         {
             currentHeight = Mathf.Lerp(player.CollisionMesh.Scale.Y, targetHeight, (float)PlayerSpeeds.CrouchTransition * (float)delta);
@@ -194,7 +200,15 @@ public class PlayerController
 
         const float rechargeRate = 0.2f;
         player.CurrentStamina += player.CurrentStamina < (float)SprintThresholds.Low ? rechargeRate : rechargeRate + 0.1f;
-        nextAnimation = PlayerAnimationStates.Idle;
+        if(!player.IsHoldingGun)
+        { 
+            nextAnimation = PlayerAnimationStates.Idle; 
+        }
+        else
+        {
+            nextAnimation = PlayerAnimationStates.IdleArmed;
+        }
+       
     }
 
     /// <summary>

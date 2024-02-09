@@ -18,6 +18,12 @@ public static class NodeNames
     public static readonly StringName Camera = new("Camera");
     public static readonly StringName Camera_CarryableItemPositionMarker = new("CarryableItemPositionMarker");
     public static readonly StringName Camera_EquipableItemPosition = new("EquipableItemPosition");
+    public static readonly StringName Hands = new("hands");
+    public static readonly StringName Hands_Rig = new("Hands_rig");
+    public static readonly StringName HandsSkeleton = new("Skeleton3D");
+    public static readonly StringName Gun = new("GunBone");
+    public static readonly StringName GunPosition = new("GunPosition");
+
 
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");
@@ -49,6 +55,7 @@ public static class NodeNames
     // Gun
     public static readonly StringName DelayTimer = new("DelayTimer");
     public static readonly StringName AutomaticReloadTimer = new("AutomaticReloadTimer");
+    public static readonly StringName GunBone = new("GunBone");
 
     // Basket
     public static readonly StringName BasketArea = new("BasketArea");

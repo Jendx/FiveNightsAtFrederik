@@ -91,7 +91,7 @@ pitch_scale = 0.86
 autoplay = true
 
 [node name="player" parent="." groups=["player"] instance=ExtResource("1_2vk4x")]
-transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, 20.0179, -0.0188706, -1.51653)
+transform = Transform3D(0.999212, 0, 0, 0, 0.999212, 0, 0, 0, 0.999212, -0.0575047, -0.0188706, -0.801623)
 
 [node name="Button" parent="." instance=ExtResource("4_ec2ve")]
 transform = Transform3D(0.1, 0, 0, 0, -3.97774e-09, -0.1, 0, 0.091, -4.37114e-09, 1.13944, 0.906506, -2.36193)
@@ -172,9 +172,6 @@ transform = Transform3D(0.999922, 0, 0.0125137, 0, 1, 0, -0.0125137, 0, 0.999922
 [node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.1453, 1.4569, 0.114175)
 
-[node name="Gun" parent="." instance=ExtResource("11_jipue")]
-transform = Transform3D(0.571788, -0.820401, 0, 0.820401, 0.571788, 0, 0, 0, 1, 1.46671, 0.65754, 0.284676)
-
 [node name="PickupSpawner" parent="." instance=ExtResource("12_ibpqg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31158, 0.6195, 3.70455)
 carryableItemTemplateScene = ExtResource("13_scj51")
@@ -213,6 +210,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.87719, 0.571123, 0)
 
 [node name="StashableItem2" parent="." instance=ExtResource("14_d2bv4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19979, 0.344787, 0.627099)
+
+[node name="Gun" parent="." instance=ExtResource("11_jipue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79609, 0.941301, 0.360074)
 
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]
