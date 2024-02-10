@@ -21,44 +21,39 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
     /// <summary>
     /// Determines how long will the foam rise. Value is derived from how long does player keep pouring. (Max 4)
     /// </summary>
-    private float foamRaisinggTimerWaitTime = 1f;
+    private float foamRaisingTimerWaitTime = 0f;
     private bool isFoamShrinking;
 
     /// <summary>
     /// How fast does the drink's volume raise 
     /// </summary>
-    private const float drinkFillRate = 0.001f;
+    private const float drinkFillRate = 1f;
     private const float foamFillRate = 0.001f;
-    
-    /// <summary>
-    /// If added, Counters the scale effect of moving item up ( 1/2 scaleRate)
-    /// </summary>
-    private const float drinkAntiScaleRaise = drinkFillRate / 2;
-    private const float foamAntiScaleRaise = foamFillRate / 2;
 
     /// <summary>
     /// How long must player keep filling the mug, before the foam will raise for some time
     /// </summary>
-    private const float MinimumFoamRaiseThreshold = 0.3f;
-    private const float MinimumShrinkFoamScale = 1.1f;
+    private const float MinimumFoamRaiseThreshold = 0.6f;
+    private const float MinimumShrinkFoamScale = 1.025f;
     private const int MaxiumumFoamRaiseThreshold = 2;
+
+    /// <summary>
+    /// Defines maximum amount of drink poured
+    /// </summary>
+    private const int MaxiumumDrinkLevelThreshold = 1060;
+    private const float FailureHeightThreshold = MaxiumumDrinkLevelThreshold + MinimumShrinkFoamScale;
 
     public override void _Ready()
     {
         mug = this.TryGetNode<MeshInstance3D>(NodeNames.Mug, nameof(mug));
         drink = this.TryGetNode<MeshInstance3D>(NodeNames.Drink, nameof(drink));
         foam = this.TryGetNode<MeshInstance3D>(NodeNames.Foam, nameof(foam));
-        drinkTopLimitCollision = this.TryGetNode<MeshInstance3D>(NodeNames.DrinkTopLimitCollision, nameof(foam));
         foamRaiseTimer = this.TryGetNode<Timer>(NodeNames.FoamRaiseTimer, nameof(foamRaiseTimer));
         foamShrinkingTimer = this.TryGetNode<Timer>(NodeNames.FoamShrinkingTimer, nameof(foamShrinkingTimer));
         foamRaiseTimer.Timeout += () => isFoamShrinking = true;
         foamShrinkingTimer.Timeout += () => isFoamShrinking = false;
-        base._Ready();
-    }
 
-    private void DrinkTopLimitCollision_BodyShapeEntered(Rid bodyRid, Node3D body, long bodyShapeIndex, long localShapeIndex)
-    {
-        GD.Print("Hit");
+        base._Ready();
     }
 
     public override void _Input(InputEvent @event)
@@ -71,25 +66,46 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
 
     public override void _Process(double delta)
     {
+        GD.Print($"{drink.Scale.Y} {foam.Scale.Y}, {drink.Scale.Y + foam.Scale.Y}");
+        if (drink.Scale.Y + foam.Scale.Y > FailureHeightThreshold)
+        {
+            drink.Scale = new Vector3()
+            {
+                X = drink.Scale.X,
+                Y = 1,
+                Z = drink.Scale.Z
+            };
+
+            foam.Scale = new Vector3()
+            {
+                X = foam.Scale.X,
+                Y = 1,
+                Z = foam.Scale.Z
+            };
+
+            GD.Print("You Failed Minigame!");
+        }
 
 
         // Pours the drink and causes foam and drink to rise
         if (Input.IsActionPressed(ActionNames.Use) && isActive)
         {
-            FillMug();
-            HandleFoamLevel();
+            HandleFilling(drink, drinkFillRate);
+            HandleFilling(foam, foamFillRate);
+
+            drink.Visible = true;
 
             isFoamShrinking = false;
-            foamRaisinggTimerWaitTime = Mathf.Max(foamRaisinggTimerWaitTime + (float)delta, MaxiumumFoamRaiseThreshold);
+            foamRaisingTimerWaitTime = Mathf.Max(foamRaisingTimerWaitTime + (float)delta * 0.5f, MaxiumumFoamRaiseThreshold);
 
             return;
         }
 
         // When the player stops pouring the drink, we will make the foam raise faster for foamRaisingTimerWaitTime
-        if (Input.IsActionJustReleased(ActionNames.Use) && foamRaisinggTimerWaitTime > MinimumFoamRaiseThreshold && isActive)
+        if (Input.IsActionJustReleased(ActionNames.Use) && foamRaisingTimerWaitTime > MinimumFoamRaiseThreshold && isActive)
         {
-            foamRaiseTimer.Start(foamRaisinggTimerWaitTime);
-            foamRaisinggTimerWaitTime = 0;
+            foamRaiseTimer.Start(foamRaisingTimerWaitTime);
+            foamRaisingTimerWaitTime = 0;
 
             return;
         }
@@ -97,60 +113,31 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
         // Makes the foam raise fast after player stops pouring the drink
         if (!isFoamShrinking && foamRaiseTimer.TimeLeft != 0)
         {
-            HandleFoamLevel(3);
+            GD.Print("Timer");
+            HandleFilling(foam, foamFillRate, 1.1f);
             return;
         }
 
-        // Starts shrinking the foam after it has been rising for some time
+        // Starts shrinking the foam after it has been rising for some time and also raising the drink
         if (isFoamShrinking)
         {
             isFoamShrinking = foam.Scale.Y > MinimumShrinkFoamScale;
-            HandleFoamLevel(-1);
-            FillMug(0.05f);
+            HandleFilling(foam, foamFillRate, -1);
+            HandleFilling(drink, drinkFillRate, 0.4f);
         }
     }
 
     /// <summary>
-    /// Handles filling the mug with the drink
+    /// Handles raising and shrinking
     /// </summary>
-    /// <param name="multiplier"></param>
-    private void FillMug(float multiplier = 1)
+    /// <param name="multiplicationConstant">if negative, the object will start to go down. If positive it will rise</param>
+    private void HandleFilling(MeshInstance3D mesh, float fillRate, float multiplicationConstant = 1)
     {
-        drink.Visible = true;
-        drink.Position = new Vector3()
+        mesh.Scale = new Vector3()
         {
-            X = drink.Position.X,
-            Y = drink.Position.Y + drinkAntiScaleRaise * multiplier,
-            Z = drink.Position.Z
-        };
-
-        drink.Scale = new Vector3()
-        {
-            X = drink.Scale.X,
-            Y = drink.Scale.Y - drinkFillRate * multiplier,
-            Z = drink.Scale.Z
-        };
-
-    }
-
-    /// <summary>
-    /// Handles raising and shrinking of foam
-    /// </summary>
-    /// <param name="multiplicationConstant">if negative, the foam level will start to go down. If positive it will rise</param>
-    private void HandleFoamLevel(float multiplicationConstant = 1)
-    {
-        foam.Position = new Vector3()
-        {
-            X = foam.Position.X,
-            Y = foam.Position.Y - foamAntiScaleRaise * multiplicationConstant,
-            Z = foam.Position.Z
-        };
-
-        foam.Scale = new Vector3()
-        {
-            X = foam.Scale.X,
-            Y = foam.Scale.Y + foamFillRate * multiplicationConstant,
-            Z = foam.Scale.Z
+            X = mesh.Scale.X,
+            Y = mesh.Scale.Y + fillRate * multiplicationConstant,
+            Z = mesh.Scale.Z
         };
     }
 }

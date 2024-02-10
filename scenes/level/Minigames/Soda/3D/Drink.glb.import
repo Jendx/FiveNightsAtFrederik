@@ -1,0 +1,12 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://ds3hndc2qyokt"
+path="res://.godot/imported/Drink.glb-c74a73177ea5a250f6e92498bb4b38a3.scn"
+
+[deps]
+
+source_file="res://scenes/level/Minigames/Soda/3D/Drink.glb"
+dest_files=["res://.godot/imported/Drink.glb-c74a73177ea5a250f6e92498bb4b38a3.scn"]
