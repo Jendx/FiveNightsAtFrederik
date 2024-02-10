@@ -11,10 +11,10 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
 {
     public bool IsInteractionUIDisplayed { get; set; } = true;
 
+    private MeshInstance3D mug;
     private MeshInstance3D drink;
     private MeshInstance3D foam;
-    private MeshInstance3D mug;
-    private MeshInstance3D drinkTopLimitCollision;
+    private Area3D drinkTopLimitCollision;
     private Timer foamRaiseTimer;
     private Timer foamShrinkingTimer;
 
@@ -47,12 +47,14 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
     {
         mug = this.TryGetNode<MeshInstance3D>(NodeNames.Mug, nameof(mug));
         drink = this.TryGetNode<MeshInstance3D>(NodeNames.Drink, nameof(drink));
+        drinkTopLimitCollision = this.TryGetNode<Area3D>(NodeNames.DrinkTopLimitCollision, nameof(drinkTopLimitCollision));
         foam = this.TryGetNode<MeshInstance3D>(NodeNames.Foam, nameof(foam));
         foamRaiseTimer = this.TryGetNode<Timer>(NodeNames.FoamRaiseTimer, nameof(foamRaiseTimer));
         foamShrinkingTimer = this.TryGetNode<Timer>(NodeNames.FoamShrinkingTimer, nameof(foamShrinkingTimer));
+        
         foamRaiseTimer.Timeout += () => isFoamShrinking = true;
         foamShrinkingTimer.Timeout += () => isFoamShrinking = false;
-
+        drinkTopLimitCollision.BodyEntered += DrinkTopLimitCollision_BodyEntered;
         base._Ready();
     }
 
@@ -64,28 +66,38 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
         }
     }
 
+    /// <summary>
+    /// There is a bug with static Bodies, where they are not detected by Area3D
+    /// https://github.com/godotengine/godot/issues/74300
+    /// </summary>
+    /// <param name="delta"></param>
+    public override void _PhysicsProcess(double delta)
+    {
+        drinkTopLimitCollision.Monitorable = false;
+        drinkTopLimitCollision.Monitorable = true;
+    }
+
+    private void DrinkTopLimitCollision_BodyEntered(Node3D body)
+    {
+        drink.Scale = new Vector3()
+        {
+            X = drink.Scale.X,
+            Y = 1,
+            Z = drink.Scale.Z
+        };
+
+        foam.Scale = new Vector3()
+        {
+            X = foam.Scale.X,
+            Y = 1,
+            Z = foam.Scale.Z
+        };
+
+        GD.Print("You Failed Minigame!");
+    }
+
     public override void _Process(double delta)
     {
-        GD.Print($"{drink.Scale.Y} {foam.Scale.Y}, {drink.Scale.Y + foam.Scale.Y}");
-        if (drink.Scale.Y + foam.Scale.Y > FailureHeightThreshold)
-        {
-            drink.Scale = new Vector3()
-            {
-                X = drink.Scale.X,
-                Y = 1,
-                Z = drink.Scale.Z
-            };
-
-            foam.Scale = new Vector3()
-            {
-                X = foam.Scale.X,
-                Y = 1,
-                Z = foam.Scale.Z
-            };
-
-            GD.Print("You Failed Minigame!");
-        }
-
 
         // Pours the drink and causes foam and drink to rise
         if (Input.IsActionPressed(ActionNames.Use) && isActive)
@@ -97,7 +109,7 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
 
             isFoamShrinking = false;
             foamRaisingTimerWaitTime = Mathf.Max(foamRaisingTimerWaitTime + (float)delta * 0.5f, MaxiumumFoamRaiseThreshold);
-
+            GD.Print(foamRaisingTimerWaitTime);
             return;
         }
 

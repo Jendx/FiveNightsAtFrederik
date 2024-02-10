@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://dlhwalq1atgek"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iud7g"]
-size = Vector3(0.316162, 0.325317, 0.264648)
+size = Vector3(0.316162, 0.274963, 0.264648)
 
 [node name="BaseMinigame" type="Node3D"]
 
