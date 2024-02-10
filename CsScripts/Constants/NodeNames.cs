@@ -52,4 +52,15 @@ public static class NodeNames
 
     // Basket
     public static readonly StringName BasketArea = new("BasketArea");
+
+    // Minigames
+    public static readonly StringName MinigameCamera = new("MinigameCamera");
+
+    // Soda
+    public static readonly StringName Mug = new("Mug");
+    public static readonly StringName Drink = new("Mug/Drink");
+    public static readonly StringName Foam = new("Mug/Drink/Foam");
+    public static readonly StringName FoamRaiseTimer = new("FoamRaiseTimer");
+    public static readonly StringName FoamShrinkingTimer = new("FoamShrinkingTimer");
+    public static readonly StringName DrinkTopLimitCollision = new("DrinkTopLimitCollision");
 }

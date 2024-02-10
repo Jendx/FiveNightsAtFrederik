@@ -46,8 +46,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	/// Determines if player is carrying something in front of him (Ingredient, Fuse...)
 	/// </summary>
 	public bool IsCarryingItem { get; set; }
-	public bool CanSprint { get; internal set; } = true;
 	public bool IsUsing { get; set; }
+	public bool IsPlayingMinigame { get; set; }
+	public bool CanSprint { get; internal set; } = true;
 	public float MovementSpeed { get; internal set; } = (float)PlayerSpeeds.Walk;
 
 	public float CurrentStamina
@@ -106,7 +107,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 			Input.MouseMode = Input.MouseMode == Input.MouseModeEnum.Captured ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
 		}
 
-		if (isInputDisabled)
+		if (isInputDisabled || IsPlayingMinigame)
 		{
 			return;
 		}
@@ -136,7 +137,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	public override void _Input(InputEvent @event)
 	{
-		if (isInputDisabled)
+		if (isInputDisabled || IsPlayingMinigame)
 		{
 			return;
 		}

@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3 uid="uid://by3qntk8txqdo"]
+
+[ext_resource type="PackedScene" uid="uid://dlhwalq1atgek" path="res://scenes/level/Minigames/BaseMinigame.tscn" id="1_fc2qd"]
+[ext_resource type="Script" path="res://scenes/level/Minigames/Soda/SodaMinigame.cs" id="2_a0e24"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r12y1"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.27451)
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_b23oh"]
+material = SubResource("StandardMaterial3D_r12y1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jyao6"]
+albedo_color = Color(1, 1, 0.403922, 0.172549)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vyhiq"]
+material = SubResource("StandardMaterial3D_jyao6")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_egrdt"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_djdtf"]
+material = SubResource("StandardMaterial3D_egrdt")
+
+[sub_resource type="BoxMesh" id="BoxMesh_v005a"]
+
+[node name="SodaMinigame" instance=ExtResource("1_fc2qd")]
+script = ExtResource("2_a0e24")
+
+[node name="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00012213, 0, 0)
+
+[node name="Mug" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(0.28879, 0, 0, 0, 0.28879, 0, 0, 0, 0.28879, 0, 0.14841, 0)
+mesh = SubResource("TubeTrailMesh_b23oh")
+
+[node name="Drink" type="MeshInstance3D" parent="Mug" index="0"]
+transform = Transform3D(0.699, 0, 0, 0, 0.001, 0, 0, 0, 0.699, 0, -0.4, 0)
+visible = false
+mesh = SubResource("BoxMesh_vyhiq")
+
+[node name="Foam" type="MeshInstance3D" parent="Mug/Drink" index="0"]
+transform = Transform3D(0.99, 0, 0, 0, 1, 0, 0, 0, 0.99, 0, 0, 0)
+mesh = SubResource("BoxMesh_djdtf")
+skeleton = NodePath("../..")
+
+[node name="FoamRaiseTimer" type="Timer" parent="." index="3"]
+wait_time = 4.0
+one_shot = true
+
+[node name="FoamShrinkingTimer" type="Timer" parent="." index="4"]
+one_shot = true
+
+[node name="DrinkTopLimitCollision" type="MeshInstance3D" parent="." index="5"]
+transform = Transform3D(0.236419, 0, 0, 0, 0.0100839, 0, 0, 0, 0.70481, 0, 0.29786, 0)
+mesh = SubResource("BoxMesh_v005a")

@@ -36,7 +36,6 @@ func _on_light_timer_timeout():
 			
 			#turn the light off
 			current_light.light_energy = 0.0
-			print(time_between_flashes)
 			
 			#Wait a sec to flash the light
 			await get_tree().create_timer(time_between_flashes).timeout
