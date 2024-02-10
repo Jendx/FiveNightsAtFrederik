@@ -250,6 +250,9 @@ public class PlayerController
         player.IsUsing = false;
     }
 
+    /// <summary>
+    /// Handles animations of held items. If they have any animations player should react to
+    /// </summary>
     internal void HandleHeldItemAnimations()
     {
         if (usableObject is IAnimated<PlayerAnimationStates?> animatableItem)

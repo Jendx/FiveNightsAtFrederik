@@ -133,10 +133,10 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 			PlayerController.StopUsing();
 		}
 
-        PlayerController.HandleHeldItemAnimations();
 
 		// Animation is handled at the end of the frame so animations with priority are used
 		PlayerController.UpdateHandAnimation();
+        PlayerController.HandleHeldItemAnimations();
 	
 		CalculateMovementSpeed();
 	}
