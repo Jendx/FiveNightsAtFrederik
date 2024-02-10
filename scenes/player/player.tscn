@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://bqmuhi78lc7mt"]
+[gd_scene load_steps=51 format=3 uid="uid://bqmuhi78lc7mt"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_khwmd"]
 [ext_resource type="PackedScene" uid="uid://vps54mweee7u" path="res://scenes/player/2D/Hud.tscn" id="2_xb5ik"]
@@ -15,9 +15,7 @@ volumetric_fog_enabled = true
 volumetric_fog_density = 0.2075
 volumetric_fog_albedo = Color(0.174028, 0.174028, 0.174028, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_5inq6"]
-
-[sub_resource type="Animation" id="Animation_k7mmg"]
+[sub_resource type="Animation" id="Animation_jlhag"]
 resource_name = "grab"
 length = 0.75
 tracks/0/type = "position_3d"
@@ -371,7 +369,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284093, 0.67727, -0.139127, 0.721902)
 
-[sub_resource type="Animation" id="Animation_757w8"]
+[sub_resource type="Animation" id="Animation_tnrl6"]
 resource_name = "idle"
 length = 1.125
 tracks/0/type = "rotation_3d"
@@ -725,7 +723,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284093, 0.67727, -0.139127, 0.721902)
 
-[sub_resource type="Animation" id="Animation_e51pw"]
+[sub_resource type="Animation" id="Animation_oepou"]
 resource_name = "jumpscared"
 length = 1.04167
 tracks/0/type = "position_3d"
@@ -1079,7 +1077,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284093, 0.67727, -0.139127, 0.721902)
 
-[sub_resource type="Animation" id="Animation_x3sp4"]
+[sub_resource type="Animation" id="Animation_uids3"]
 resource_name = "press"
 length = 0.5
 tracks/0/type = "position_3d"
@@ -1433,7 +1431,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0330711, 0.0124698, 0.0250202, 0.999062)
 
-[sub_resource type="Animation" id="Animation_osh14"]
+[sub_resource type="Animation" id="Animation_li66f"]
 resource_name = "reload"
 length = 3.20833
 tracks/0/type = "position_3d"
@@ -1787,7 +1785,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0651181, -0.687803, 0.214287, 0.690484)
 
-[sub_resource type="Animation" id="Animation_y8004"]
+[sub_resource type="Animation" id="Animation_8r0rf"]
 resource_name = "shoot"
 length = 0.375
 tracks/0/type = "position_3d"
@@ -2141,7 +2139,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0651181, -0.687803, 0.214287, 0.690484)
 
-[sub_resource type="Animation" id="Animation_r2r77"]
+[sub_resource type="Animation" id="Animation_47xdc"]
 resource_name = "idlegun-loop"
 loop_mode = 1
 tracks/0/type = "position_3d"
@@ -2495,7 +2493,7 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0651181, -0.687803, 0.214287, 0.690484)
 
-[sub_resource type="Animation" id="Animation_uq8rq"]
+[sub_resource type="Animation" id="Animation_y28jc"]
 resource_name = "running-loop"
 loop_mode = 1
 tracks/0/type = "position_3d"
@@ -2849,16 +2847,16 @@ tracks/49/interp = 1
 tracks/49/loop_wrap = true
 tracks/49/keys = PackedFloat32Array(0, 1, -0.0284093, 0.67727, -0.139127, 0.721902)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_01iar"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5kxp1"]
 _data = {
-"grab": SubResource("Animation_k7mmg"),
-"idle": SubResource("Animation_757w8"),
-"idlegun": SubResource("Animation_r2r77"),
-"jumpscared": SubResource("Animation_e51pw"),
-"press": SubResource("Animation_x3sp4"),
-"reload": SubResource("Animation_osh14"),
-"running": SubResource("Animation_uq8rq"),
-"shoot": SubResource("Animation_y8004")
+"grab": SubResource("Animation_jlhag"),
+"idle": SubResource("Animation_tnrl6"),
+"idlegun": SubResource("Animation_47xdc"),
+"jumpscared": SubResource("Animation_oepou"),
+"press": SubResource("Animation_uids3"),
+"reload": SubResource("Animation_li66f"),
+"running": SubResource("Animation_y28jc"),
+"shoot": SubResource("Animation_8r0rf")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fyjww"]
@@ -3047,24 +3045,24 @@ advance_mode = 2
 advance_condition = &"IsIdleArmed"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_nt53e"]
-states/End/position = Vector2(909, 50)
+states/End/position = Vector2(990, 81)
 states/Start/position = Vector2(98, 65)
 states/grab/node = SubResource("AnimationNodeAnimation_fyjww")
 states/grab/position = Vector2(311, 261)
 states/idle/node = SubResource("AnimationNodeAnimation_6qjif")
 states/idle/position = Vector2(286, 65)
 states/idlegun/node = SubResource("AnimationNodeAnimation_r1n15")
-states/idlegun/position = Vector2(465, 91)
+states/idlegun/position = Vector2(773, 261)
 states/jumpscared/node = SubResource("AnimationNodeAnimation_gq2y7")
-states/jumpscared/position = Vector2(672, 0)
+states/jumpscared/position = Vector2(733, 65)
 states/press/node = SubResource("AnimationNodeAnimation_w65uj")
-states/press/position = Vector2(442, -101)
+states/press/position = Vector2(513, -83)
 states/reload/node = SubResource("AnimationNodeAnimation_2wngv")
-states/reload/position = Vector2(747, 91)
+states/reload/position = Vector2(990, 388)
 states/running/node = SubResource("AnimationNodeAnimation_tocpn")
-states/running/position = Vector2(645, 261)
+states/running/position = Vector2(513, 388)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_46q4j"), "idle", "running", SubResource("AnimationNodeStateMachineTransition_0k05m"), "running", "idle", SubResource("AnimationNodeStateMachineTransition_w44ke"), "idle", "grab", SubResource("AnimationNodeStateMachineTransition_q57fk"), "idle", "jumpscared", SubResource("AnimationNodeStateMachineTransition_4iw7h"), "idle", "press", SubResource("AnimationNodeStateMachineTransition_bkr4e"), "press", "idle", SubResource("AnimationNodeStateMachineTransition_m48jl"), "grab", "idle", SubResource("AnimationNodeStateMachineTransition_xupyi"), "jumpscared", "End", SubResource("AnimationNodeStateMachineTransition_ijftk"), "press", "running", SubResource("AnimationNodeStateMachineTransition_6kul8"), "running", "press", SubResource("AnimationNodeStateMachineTransition_ga5f5"), "grab", "running", SubResource("AnimationNodeStateMachineTransition_qv1m7"), "running", "grab", SubResource("AnimationNodeStateMachineTransition_p5urn"), "grab", "jumpscared", SubResource("AnimationNodeStateMachineTransition_81nmr"), "running", "jumpscared", SubResource("AnimationNodeStateMachineTransition_y633g"), "press", "jumpscared", SubResource("AnimationNodeStateMachineTransition_ctvqu"), "press", "idlegun", SubResource("AnimationNodeStateMachineTransition_gsyaf"), "idlegun", "press", SubResource("AnimationNodeStateMachineTransition_6crky"), "idlegun", "idle", SubResource("AnimationNodeStateMachineTransition_noqbx"), "idle", "idlegun", SubResource("AnimationNodeStateMachineTransition_e7agc"), "idlegun", "running", SubResource("AnimationNodeStateMachineTransition_000gs"), "running", "idlegun", SubResource("AnimationNodeStateMachineTransition_5pf1r"), "idlegun", "jumpscared", SubResource("AnimationNodeStateMachineTransition_ke84m"), "idlegun", "grab", SubResource("AnimationNodeStateMachineTransition_lyh4c"), "grab", "idlegun", SubResource("AnimationNodeStateMachineTransition_oym6v"), "idlegun", "reload", SubResource("AnimationNodeStateMachineTransition_np643"), "reload", "idlegun", SubResource("AnimationNodeStateMachineTransition_pnret")]
-graph_offset = Vector2(31, 26.0495)
+graph_offset = Vector2(166, 10.0495)
 
 [node name="Player" type="CharacterBody3D"]
 disable_mode = 2
@@ -3104,14 +3102,6 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CarryableItemPositionMarker" type="Marker3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.20552)
-
-[node name="EquipableItemPosition" type="Marker3D" parent="Camera"]
-transform = Transform3D(0.672465, -0.148401, 0.725098, 0.131826, 0.988043, 0.0799596, -0.728294, 0.0418166, 0.683987, 0.263662, -0.28643, -0.591207)
-
-[node name="DebugMeshInstance" type="MeshInstance3D" parent="Camera/EquipableItemPosition"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-visible = false
-mesh = SubResource("BoxMesh_5inq6")
 
 [node name="hands" parent="Camera" instance=ExtResource("3_fin5y")]
 transform = Transform3D(-0.1, 0, -8.74228e-09, 0, 0.1, 0, 8.74228e-09, 0, -0.1, 0, -0.739219, 0.13438)
@@ -3197,13 +3187,13 @@ transform = Transform3D(-0.961636, -0.211731, 0.174431, 0.268, -0.860876, 0.4325
 bone_name = "hand.R"
 bone_idx = 27
 
-[node name="GunPosition" type="Marker3D" parent="Camera/hands/Hands_rig/Skeleton3D/GunBone"]
+[node name="EquipableItemPosition" type="Marker3D" parent="Camera/hands/Hands_rig/Skeleton3D/GunBone"]
 transform = Transform3D(0.954221, 0.234, 0.186299, 0.156638, 0.139672, -0.97773, -0.254811, 0.962152, 0.0966247, -0.220041, 1.20409, 0.215228)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Camera/hands")
 libraries = {
-"": SubResource("AnimationLibrary_01iar")
+"": SubResource("AnimationLibrary_5kxp1")
 }
 tree_root = SubResource("AnimationNodeStateMachine_nt53e")
 anim_player = NodePath("../Camera/hands/AnimationPlayer")

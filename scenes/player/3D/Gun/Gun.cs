@@ -1,6 +1,5 @@
 using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
-using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 
-public partial class Gun : BaseHoldableItem
+public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 {
 	[Export]
 	private const float reloadTime = 1.2f;
@@ -35,8 +34,10 @@ public partial class Gun : BaseHoldableItem
 	private Timer automaticReloadTimer;
 	private bool isOnFireCooldown;
 	private bool isLoaded = true;
-	
-	public override void _Ready()
+    private bool isReloading; 
+
+
+    public override void _Ready()
 	{
 		base._Ready();
 		audioPlayer = this.TryGetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString(), nameof(audioPlayer));
@@ -55,7 +56,7 @@ public partial class Gun : BaseHoldableItem
 
 	public override void _Input(InputEvent @event)
 	{
-		if (player.IsReloading)
+		if (isReloading)
 		{
 			return;
 		}
@@ -69,16 +70,15 @@ public partial class Gun : BaseHoldableItem
 	/// </summary>
 	protected override void Drop()
 	{
-		if (!(IsHeld && Input.IsActionJustPressed(ActionNames.Drop)) || player.IsReloading)
+		if (!(IsHeld && Input.IsActionJustPressed(ActionNames.Drop)) || isReloading)
 		{
 			return;
 		}
-		player.IsHoldingGun = false;
+
 		// Stop automaticReloadTimer so when player drops the gun, it is not reloaded
 		automaticReloadTimer.Stop();
 
 		Reparent(originalParent);
-		player.IsHoldingItem = false;
 		IsHeld = false;
 		Freeze = false;
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, true);
@@ -115,26 +115,41 @@ public partial class Gun : BaseHoldableItem
 
 	private async Task Reload()
 	{
-		// TODO: Add & Play reload Animation
-		player.IsReloading = true;
-		audioPlayer.Stream = gunSounds[GunSounds.Reload];
-		audioPlayer.Play(); 	
+        // TODO: Add & Play reload Animation
+        isReloading = true;
+		audioPlayer.PlayStream(gunSounds[GunSounds.Reload]); 	
 		var timer = GetTree().CreateTimer(reloadTime);
 		await ToSignal(timer, "timeout");
-		player.IsReloading = false;
+
+        isReloading = false;
 		isLoaded = true;
 		return;
 	}
+
 	public override void OnBeginUse()
 	{
-		player.IsHoldingGun = true;
 		Freeze = true;
-		Reparent(player.GunPosition);
+		Reparent(player.EquipableItemPositionMarker);
 
-		GlobalPosition = player.GunPosition.GlobalPosition;
+		GlobalPosition = player.EquipableItemPositionMarker.GlobalPosition;
 		Rotation = Vector3.Zero;
 		player.IsHoldingItem = true;
 		IsHeld = true;
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
 	}
+
+    public PlayerAnimationStates? HandleAnimations()
+    {
+        if (isReloading)
+        {
+            return PlayerAnimationStates.Reload;
+        }
+
+        if (IsHeld)
+        {
+            return PlayerAnimationStates.IdleArmed;
+        }
+
+        return null;
+    }
 }

@@ -5,8 +5,6 @@ using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
-using System.Linq;
-using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.BaseNodes;
 
 namespace FiveNightsAtFrederik.CsScripts.Controllers;
@@ -41,13 +39,7 @@ public class PlayerController
         // if player is not moving set next animation to Idle
         if (inputDir == Vector2.Zero)
         {
-            if(!player.IsHoldingGun)
-            {
-                nextAnimation = PlayerAnimationStates.Idle;
-            }
-       
-
-
+            nextAnimation = PlayerAnimationStates.Idle;
         }
 
         if (direction != Vector3.Zero)
@@ -200,15 +192,8 @@ public class PlayerController
 
         const float rechargeRate = 0.2f;
         player.CurrentStamina += player.CurrentStamina < (float)SprintThresholds.Low ? rechargeRate : rechargeRate + 0.1f;
-        if(!player.IsHoldingGun)
-        { 
-            nextAnimation = PlayerAnimationStates.Idle; 
-        }
-        else
-        {
-            nextAnimation = PlayerAnimationStates.IdleArmed;
-        }
-       
+
+        nextAnimation = PlayerAnimationStates.Idle; 
     }
 
     /// <summary>
@@ -263,5 +248,18 @@ public class PlayerController
     public void StopUsing() {
         usableObject?.OnEndUse();
         player.IsUsing = false;
+    }
+
+    internal void HandleHeldItemAnimations()
+    {
+        if (usableObject is IAnimated<PlayerAnimationStates?> animatableItem)
+        {
+            var nextAnimatableObjectAnimation = animatableItem.HandleAnimations();
+
+            if (nextAnimatableObjectAnimation is not null)
+            {
+                nextAnimation = nextAnimatableObjectAnimation.Value;
+            }
+        }
     }
 }
