@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8tyoeuq2v1cs"]
+
+[ext_resource type="Script" path="res://scenes/player/3D/CarryableItem/CarryableItem.cs" id="1_svj1t"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tl28x"]
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_lp3vd"]
+material = SubResource("StandardMaterial3D_tl28x")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m3c4b"]
+size = Vector3(0.287079, 0.289917, 0.298157)
+
+[node name="CarryableItemSoda" type="RigidBody3D" node_paths=PackedStringArray("CollisionShape", "MeshInstance")]
+script = ExtResource("1_svj1t")
+CollisionShape = NodePath("CollisionShape3D")
+MeshInstance = NodePath("Mug")
+
+[node name="Mug" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.28879, 0, 0, 0, 0.28879, 0, 0, 0, 0.28879, 0, 0.14841, 0)
+mesh = SubResource("TubeTrailMesh_lp3vd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000442505, 0.14545, 0.00228882)
+shape = SubResource("BoxShape3D_m3c4b")

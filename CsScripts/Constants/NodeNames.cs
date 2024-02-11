@@ -62,5 +62,7 @@ public static class NodeNames
     public static readonly StringName Foam = new("Mug/Drink/Foam");
     public static readonly StringName FoamRaiseTimer = new("FoamRaiseTimer");
     public static readonly StringName FoamShrinkingTimer = new("FoamShrinkingTimer");
-    public static readonly StringName DrinkTopLimitCollision = new("DrinkTopLimitCollision");
+    public static readonly StringName DrinkTopLimitArea = new("DrinkTopLimitArea");
+    public static readonly StringName DrinkWinLimitArea = new("DrinkWinLimitArea");
+    public static readonly StringName DrinkSpawner = new("DrinkSpawner");
 }
