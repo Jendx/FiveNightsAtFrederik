@@ -8,25 +8,61 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 /// </summary>
 public partial class PickupSpawner : Node3D
 {
+    public delegate void ObjectLeftSpawnArear();
+    public event ObjectLeftSpawnArear? OnObjectLeftSpawnArea;
+
+    /// <summary>
+    /// Determines if spawner should spawn item, when game starts
+    /// </summary>
     [Export]
-    private PackedScene carryableItemTemplateScene;
+    private bool spawnOnReady = true;
+
+    [Export]
+    private bool autoRespawn = true;
+
+    [Export]
+    private PackedScene? carryableItemTemplateScene;
     
-    private CarryableItem currentItem;
+    private CarryableItem? currentItem;
+    private bool isObjectAwayFromSpawn;
 
     public override void _Ready()
     {
-        currentItem = carryableItemTemplateScene.Instantiate() as CarryableItem;
+        carryableItemTemplateScene = carryableItemTemplateScene ?? throw new System.Exception($"Node: {Name} does not have {nameof(carryableItemTemplateScene)} set!");
+        if (!spawnOnReady)
+        {
+            return;
+        }
+
+        currentItem = carryableItemTemplateScene?.Instantiate() as CarryableItem;
         AddChild(currentItem);
     }
 
     public override void _Process(double delta)
     {
-        if (GlobalPosition.DistanceTo(currentItem.GlobalPosition) > 1f)
+        isObjectAwayFromSpawn = GlobalPosition.DistanceTo(currentItem?.GlobalPosition ?? GlobalPosition * 3) > 1f;
+
+        if (isObjectAwayFromSpawn && currentItem is not null)
         {
-            GD.Print("Created new Item");
-            currentItem = carryableItemTemplateScene.Instantiate() as CarryableItem;
+            currentItem = null;
+            OnObjectLeftSpawnArea?.Invoke();
+        }
+
+        if (autoRespawn)
+        {
+            TrySpawnItem();
+        }
+    }
+
+    public CarryableItem? TrySpawnItem()
+    {
+        if (isObjectAwayFromSpawn)
+        {
+            currentItem = carryableItemTemplateScene?.Instantiate() as CarryableItem;
 
             AddChild(currentItem);
         }
+
+        return currentItem;
     }
 }

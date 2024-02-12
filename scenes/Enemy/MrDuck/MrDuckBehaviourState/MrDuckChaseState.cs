@@ -30,7 +30,6 @@ public class MrDuckChaseState : MrDuckBaseState
     public override void HandleBehaviour()
     {
         mrDuck.NavigationAgent.TargetDesiredDistance = 2.5f;
-        GD.Print(mrDuck.NavigationAgent.DistanceToTarget());
 
         // If player is in sight the duck will follow the player
         // If not the duck will go to last know player position
