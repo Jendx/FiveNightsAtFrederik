@@ -4,7 +4,6 @@ using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 using Godot;
-using System;
 
 namespace FiveNightsAtFrederik.scenes.level;
 

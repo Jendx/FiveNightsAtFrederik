@@ -66,4 +66,9 @@ public static class NodeNames
     public static readonly StringName DrinkTopLimitArea = new("DrinkTopLimitArea");
     public static readonly StringName DrinkWinLimitArea = new("DrinkWinLimitArea");
     public static readonly StringName DrinkSpawner = new("DrinkSpawner");
+
+    // Pizza
+    public static readonly StringName Pizza = new("Pizza");
+    public static readonly StringName PizzaSpawner = new("PizzaSpawner");
+
 }
