@@ -24,7 +24,7 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
     /// <summary>
     /// Determines how long will the foam rise. Value is derived from how long does player keep pouring. (Max 4)
     /// </summary>
-    private float foamRaisingTimerWaitTime = 0f;
+    private float foamRaisingTimerWaitTime;
     private bool isFoamShrinking;
     private bool isInWinArea;
 
@@ -37,7 +37,6 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
     /// <summary>
     /// How long must player keep filling the mug, before the foam will raise for some time
     /// </summary>
-    private const float MinimumFoamRaiseThreshold = 0.1f;
     private const float MinimumShrinkFoamScale = 1.025f;
     private const int MaximumFoamRaiseThreshold = 2;
 
@@ -184,7 +183,6 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
 
         GD.Print("You Failed Minigame!");
     }
-
 
     /// <summary>
     /// Resets the minigame into its original state
