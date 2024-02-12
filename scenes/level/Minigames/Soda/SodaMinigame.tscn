@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://by3qntk8txqdo"]
+[gd_scene load_steps=19 format=3 uid="uid://by3qntk8txqdo"]
 
 [ext_resource type="PackedScene" uid="uid://dlhwalq1atgek" path="res://scenes/level/Minigames/BaseMinigame.tscn" id="1_fc2qd"]
-[ext_resource type="Script" path="res://scenes/level/Minigames/Soda/SodaMinigame.cs" id="2_a0e24"]
-[ext_resource type="PackedScene" uid="uid://bltp4cl2i52i7" path="res://scenes/player/3D/CarryableItem/Soda/CarryableItem_Soda.tscn" id="3_iktne"]
+[ext_resource type="Script" path="res://scenes/level/Minigames/Soda/SodaMinigame.cs" id="2_cjuce"]
+[ext_resource type="PackedScene" uid="uid://c8tyoeuq2v1cs" path="res://scenes/player/3D/CarryableItem/Soda/CarryableItem_Soda.tscn" id="3_faa7p"]
+[ext_resource type="PackedScene" uid="uid://kop7avw15nny" path="res://scenes/level/props/PickupSpawner/PickupSpawner.tscn" id="3_g16r6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qljyg"]
 transparency = 1
@@ -84,20 +85,14 @@ emission_enabled = true
 emission = Color(0, 0.92549, 0, 1)
 
 [node name="SodaMinigame" instance=ExtResource("1_fc2qd")]
-script = ExtResource("2_a0e24")
-
-[node name="StaticBody3D" parent="." index="1"]
-visible = false
-
-[node name="CollisionShape3D" parent="StaticBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00012213, -0.0251769, 0)
+script = ExtResource("2_cjuce")
 
 [node name="Mug" type="MeshInstance3D" parent="." index="2"]
 transform = Transform3D(0.28879, 0, 0, 0, 0.28879, 0, 0, 0, 0.28879, 0, 0.14841, 0)
 mesh = SubResource("TubeTrailMesh_b23oh")
 
 [node name="Drink" type="MeshInstance3D" parent="Mug" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453563, 0)
+transform = Transform3D(0.901164, 0, 0, 0, 1, 0, 0, 0, 0.901164, 0, -0.453563, 0)
 mesh = SubResource("ArrayMesh_5p6w6")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_y2qbp")
@@ -158,4 +153,7 @@ one_shot = true
 [node name="FoamShrinkingTimer" type="Timer" parent="." index="6"]
 one_shot = true
 
-[node name="PickupSpawner" parent="." index="7" instance=ExtResource("3_iktne")]
+[node name="DrinkSpawner" parent="." index="7" instance=ExtResource("3_g16r6")]
+spawnOnReady = false
+autoRespawn = false
+carryableItemTemplateScene = ExtResource("3_faa7p")

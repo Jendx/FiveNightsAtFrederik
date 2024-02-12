@@ -39,13 +39,7 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
     /// </summary>
     private const float MinimumFoamRaiseThreshold = 0.1f;
     private const float MinimumShrinkFoamScale = 1.025f;
-    private const int MaxiumumFoamRaiseThreshold = 2;
-
-    /// <summary>
-    /// Defines maximum amount of drink poured
-    /// </summary>
-    private const int MaxiumumDrinkLevelThreshold = 1060;
-    private const float FailureHeightThreshold = MaxiumumDrinkLevelThreshold + MinimumShrinkFoamScale;
+    private const int MaximumFoamRaiseThreshold = 2;
 
     public override void _Ready()
     {
@@ -57,11 +51,22 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
         foamRaiseTimer = this.TryGetNode<Timer>(NodeNames.FoamRaiseTimer, nameof(foamRaiseTimer));
         foamShrinkingTimer = this.TryGetNode<Timer>(NodeNames.FoamShrinkingTimer, nameof(foamShrinkingTimer));
         drinkSpawner = this.TryGetNode<PickupSpawner>(NodeNames.DrinkSpawner, nameof(drinkSpawner));
-        
-        foamRaiseTimer.Timeout += () => isFoamShrinking = true;
+
+        foamRaiseTimer.Timeout += () =>
+        {
+            isFoamShrinking = true;
+            foamRaisingTimerWaitTime = 0;
+        };
+
         foamShrinkingTimer.Timeout += () => isFoamShrinking = false;
         drinkTopLimitArea.BodyEntered += DrinkTopLimitCollision_BodyEntered;
         drinkWinLimitArea.BodyEntered += (_) => isInWinArea = true;
+        drinkSpawner.OnObjectLeftSpawnArea += () =>
+        {
+            mug.Visible = true;
+            interactionCollision.Disabled = false;
+        };
+
         base._Ready();
     }
 
@@ -69,8 +74,6 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
     {
         if (Input.IsActionPressed(ActionNames.DEBUG_TOGGLEMOUSE) && isActive)
         {
-            drinkWinLimitArea.Visible = false;
-            drinkTopLimitArea.Visible = false;
             LeaveMinigame();
         }
     }
@@ -89,9 +92,37 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
         drinkWinLimitArea.Monitorable = true;
     }
 
+    /// <summary>
+    /// Checks if all conditions for win is met & creates new object for player to deliver
+    /// </summary>
+    protected override void TryWin()
+    {
+        // If the foamRisingTimerWaitTime is zero & foam is not shrinking then the drink's volume is not changing && is in Win Area => Can be "submitted" 
+        var isDrinkLevelChanging = foamRaisingTimerWaitTime > 0 || isFoamShrinking;
+        if (!isDrinkLevelChanging && isInWinArea)
+        {
+            mug.Visible = false;
+            interactionCollision.Disabled = true;
+
+            drinkSpawner.TrySpawnItem();
+            ResetMinigame();
+            LeaveMinigame();
+        }
+    }
+
+    /// <summary>
+    /// Hides drink's win/lose areas
+    /// </summary>
+    protected override void LeaveMinigame()
+    {
+        drinkWinLimitArea.Visible = false;
+        drinkTopLimitArea.Visible = false;
+
+        base.LeaveMinigame();
+    }
+
     public override void _Process(double delta)
     {
-
         // Pours the drink and causes foam and drink to rise
         if (Input.IsActionPressed(ActionNames.Use) && isActive)
         {
@@ -103,16 +134,14 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
             drinkTopLimitArea.Visible = true;
 
             isFoamShrinking = false;
-            foamRaisingTimerWaitTime = Mathf.Min(foamRaisingTimerWaitTime + (float)delta * 0.5f, MaxiumumFoamRaiseThreshold);
-            GD.Print(foamRaisingTimerWaitTime);
+            foamRaisingTimerWaitTime = Mathf.Min(foamRaisingTimerWaitTime + (float)delta, MaximumFoamRaiseThreshold);
             return;
         }
 
         // When the player stops pouring the drink, we will make the foam raise faster for foamRaisingTimerWaitTime
-        if (Input.IsActionJustReleased(ActionNames.Use) && foamRaisingTimerWaitTime > MinimumFoamRaiseThreshold && isActive)
+        if (Input.IsActionJustReleased(ActionNames.Use) && isActive)
         {
             foamRaiseTimer.Start(foamRaisingTimerWaitTime);
-            foamRaisingTimerWaitTime = 0;
 
             return;
         }
@@ -151,7 +180,23 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
 
     private void DrinkTopLimitCollision_BodyEntered(Node3D body)
     {
+        ResetMinigame();
+
+        GD.Print("You Failed Minigame!");
+    }
+
+
+    /// <summary>
+    /// Resets the minigame into its original state
+    /// </summary>
+    protected override void ResetMinigame()
+    {
         isInWinArea = false;
+        drink.Visible = false;
+        foam.Visible = false;
+        foamRaisingTimerWaitTime = 0;
+        foamRaiseTimer.Stop();
+
         drink.Scale = new Vector3()
         {
             X = drink.Scale.X,
@@ -165,21 +210,5 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
             Y = 1,
             Z = foam.Scale.Z
         };
-
-        GD.Print("You Failed Minigame!");
-    }
-
-    /// <summary>
-    /// Checks if all conditions for win is met & creates new object for player to deliver
-    /// </summary>
-    private void TryWin()
-    {
-        // If the foamRisingTimerWaitTime is zero & foam is not shrinking then the drink's volume is not changing && is in Win Area => Can be "submitted" 
-        var isDrinkLevelChanging = foamRaisingTimerWaitTime > 0 || isFoamShrinking;
-        if (!isDrinkLevelChanging && isInWinArea)
-        {
-            drinkSpawner.SpawnItem();
-            Visible = false;
-        }
     }
 }

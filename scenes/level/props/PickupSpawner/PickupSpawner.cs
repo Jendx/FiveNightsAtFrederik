@@ -1,6 +1,5 @@
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
-using System;
 
 namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 
@@ -10,48 +9,60 @@ namespace FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 public partial class PickupSpawner : Node3D
 {
     public delegate void ObjectLeftSpawnArear();
-    public ObjectLeftSpawnArear OnObjectLeftSpawnArea;
+    public event ObjectLeftSpawnArear? OnObjectLeftSpawnArea;
 
+    /// <summary>
+    /// Determines if spawner should spawn item, when game starts
+    /// </summary>
     [Export]
-    private bool initSpawn = true;
+    private bool spawnOnReady = true;
 
     [Export]
     private bool autoRespawn = true;
 
     [Export]
-    private PackedScene carryableItemTemplateScene;
+    private PackedScene? carryableItemTemplateScene;
     
     private CarryableItem? currentItem;
     private bool isObjectAwayFromSpawn;
 
     public override void _Ready()
     {
-        if (!initSpawn)
+        carryableItemTemplateScene = carryableItemTemplateScene ?? throw new System.Exception($"Node: {Name} does not have {nameof(carryableItemTemplateScene)} set!");
+        if (!spawnOnReady)
         {
             return;
         }
 
-        currentItem = carryableItemTemplateScene.Instantiate() as CarryableItem;
+        currentItem = carryableItemTemplateScene?.Instantiate() as CarryableItem;
         AddChild(currentItem);
     }
 
     public override void _Process(double delta)
     {
-        isObjectAwayFromSpawn = GlobalPosition.DistanceTo(currentItem?.GlobalPosition) > 1f;
+        isObjectAwayFromSpawn = GlobalPosition.DistanceTo(currentItem?.GlobalPosition ?? GlobalPosition * 3) > 1f;
+
+        if (isObjectAwayFromSpawn && currentItem is not null)
+        {
+            currentItem = null;
+            OnObjectLeftSpawnArea?.Invoke();
+        }
+
         if (autoRespawn)
         {
-            SpawnItem();
+            TrySpawnItem();
         }
     }
 
-    public void SpawnItem()
+    public CarryableItem? TrySpawnItem()
     {
         if (isObjectAwayFromSpawn)
         {
-            GD.Print("Created new Item");
-            currentItem = carryableItemTemplateScene.Instantiate() as CarryableItem;
+            currentItem = carryableItemTemplateScene?.Instantiate() as CarryableItem;
 
             AddChild(currentItem);
         }
+
+        return currentItem;
     }
 }

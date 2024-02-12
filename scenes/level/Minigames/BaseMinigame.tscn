@@ -9,9 +9,9 @@ size = Vector3(0.316162, 0.274963, 0.264648)
 transform = Transform3D(-1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, -1, 0, 0.172423, -0.634186)
 cull_mask = 1048573
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="MinigameInteractionBody" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16397, 0)
 collision_layer = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="MinigameInteractionCollision" type="CollisionShape3D" parent="MinigameInteractionBody"]
 shape = SubResource("BoxShape3D_iud7g")

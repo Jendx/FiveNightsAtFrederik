@@ -216,7 +216,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.87719, 0.571123, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19979, 0.344787, 0.627099)
 
 [node name="SodaMinigame" parent="." instance=ExtResource("16_wgp4f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.2545, 0.857823, -2.61053)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 27.4319, 0.871287, 11.5546)
 
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]

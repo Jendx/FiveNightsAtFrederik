@@ -55,6 +55,7 @@ public static class NodeNames
 
     // Minigames
     public static readonly StringName MinigameCamera = new("MinigameCamera");
+    public static readonly StringName MinigameInteractionCollision = new("MinigameInteractionBody/MinigameInteractionCollision");
 
     // Soda
     public static readonly StringName Mug = new("Mug");
