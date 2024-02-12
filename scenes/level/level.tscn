@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
 [ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_qsgvn"]
 [ext_resource type="PackedScene" uid="uid://dca4iajlg18cr" path="res://scenes/level/props/Camera_System/2D/Camera_switch_buttons.tscn" id="7_j0von"]
-[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="7_tqghg"]
+[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/3D/security_cam.glb" id="7_tqghg"]
 [ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/MrDuck/MrDuck.tscn" id="9_jp5rx"]
 [ext_resource type="PackedScene" uid="uid://bu6mr7xhtuulk" path="res://scenes/Enemy/AmericanoBug/AmericanBug.tscn" id="10_0u43u"]
 [ext_resource type="PackedScene" uid="uid://djyuwual7g6b4" path="res://scenes/player/3D/Gun/Gun.tscn" id="11_jipue"]
@@ -218,5 +218,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19979, 0.344787, 0.627099)
 [node name="SodaMinigame" parent="." instance=ExtResource("16_wgp4f")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 27.4319, 0.871287, 11.5546)
 
-[connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]
