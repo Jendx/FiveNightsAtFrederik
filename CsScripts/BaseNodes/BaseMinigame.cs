@@ -9,9 +9,9 @@ namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 public abstract partial class BaseMinigame : Node3D
 {
     protected bool isActive = false;
-    protected Player player;
-    protected Camera3D minigameCamera;
-    protected CollisionShape3D interactionCollision;
+    protected Player? player;
+    protected Camera3D? minigameCamera;
+    protected CollisionShape3D? interactionCollision;
 
     protected BaseMinigame()
     {
@@ -39,7 +39,7 @@ public abstract partial class BaseMinigame : Node3D
     protected abstract void ResetMinigame();
     protected abstract void TryWin();
 
-    public void OnBeginUse()
+    public virtual void OnBeginUse()
     {
         isActive = true;
         player.IsPlayingMinigame = true;
@@ -48,7 +48,7 @@ public abstract partial class BaseMinigame : Node3D
         player.Camera.Current = false;
     }
 
-    public void OnEndUse()
+    public virtual void OnEndUse()
     {
     }
 }

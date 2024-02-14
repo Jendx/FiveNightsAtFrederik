@@ -15,16 +15,16 @@ public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
     public bool IsInteractionUIDisplayed { get; set; } = true;
 
     [Export]
-    public CollisionShape3D CollisionShape { get; set; }
+    public CollisionShape3D? CollisionShape { get; set; }
 
     [Export]
-    public MeshInstance3D MeshInstance { get; set; }
+    public MeshInstance3D? MeshInstance { get; set; }
 
+    private Player? player;
+    protected Node? originalParent;
     private Vector3 direction;
-    private Player player;
     private const float Speed = 0.001f;
     private const float MaxDistance = 1.5f;
-    protected Node originalParent;
 
     public override void _Ready()
     {

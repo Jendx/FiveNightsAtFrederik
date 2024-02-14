@@ -7,12 +7,12 @@ using Godot;
 
 namespace FiveNightsAtFrederik.scenes.level;
 
-public partial class CookingPizza : BaseMinigame, IPlayerUsable
+public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
 {
     public bool IsInteractionUIDisplayed { get; set; } = true;
 
-    private MeshInstance3D pizza;
-    private PickupSpawner pizzaSpawner;
+    private MeshInstance3D? dough;
+    private PickupSpawner? pizzaSpawner;
 
     /// <summary>
     /// Determines how long will the foam rise. Value is derived from how long does player keep pouring. (Max 4)
@@ -23,7 +23,7 @@ public partial class CookingPizza : BaseMinigame, IPlayerUsable
 
     public override void _Ready()
     {
-        pizza = this.TryGetNode<MeshInstance3D>(NodeNames.Pizza, nameof(pizza));
+        dough = this.TryGetNode<MeshInstance3D>(NodeNames.Dough, nameof(dough));
         pizzaSpawner = this.TryGetNode<PickupSpawner>(NodeNames.PizzaSpawner, nameof(pizzaSpawner));
 
         base._Ready();
@@ -37,19 +37,40 @@ public partial class CookingPizza : BaseMinigame, IPlayerUsable
         }
     }
 
-    protected override void TryWin()
+    /// <summary>
+    /// Show Mouse, when player enters
+    /// </summary>
+    public override void OnBeginUse()
     {
-
+        Input.MouseMode = Input.MouseModeEnum.Confined;
+        base.OnBeginUse();
     }
 
+    /// <summary>
+    /// Hides mouse, when player is leaving minigame
+    /// </summary>
     protected override void LeaveMinigame()
+    {
+        Input.MouseMode = Input.MouseModeEnum.Captured;
+        base.LeaveMinigame();
+    }
+
+    protected override void TryWin()
     {
 
     }
 
     public override void _Process(double delta)
     {
-        
+        if (!isActive)
+        {
+            return;
+        }
+
+        AddChild(new MeshInstance3D()
+        {
+            Mesh = new CylinderMesh() { }
+        });
     }
 
     /// <summary>

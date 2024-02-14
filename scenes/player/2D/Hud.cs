@@ -10,10 +10,10 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 
 public partial class Hud : Control
 {
-	private TextureRect crosshair;
-	private ProgressBar staminaBar;
-    private Player player;
-    private StyleBoxFlat style;
+	private TextureRect? crosshair;
+	private ProgressBar? staminaBar;
+    private Player? player;
+    private StyleBoxFlat? style;
 
     [Export]
     [ExportGroup("Dictionary<HudCrosshairStates, AudioStreamMp3> EnumValues: 0:Point, 1:Use, 2:Aim")]

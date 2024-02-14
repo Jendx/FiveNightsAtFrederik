@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=29 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]
@@ -14,8 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://kop7avw15nny" path="res://scenes/level/props/PickupSpawner/PickupSpawner.tscn" id="12_ibpqg"]
 [ext_resource type="PackedScene" uid="uid://dhqcpkxwawdge" path="res://scenes/player/3D/Basket/basket.tscn" id="13_nsjbx"]
 [ext_resource type="PackedScene" uid="uid://cx78f5yanshxx" path="res://scenes/player/3D/CarryableItem/Pizza/CarryableItem_Pizza.tscn" id="13_scj51"]
-[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/StashableItem/Stashable_item.tscn" id="14_d2bv4"]
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="14_d2bv4"]
 [ext_resource type="PackedScene" uid="uid://by3qntk8txqdo" path="res://scenes/level/Minigames/Soda/SodaMinigame.tscn" id="16_wgp4f"]
+[ext_resource type="PackedScene" uid="uid://d0bf8yggruo8l" path="res://scenes/level/Minigames/PizzaCrafting/PizzaCraftingMinigame.tscn" id="17_ufe0o"]
+[ext_resource type="Script" path="res://scenes/level/Minigames/PizzaCrafting/PizzaCraftingMinigame.cs" id="18_81sv7"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -217,5 +219,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19979, 0.344787, 0.627099)
 
 [node name="SodaMinigame" parent="." instance=ExtResource("16_wgp4f")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 27.4319, 0.908343, 11.5188)
+
+[node name="PizzaCraftingMinigame" parent="." instance=ExtResource("17_ufe0o")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 27.5487, 0.854553, 13.6823)
+script = ExtResource("18_81sv7")
 
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]

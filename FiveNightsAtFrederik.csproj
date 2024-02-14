@@ -10,11 +10,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="CsScripts\Handlers\**" />
+    <Compile Remove="scenes\level\Minigames\CookingPizza\**" />
+    <Compile Remove="scenes\player\3D\StashableItem\**" />
     <Compile Remove="Scripts\**" />
     <EmbeddedResource Remove="CsScripts\Handlers\**" />
+    <EmbeddedResource Remove="scenes\level\Minigames\CookingPizza\**" />
+    <EmbeddedResource Remove="scenes\player\3D\StashableItem\**" />
     <EmbeddedResource Remove="Scripts\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="scenes\player\3D\StashableItem\" />
+    <Folder Include="scenes\level\Minigames\PizzaCrafting\Ingredients\" />
   </ItemGroup>
 </Project>

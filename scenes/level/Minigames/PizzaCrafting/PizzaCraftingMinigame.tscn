@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0bf8yggruo8l"]
+
+[ext_resource type="PackedScene" uid="uid://dlhwalq1atgek" path="res://scenes/level/Minigames/BaseMinigame.tscn" id="1_f1hmt"]
+[ext_resource type="Script" path="res://scenes/level/Minigames/PizzaCrafting/PizzaCraftingMinigame.cs" id="2_p4jpp"]
+[ext_resource type="PackedScene" uid="uid://kop7avw15nny" path="res://scenes/level/props/PickupSpawner/PickupSpawner.tscn" id="5_jutiu"]
+[ext_resource type="PackedScene" uid="uid://c8tyoeuq2v1cs" path="res://scenes/player/3D/CarryableItem/Soda/CarryableItem_Soda.tscn" id="6_ti3oo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o4g7a"]
+albedo_color = Color(0.996078, 0.678431, 0.27451, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xijjj"]
+material = SubResource("StandardMaterial3D_o4g7a")
+top_radius = 0.26
+bottom_radius = 0.26
+height = 0.01
+
+[node name="PizzaCraftingMinigame" instance=ExtResource("1_f1hmt")]
+script = ExtResource("2_p4jpp")
+
+[node name="MinigameCamera" parent="." index="0"]
+transform = Transform3D(-1, 0, 2.98023e-08, 2.98023e-08, -4.37114e-08, 1, 1.3027e-15, 1, 4.37114e-08, 0, 0.468753, 0.00524181)
+
+[node name="MinigameInteractionBody" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0137843, 0)
+
+[node name="MinigameInteractionCollision" parent="MinigameInteractionBody" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000793457, -0.00510023, 0.00115972)
+
+[node name="Dough" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00591528, 0)
+mesh = SubResource("CylinderMesh_xijjj")
+
+[node name="FoamRaiseTimer" type="Timer" parent="." index="3"]
+wait_time = 4.0
+one_shot = true
+
+[node name="FoamShrinkingTimer" type="Timer" parent="." index="4"]
+one_shot = true
+
+[node name="PizzaSpawner" parent="." index="5" instance=ExtResource("5_jutiu")]
+spawnOnReady = false
+autoRespawn = false
+carryableItemTemplateScene = ExtResource("6_ti3oo")
