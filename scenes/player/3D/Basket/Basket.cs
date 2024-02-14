@@ -3,6 +3,7 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.scenes.player.Enums;
 using Godot;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 /// <summary>
 /// Basket holds n items
 /// </summary>
-public partial class Basket : BaseHoldableItem
+public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 {
 	[Export]
 	private const int maxCapacity = 3;
@@ -40,7 +41,21 @@ public partial class Basket : BaseHoldableItem
 		
 		AddItemToBox((BaseCarriableItem)item);
 	}
+	public override void OnBeginUse()
+	{
+		if (player.IsCarryingItem)
+		{
+			return;
+		}
+		Freeze = true;
+		Reparent(player.EquipableBasketPositionMarker);
 
+		GlobalPosition = player.EquipableBasketPositionMarker.GlobalPosition;
+		Rotation = Vector3.Zero;
+		player.IsHoldingItem = true;
+		IsHeld = true;
+		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+	}
 	private void AddItemToBox(BaseCarriableItem body)
 	{
 		itemsInBasket.Add((IStashable)body);
@@ -49,5 +64,15 @@ public partial class Basket : BaseHoldableItem
 		body.Freeze = true;
 		body.Reparent(this);
 		body.SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+	}
+	public PlayerAnimationStates? HandleAnimations()
+	{
+
+		if (IsHeld)
+		{
+			return PlayerAnimationStates.Box;
+		}
+
+		return null;
 	}
 }

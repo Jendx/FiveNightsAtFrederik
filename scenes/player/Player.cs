@@ -29,10 +29,12 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public Camera3D Camera { get; private set; }
 	public CollisionShape3D CollisionMesh { get; private set; }
 	public Marker3D CarryableItemPositionMarker { get; private set; }
+	public Marker3D EquipableBasketPositionMarker { get; private set; }
+	
 
-    /// <summary>
-    /// Marker which holds location for any holdable Item, taht will be reparented to player (Gun, basket...)
-    /// </summary>
+	/// <summary>
+	/// Marker which holds location for any holdable Item, taht will be reparented to player (Gun, basket...)
+	/// </summary>
 	public Marker3D EquipableItemPositionMarker { get; private set; }
 	public AnimationTree AnimationTree { get; private set; }
 
@@ -98,8 +100,8 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		useDelayTimer = this.TryGetNode<Timer>(NodeNames.UseDelayTimer, nameof(useDelayTimer));
 		RayCast = Camera.TryGetNode<RayCast3D>(NodeNames.RayCast, nameof(RayCast));
 		CarryableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker, nameof(CarryableItemPositionMarker));
-        EquipableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_GunPosition, nameof(EquipableItemPositionMarker));
-
+		EquipableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_GunPosition, nameof(EquipableItemPositionMarker));
+		EquipableBasketPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_BasketPosition, nameof(EquipableBasketPositionMarker));
 		PlayerController = new PlayerController(this);
 	}
 
@@ -135,8 +137,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 
 		// Animation is handled at the end of the frame so animations with priority are used
+		PlayerController.HandleHeldItemAnimations();
 		PlayerController.UpdateHandAnimation();
-        PlayerController.HandleHeldItemAnimations();
+		
 	
 		CalculateMovementSpeed();
 	}

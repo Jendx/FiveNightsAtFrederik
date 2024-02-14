@@ -170,7 +170,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
 transform = Transform3D(0.999922, 0, 0.0125137, 0, 1, 0, -0.0125137, 0, 0.999922, 21.7684, 0.293166, 0.634852)
 
 [node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.1453, 1.4569, 0.114175)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.3189, 1.16493, 0.114175)
 
 [node name="PickupSpawner" parent="." instance=ExtResource("12_ibpqg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31158, 0.6195, 3.70455)
@@ -212,7 +212,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.87719, 0.571123, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19979, 0.344787, 0.627099)
 
 [node name="Gun" parent="." instance=ExtResource("11_jipue")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79609, 0.941301, 0.360074)
+transform = Transform3D(-3.78552e-08, 0.866025, -0.5, -1, -4.37114e-08, 0, -2.18557e-08, 0.5, 0.866025, 1.72609, 0.882666, 0.404736)
 
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://djyuwual7g6b4"]
+[gd_scene load_steps=20 format=3 uid="uid://djyuwual7g6b4"]
 
 [ext_resource type="PackedScene" uid="uid://dlcm6xu3din7c" path="res://scenes/player/3D/Gun/3D/Gun.glb" id="1_d6eo7"]
 [ext_resource type="Script" path="res://scenes/player/3D/Gun/Gun.cs" id="1_r8nxk"]
@@ -7,7 +7,110 @@
 [ext_resource type="AudioStream" uid="uid://05f5ven3625t" path="res://scenes/player/3D/Gun/Sounds/Shoot_Empty.mp3" id="4_sxi4p"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yru0i"]
-size = Vector3(0.0622654, 0.121949, 0.243129)
+size = Vector3(0.0622654, 0.164704, 0.350821)
+
+[sub_resource type="Animation" id="Animation_s13xn"]
+resource_name = "reload"
+length = 3.20833
+tracks/0/type = "rotation_3d"
+tracks/0/imported = true
+tracks/0/enabled = true
+tracks/0/path = NodePath("metarig/Skeleton3D:barrel")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.49335, -2.03761e-07, -1.93797e-07, 0.869831, 0.566667, 1, 0.49335, -2.01148e-07, -2.04415e-07, 0.869831, 0.6, 1, 0.545965, -2.85868e-07, -2.26604e-07, 0.837808, 0.633333, 1, 0.661371, -4.81108e-07, -2.62068e-07, 0.750059, 0.666667, 1, 0.803674, -7.33294e-07, -3.07138e-07, 0.59507, 0.7, 1, 0.849312, -8.22582e-07, -3.29584e-07, 0.527892, 0.733333, 1, 0.859857, -8.52136e-07, -3.36472e-07, 0.510535, 2.26667, 1, 0.860486, -8.44868e-07, -3.33587e-07, 0.509473, 2.3, 1, 0.861242, -8.55391e-07, -3.35495e-07, 0.508195, 2.33333, 1, 0.862408, -8.69355e-07, -3.4361e-07, 0.506213, 2.53333, 1, 0.887474, -8.57339e-07, -3.15017e-07, 0.460858, 2.56667, 1, 0.895353, -8.90826e-07, -2.41382e-07, 0.445356, 2.6, 1, 0.911722, -9.45745e-07, -1.40736e-07, 0.410808, 2.63333, 1, 0.932871, -1.0043e-06, -3.77358e-08, 0.360211, 2.66667, 1, 0.949994, -1.04844e-06, 5.95129e-08, 0.312267, 2.73333, 1, 0.616202, -3.7981e-07, -1.30961e-07, 0.787588, 2.76667, 1, 0.49335, -2.03091e-07, -1.9299e-07, 0.869831, 3.20833, 1, 0.49335, -2.04014e-07, -1.93755e-07, 0.869831)
+tracks/1/type = "position_3d"
+tracks/1/imported = true
+tracks/1/enabled = true
+tracks/1/path = NodePath("metarig/Skeleton3D:trigger")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 3.87523e-08, 0.669412, 0.245736)
+
+[sub_resource type="Animation" id="Animation_0yu1f"]
+resource_name = "shoot"
+length = 0.375
+tracks/0/type = "position_3d"
+tracks/0/imported = true
+tracks/0/enabled = true
+tracks/0/path = NodePath("metarig/Skeleton3D:trigger")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 4.62029e-08, 0.669413, 0.245736, 0.0333333, 1, -0.000619087, 0.665061, 0.238448, 0.0666667, 1, -0.00213473, 0.654412, 0.220613, 0.1, 1, -0.00318318, 0.647046, 0.208275, 0.133333, 1, -0.003395, 0.645557, 0.205782, 0.233333, 1, -0.00333808, 0.645958, 0.206454, 0.266667, 1, -0.00295242, 0.648668, 0.210992, 0.3, 1, -0.00218378, 0.654069, 0.220037, 0.333333, 1, -0.00119489, 0.661016, 0.231672, 0.375, 1, -0.000223836, 0.667838, 0.243099)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = true
+tracks/1/enabled = true
+tracks/1/path = NodePath("metarig/Skeleton3D:barrel")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.49335, -2.04469e-07, -1.93771e-07, 0.869831)
+
+[sub_resource type="Animation" id="Animation_srb5j"]
+resource_name = "idle-loop"
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = true
+tracks/0/enabled = true
+tracks/0/path = NodePath("metarig/Skeleton3D:trigger")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 3.87523e-08, 0.669412, 0.245736)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = true
+tracks/1/enabled = true
+tracks/1/path = NodePath("metarig/Skeleton3D:barrel")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.49335, -2.04469e-07, -1.93771e-07, 0.869831)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7etr0"]
+_data = {
+"idle": SubResource("Animation_srb5j"),
+"reload": SubResource("Animation_s13xn"),
+"shoot": SubResource("Animation_0yu1f")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ys0y1"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ua1yk"]
+animation = &"reload"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jkl6d"]
+animation = &"shoot"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1ug2p"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wt8qr"]
+switch_mode = 1
+advance_mode = 2
+advance_condition = &"IsShooting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s5iou"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"IsIdle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pfnvy"]
+switch_mode = 1
+advance_mode = 2
+advance_condition = &"IsReloading"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sy72c"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"IsIdle"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qot4i"]
+states/idle/node = SubResource("AnimationNodeAnimation_ys0y1")
+states/idle/position = Vector2(549, 100)
+states/reload/node = SubResource("AnimationNodeAnimation_ua1yk")
+states/reload/position = Vector2(549, -5)
+states/shoot/node = SubResource("AnimationNodeAnimation_jkl6d")
+states/shoot/position = Vector2(549, 205)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1ug2p"), "idle", "shoot", SubResource("AnimationNodeStateMachineTransition_wt8qr"), "shoot", "idle", SubResource("AnimationNodeStateMachineTransition_s5iou"), "idle", "reload", SubResource("AnimationNodeStateMachineTransition_pfnvy"), "reload", "idle", SubResource("AnimationNodeStateMachineTransition_sy72c")]
+graph_offset = Vector2(79, -61)
 
 [node name="Gun" type="RigidBody3D"]
 collision_mask = 3
@@ -19,11 +122,11 @@ gunSounds = {
 }
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00137967, -0.0102319, -0.00315402)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00137967, -0.0116511, -0.0086428)
 shape = SubResource("BoxShape3D_yru0i")
 
 [node name="RayCast" type="RayCast3D" parent="."]
-transform = Transform3D(-4.37114e-08, -1.42109e-14, 1, 1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 1, 1.42109e-14, -5.97725e-09, 0.0253002, -0.125676)
+transform = Transform3D(-4.37114e-08, -1.42109e-14, 1, 1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 1, 1.42109e-14, -5.97725e-09, 0.037998, -0.198882)
 target_position = Vector3(0, -20, 0)
 collide_with_areas = true
 
@@ -37,4 +140,20 @@ one_shot = true
 one_shot = true
 
 [node name="Gun" parent="." instance=ExtResource("1_d6eo7")]
-transform = Transform3D(-0.1, 0, -8.74228e-09, 0, 0.1, 0, 8.74228e-09, 0, -0.1, 0, 0, 0)
+transform = Transform3D(-0.155, 0, -2.34044e-08, 0, 0.155, 0, 2.34044e-08, 0, -0.155, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Gun/metarig" index="0"]
+bones/2/rotation = Quaternion(0.49335, -2.04469e-07, -1.93771e-07, 0.869831)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Gun")
+libraries = {
+"": SubResource("AnimationLibrary_7etr0")
+}
+tree_root = SubResource("AnimationNodeStateMachine_qot4i")
+anim_player = NodePath("../Gun/AnimationPlayer")
+parameters/conditions/IsIdle = true
+parameters/conditions/IsReloading = false
+parameters/conditions/IsShooting = false
+
+[editable path="Gun"]

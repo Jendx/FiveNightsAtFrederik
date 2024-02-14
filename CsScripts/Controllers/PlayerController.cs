@@ -85,6 +85,11 @@ public class PlayerController
 
     public void UpdateLookAtObject(RayCast3D rayCast)
     {
+        if(player.IsHoldingItem)
+        {
+            return;
+        }
+         
         var collidingObject = rayCast.GetCollider();
 
         var isValidObject = collidingObject is not null;
