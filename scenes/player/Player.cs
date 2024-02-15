@@ -31,7 +31,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	public Marker3D CarryableItemPositionMarker { get; private set; }
 	public Marker3D EquipableBasketPositionMarker { get; private set; }
 	
-
 	/// <summary>
 	/// Marker which holds location for any holdable Item, taht will be reparented to player (Gun, basket...)
 	/// </summary>
@@ -140,7 +139,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		PlayerController.HandleHeldItemAnimations();
 		PlayerController.UpdateHandAnimation();
 		
-	
 		CalculateMovementSpeed();
 	}
 

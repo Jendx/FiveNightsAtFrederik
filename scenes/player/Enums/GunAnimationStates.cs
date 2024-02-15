@@ -12,5 +12,4 @@ public enum GunAnimationStates
 
     [Description("parameters/conditions/IsShooting")]
     Shoot = 2
-
 }

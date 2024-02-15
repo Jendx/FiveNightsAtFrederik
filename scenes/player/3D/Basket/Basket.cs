@@ -41,12 +41,14 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
 		
 		AddItemToBox((BaseCarriableItem)item);
 	}
+
 	public override void OnBeginUse()
 	{
 		if (player.IsCarryingItem)
 		{
 			return;
 		}
+
 		Freeze = true;
 		Reparent(player.EquipableBasketPositionMarker);
 
@@ -56,6 +58,7 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
 		IsHeld = true;
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
 	}
+
 	private void AddItemToBox(BaseCarriableItem body)
 	{
 		itemsInBasket.Add((IStashable)body);
@@ -65,6 +68,7 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
 		body.Reparent(this);
 		body.SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
 	}
+
 	public PlayerAnimationStates? HandleAnimations()
 	{
 

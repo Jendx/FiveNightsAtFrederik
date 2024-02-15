@@ -27,6 +27,7 @@ public enum PlayerAnimationStates
 
     [Description("parameters/conditions/IsShooting")]
     Shoot = 7,
+
     [Description("parameters/conditions/IsHoldingBox")]
     Box = 8
 }

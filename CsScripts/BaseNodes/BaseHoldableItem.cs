@@ -55,6 +55,7 @@ public partial class BaseHoldableItem : RigidBody3D, IPlayerUsable
         {
             return;
         }
+
         Freeze = true;
         Reparent(player.EquipableItemPositionMarker);
 
