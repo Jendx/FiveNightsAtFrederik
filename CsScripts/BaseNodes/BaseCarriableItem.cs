@@ -82,6 +82,7 @@ public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
         player.IsCarryingItem = true;
 
         Reparent(originalParent);
+        GD.Print(Name+ "LEFT");
         SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, true);
     }
 

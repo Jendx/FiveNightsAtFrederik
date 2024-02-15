@@ -33,6 +33,7 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
    /// <param name="body"></param>
 	private void BasketArea_BodyEntered(Node3D body)
 	{
+		GD.Print(body.Name + "ENTERED");
 		var item = body.TryConvertTo<IStashable>();
 		if (item is null || itemsInBasket.Contains(item) || itemsInBasket.Count >= maxCapacity)
 		{
