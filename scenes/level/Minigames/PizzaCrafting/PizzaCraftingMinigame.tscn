@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d0bf8yggruo8l"]
+[gd_scene load_steps=16 format=3 uid="uid://d0bf8yggruo8l"]
 
 [ext_resource type="PackedScene" uid="uid://dlhwalq1atgek" path="res://scenes/level/Minigames/BaseMinigame.tscn" id="1_f1hmt"]
 [ext_resource type="Script" path="res://scenes/level/Minigames/PizzaCrafting/PizzaCraftingMinigame.cs" id="2_p4jpp"]
+[ext_resource type="Script" path="res://scenes/player/3D/Ingredient/Ingredient.cs" id="5_5v6nl"]
 [ext_resource type="PackedScene" uid="uid://kop7avw15nny" path="res://scenes/level/props/PickupSpawner/PickupSpawner.tscn" id="5_jutiu"]
 [ext_resource type="PackedScene" uid="uid://c8tyoeuq2v1cs" path="res://scenes/player/3D/CarryableItem/Soda/CarryableItem_Soda.tscn" id="6_ti3oo"]
 
@@ -14,17 +15,51 @@ top_radius = 0.26
 bottom_radius = 0.26
 height = 0.01
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bvfvw"]
+transparency = 1
+albedo_color = Color(1, 22.485, 1, 0.325)
+
+[sub_resource type="TorusMesh" id="TorusMesh_0slgn"]
+material = SubResource("StandardMaterial3D_bvfvw")
+inner_radius = 0.749
+outer_radius = 0.904
+rings = 8
+ring_segments = 16
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f3bjg"]
+size = Vector3(1.78173, 0.242143, 1.75402)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ftxfu"]
+size = Vector3(0.534027, 0.0182733, 0.533753)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_de6s1"]
+size = Vector3(0.107969, 0.00504882, 0.105591)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yo1rr"]
+transparency = 1
+albedo_color = Color(0.8, 0, 0.0627451, 0.847059)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fxhmn"]
+material = SubResource("StandardMaterial3D_yo1rr")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.01
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sy5ud"]
+size = Vector3(1, 0.47937, 1)
+
 [node name="PizzaCraftingMinigame" instance=ExtResource("1_f1hmt")]
 script = ExtResource("2_p4jpp")
 
 [node name="MinigameCamera" parent="." index="0"]
-transform = Transform3D(-1, 0, 2.98023e-08, 2.98023e-08, -4.37114e-08, 1, 1.3027e-15, 1, 4.37114e-08, 0, 0.468753, 0.00524181)
+transform = Transform3D(-1, -1.05879e-22, 2.98023e-08, 2.98023e-08, -4.37114e-08, 1, 1.3027e-15, 1, 4.37114e-08, 0, 0.468753, 0.00524181)
 
 [node name="MinigameInteractionBody" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0137843, 0)
 
 [node name="MinigameInteractionCollision" parent="MinigameInteractionBody" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000793457, -0.00510023, 0.00115972)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000793457, -0.00765035, 0.00115972)
+visible = false
 
 [node name="Dough" type="MeshInstance3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00591528, 0)
@@ -41,3 +76,50 @@ one_shot = true
 spawnOnReady = false
 autoRespawn = false
 carryableItemTemplateScene = ExtResource("6_ti3oo")
+
+[node name="TargetMesh" type="MeshInstance3D" parent="." index="6"]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0.0304713, 0)
+mesh = SubResource("TorusMesh_0slgn")
+skeleton = NodePath("TargetArea")
+
+[node name="TargetArea" type="Area3D" parent="TargetMesh" index="0"]
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TargetMesh/TargetArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0449443, 0)
+shape = SubResource("BoxShape3D_f3bjg")
+
+[node name="FailureArea" type="Area3D" parent="." index="7"]
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FailureArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00152036, 0)
+shape = SubResource("BoxShape3D_ftxfu")
+
+[node name="Ingredient" type="RigidBody3D" parent="." index="8" node_paths=PackedStringArray("CollisionShape", "MeshInstance")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124, 0)
+collision_layer = 17
+collision_mask = 17
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("5_5v6nl")
+IsInteractionUIDisplayed = false
+CollisionShape = NodePath("CollisionShape3D")
+MeshInstance = NodePath("CollisionShape3D/MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ingredient" index="0"]
+shape = SubResource("BoxShape3D_de6s1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ingredient/CollisionShape3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00313351, 0)
+mesh = SubResource("CylinderMesh_fxhmn")
+skeleton = NodePath("../..")
+
+[node name="AddIngredientArea" type="Area3D" parent="." index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.268433, 0)
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AddIngredientArea" index="0"]
+shape = SubResource("BoxShape3D_sy5ud")

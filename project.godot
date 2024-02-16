@@ -121,3 +121,4 @@ Sprint={
 3d_physics/layer_2="RayCast Colidible"
 3d_physics/layer_3="Caryable Items"
 3d_physics/layer_4="Enemy RayCast Colidible"
+3d_physics/layer_5="MinigameAreaCollideable"

@@ -3,12 +3,13 @@ using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 
 public abstract partial class BaseMinigame : Node3D
 {
-    protected bool isActive = false;
+    protected bool isActive;
     protected Player? player;
     protected Camera3D? minigameCamera;
     protected CollisionShape3D? interactionCollision;
@@ -41,14 +42,26 @@ public abstract partial class BaseMinigame : Node3D
 
     public virtual void OnBeginUse()
     {
-        isActive = true;
         player.IsPlayingMinigame = true;
         minigameCamera.Current = true;
 
         player.Camera.Current = false;
+        _ = ActivateMinigame();
     }
 
     public virtual void OnEndUse()
     {
+    }
+
+    /// <summary>
+    /// Activates minigame after small offset So there is not misinput
+    /// </summary>
+    /// <returns></returns>
+    protected async Task ActivateMinigame()
+    {
+        var timer = GetTree().CreateTimer(0.3f);
+        await ToSignal(timer, "timeout");
+
+        isActive = true;
     }
 }

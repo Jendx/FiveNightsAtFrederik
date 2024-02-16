@@ -69,6 +69,10 @@ public static class NodeNames
 
     // Pizza
     public static readonly StringName Dough = new("Dough");
+    public static readonly StringName TargetMesh = new("TargetMesh");
+    public static readonly StringName TargetArea = new("TargetMesh/TargetArea");
+    public static readonly StringName Ingredient = new("Ingredient");
     public static readonly StringName PizzaSpawner = new("PizzaSpawner");
+    public static readonly StringName FailureArea = new("FailureArea");
 
 }

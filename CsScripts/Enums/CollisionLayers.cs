@@ -8,4 +8,9 @@ public enum CollisionLayers
     RayCastCollideable = 2,
     CarryableItemCollideable = 3,
     EnemyRaycastCollideable = 4,
+
+    /// <summary>
+    /// Should be used only on minigame areas
+    /// </summary>
+    MinigameAreaCollideable = 5,
 }
