@@ -13,6 +13,8 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 
 public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 {
+	public AnimationTree AnimationTree { get; private set; }
+
 	[Export]
 	private const float reloadTime = 3.3f;
 
@@ -36,11 +38,9 @@ public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 	private bool isLoaded = true;
 	private bool isReloading;
 	private bool isShooting;
-	public AnimationTree AnimationTree { get; private set; }
 	private GunAnimationStates currentAnimation = GunAnimationStates.Idle;
 	private GunAnimationStates nextAnimation;
-	private Vector3 spawnLocation;
-	private Vector3 spawnRotation;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -62,10 +62,6 @@ public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 				await Reload();
 			};
 		};
-
-		spawnLocation = GlobalPosition;
-		spawnRotation = GlobalRotation;
-
 	}
 
 	public override void _Input(InputEvent @event)
@@ -93,8 +89,6 @@ public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 		automaticReloadTimer.Stop();
 		IsInteractionUIDisplayed = true;
 		Reparent(originalParent);
-		GlobalPosition = spawnLocation;
-		GlobalRotation = spawnRotation;
 		IsHeld = false;
 		Freeze = false;
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, true);
@@ -161,6 +155,7 @@ public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 		IsHeld = true;
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
 	}
+
 	public void UpdateGunAnimation()
 	{
 		if (currentAnimation == nextAnimation)
@@ -174,6 +169,7 @@ public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 
 		AnimationTree.Set(currentAnimation.GetDescription(), true);
 	}
+
 	public PlayerAnimationStates? HandleAnimations()
 	{
 		if (isReloading)
@@ -199,5 +195,4 @@ public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 		
 		return null;
 	}
-
 }

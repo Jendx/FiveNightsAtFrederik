@@ -17,6 +17,7 @@ public partial class StashableItem : BaseCarriableItem, IStashable
 		Drop();
 		IsStashed = true; 
 	}
+
 	protected override void Drop()
 	{
 		Reparent(originalParent);
