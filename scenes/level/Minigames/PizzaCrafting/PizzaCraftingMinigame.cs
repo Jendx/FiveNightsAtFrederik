@@ -1,6 +1,5 @@
 ﻿using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
-using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Helpers;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
@@ -9,6 +8,7 @@ using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FiveNightsAtFrederik.scenes.level;
 
@@ -16,23 +16,18 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
 {
     public bool IsInteractionUIDisplayed { get; set; } = true;
 
-    private readonly Random random = new();
+    private readonly Queue<MeshInstance3D> placedIngredients = new();
+    private readonly LinkedList<Ingredient> availableIngredients = new();
     private MeshInstance3D? dough;
     private MeshInstance3D? targetMesh;
     private Ingredient? ingredient;
     private PickupSpawner? pizzaSpawner;
     private Area3D? targetArea;
     private Area3D? failureArea;
-    private Queue<MeshInstance3D> placedIngredients = new();
+    private Area3D? addIngredientArea;
 
-    /// <summary>
-    /// Determines how long will the foam rise. Value is derived from how long does player keep pouring. (Max 4)
-    /// </summary>
     private float foamRaisingTimerWaitTime;
     private float pizzaValue;
-    private bool isFoamShrinking;
-    private bool isInWinArea;
-
     private const float radius = 0.14f;
     private const float maxDistanceFromCenter = 0.23f;
     private const int successfullPlacementValue = 10;
@@ -44,12 +39,19 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
         targetMesh = this.TryGetNode<MeshInstance3D>(NodeNames.TargetMesh, nameof(targetMesh));
         targetArea = this.TryGetNode<Area3D>(NodeNames.TargetArea, nameof(targetArea));
         failureArea = this.TryGetNode<Area3D>(NodeNames.FailureArea, nameof(failureArea));
+        addIngredientArea = this.TryGetNode<Area3D>(NodeNames.AddIngredientArea, nameof(addIngredientArea));
         ingredient = this.TryGetNode<Ingredient>(NodeNames.Ingredient, nameof(ingredient));
         pizzaSpawner = this.TryGetNode<PickupSpawner>(NodeNames.PizzaSpawner, nameof(pizzaSpawner));
 
         targetArea.BodyEntered += TargetArea_BodyEntered;
         failureArea.BodyEntered += FailureArea_BodyEntered;
+        addIngredientArea.BodyEntered += AddIngredientArea_BodyEntered;
         base._Ready();
+
+        //TODO: DELETE (ONLY FOR TESTING)
+        availableIngredients.AddLast(new Ingredient() { MeshInstance = new MeshInstance3D() { Mesh = ingredient.MeshInstance.Mesh, Name = "1" } });
+        availableIngredients.AddLast(new Ingredient() { MeshInstance = new MeshInstance3D() { Mesh = new CapsuleMesh(), Name = "2", Scale = new Vector3(0.1f, 0.1f, 0.1f) } });
+        availableIngredients.AddLast(new Ingredient() { MeshInstance = new MeshInstance3D() { Mesh = new BoxMesh(), Name = "3", Scale = new Vector3(0.1f, 0.1f, 0.1f) } });
     }
 
     private void ResetIngredient()
@@ -62,6 +64,28 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
             Y = 0.124f,
             Z = dough.Position.Z
         };
+    }
+
+    /// <summary>
+    /// Spawns the "placed" ingredient on the dropped position
+    /// and enqueues the ingredient into Queue
+    /// </summary>
+    private void PlaceIngredient()
+    {
+        var placedIngredient = new MeshInstance3D()
+        {
+            Mesh = ingredient.MeshInstance.Mesh,
+            Position = new Vector3()
+            {
+                X = ingredient.Position.X,
+                Y = 0.01f,
+                Z = ingredient.Position.Z
+            },
+            Name = ingredient.Type.ToString(),
+        };
+
+        placedIngredients.Enqueue(placedIngredient);
+        AddChild(placedIngredient);
     }
 
     /// <summary>
@@ -90,28 +114,6 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
     }
 
     /// <summary>
-    /// Spawns the "placed" ingredient on the dropped position
-    /// and enqueues the ingredient into Queue
-    /// </summary>
-    private void PlaceIngredient()
-    {
-        var placedIngredient = new MeshInstance3D()
-        {
-            Mesh = ingredient.MeshInstance.Mesh,
-            Position = new Vector3()
-            {
-                X = ingredient.Position.X,
-                Y = 0.01f,
-                Z = ingredient.Position.Z
-            },
-            Name = ingredient.Type.ToString(),
-        };
-
-        placedIngredients.Enqueue(placedIngredient);
-        AddChild(placedIngredient);
-    }
-
-    /// <summary>
     /// Should be activated only, when player misses
     /// </summary>
     /// <param name="body"></param>
@@ -132,6 +134,17 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
         ResetIngredient();
     }
 
+    private void AddIngredientArea_BodyEntered(Node3D body)
+    {
+        if (body is Ingredient ingredient)
+        {
+            GD.Print("ADDED INGREDIENT");
+            availableIngredients.AddLast(ingredient);
+            ingredient.Visible = false;
+            ingredient.ProcessMode = ProcessModeEnum.Disabled;
+        }
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (!isActive)
@@ -139,9 +152,32 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
             return;
         }
 
-        if (Input.IsActionPressed(ActionNames.DEBUG_TOGGLEMOUSE) && isActive)
+        if (Input.IsActionPressed(ActionNames.DEBUG_TOGGLEMOUSE))
         {
             LeaveMinigame();
+        }
+
+        if (Input.IsActionJustPressed(ActionNames.Submit))
+
+        if (Input.IsActionPressed(ActionNames.Scroll_UP) && availableIngredients.Count > 0)
+        {
+            var firstNode = availableIngredients.First;
+            availableIngredients.RemoveFirst();
+            var currentNode = availableIngredients.First;
+            availableIngredients.AddLast(firstNode);
+
+            ingredient.MeshInstance.Mesh = currentNode.Value.MeshInstance.Mesh;
+            GD.Print("Scroll UP: " + currentNode.Value.MeshInstance.Name);
+        }
+
+        if (Input.IsActionPressed(ActionNames.Scroll_DOWN) && availableIngredients.Count > 0)
+        {
+            var lastNode = availableIngredients.Last;
+            availableIngredients.RemoveLast();
+            availableIngredients.AddFirst(lastNode);
+
+            ingredient.MeshInstance.Mesh = lastNode.Value.MeshInstance.Mesh;
+            GD.Print("Scroll DOWN: " + lastNode.Value.MeshInstance.Name);
         }
     }
 

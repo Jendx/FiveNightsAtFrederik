@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d0bf8yggruo8l"]
+[gd_scene load_steps=17 format=3 uid="uid://d0bf8yggruo8l"]
 
 [ext_resource type="PackedScene" uid="uid://dlhwalq1atgek" path="res://scenes/level/Minigames/BaseMinigame.tscn" id="1_f1hmt"]
 [ext_resource type="Script" path="res://scenes/level/Minigames/PizzaCrafting/PizzaCraftingMinigame.cs" id="2_p4jpp"]
@@ -48,36 +48,28 @@ height = 0.01
 [sub_resource type="BoxShape3D" id="BoxShape3D_sy5ud"]
 size = Vector3(1, 0.47937, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_klh2h"]
+
 [node name="PizzaCraftingMinigame" instance=ExtResource("1_f1hmt")]
 script = ExtResource("2_p4jpp")
 
-[node name="MinigameCamera" parent="." index="0"]
-transform = Transform3D(-1, -1.05879e-22, 2.98023e-08, 2.98023e-08, -4.37114e-08, 1, 1.3027e-15, 1, 4.37114e-08, 0, 0.468753, 0.00524181)
-
-[node name="MinigameInteractionBody" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0137843, 0)
-
-[node name="MinigameInteractionCollision" parent="MinigameInteractionBody" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000793457, -0.00765035, 0.00115972)
-visible = false
-
-[node name="Dough" type="MeshInstance3D" parent="." index="2"]
+[node name="Dough" type="MeshInstance3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00591528, 0)
 mesh = SubResource("CylinderMesh_xijjj")
 
-[node name="FoamRaiseTimer" type="Timer" parent="." index="3"]
+[node name="FoamRaiseTimer" type="Timer" parent="." index="1"]
 wait_time = 4.0
 one_shot = true
 
-[node name="FoamShrinkingTimer" type="Timer" parent="." index="4"]
+[node name="FoamShrinkingTimer" type="Timer" parent="." index="2"]
 one_shot = true
 
-[node name="PizzaSpawner" parent="." index="5" instance=ExtResource("5_jutiu")]
+[node name="PizzaSpawner" parent="." index="3" instance=ExtResource("5_jutiu")]
 spawnOnReady = false
 autoRespawn = false
 carryableItemTemplateScene = ExtResource("6_ti3oo")
 
-[node name="TargetMesh" type="MeshInstance3D" parent="." index="6"]
+[node name="TargetMesh" type="MeshInstance3D" parent="." index="4"]
 transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0.0304713, 0)
 mesh = SubResource("TorusMesh_0slgn")
 skeleton = NodePath("TargetArea")
@@ -90,7 +82,7 @@ collision_mask = 16
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0449443, 0)
 shape = SubResource("BoxShape3D_f3bjg")
 
-[node name="FailureArea" type="Area3D" parent="." index="7"]
+[node name="FailureArea" type="Area3D" parent="." index="5"]
 collision_layer = 16
 collision_mask = 16
 
@@ -98,10 +90,10 @@ collision_mask = 16
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00152036, 0)
 shape = SubResource("BoxShape3D_ftxfu")
 
-[node name="Ingredient" type="RigidBody3D" parent="." index="8" node_paths=PackedStringArray("CollisionShape", "MeshInstance")]
+[node name="Ingredient" type="RigidBody3D" parent="." index="6" node_paths=PackedStringArray("CollisionShape", "MeshInstance")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124, 0)
-collision_layer = 17
-collision_mask = 17
+collision_layer = 16
+collision_mask = 16
 gravity_scale = 0.0
 lock_rotation = true
 script = ExtResource("5_5v6nl")
@@ -117,9 +109,54 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00313351, 0)
 mesh = SubResource("CylinderMesh_fxhmn")
 skeleton = NodePath("../..")
 
-[node name="AddIngredientArea" type="Area3D" parent="." index="9"]
+[node name="AddIngredientArea" type="Area3D" parent="." index="7"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.268433, 0)
+collision_layer = 4
+collision_mask = 4
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AddIngredientArea" index="0"]
 shape = SubResource("BoxShape3D_sy5ud")
+
+[node name="MinigameCamera" parent="." index="8"]
+transform = Transform3D(-1, -1.05879e-22, 2.98023e-08, 2.98023e-08, -4.37114e-08, 1, 1.3027e-15, 1, 4.37114e-08, 0, 0.468753, 0.00524181)
+
+[node name="MinigameCamera_MinigameHud#MinigameCamera_SubViewport_MinigameHud#MinigameCamera_MinigameHud#Label" type="Label" parent="MinigameCamera/SubViewport/MinigameHud" index="0"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -207.0
+offset_top = -19.0
+offset_right = 207.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "SELECTED INGREDIENT: Null :)"
+label_settings = SubResource("LabelSettings_klh2h")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MinigameCamera_MinigameHud#MinigameCamera_SubViewport_MinigameHud#MinigameCamera_MinigameHud#Label2" type="Label" parent="MinigameCamera/SubViewport/MinigameHud" index="1"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -197.0
+offset_top = -14.0
+offset_right = -3.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "To submit press: Enter"
+
+[node name="MinigameInteractionBody" parent="." index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0137843, 0)
+
+[node name="MinigameInteractionCollision" parent="MinigameInteractionBody" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000793457, -0.00765035, 0.00115972)
+visible = false

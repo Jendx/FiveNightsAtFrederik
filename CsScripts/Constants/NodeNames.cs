@@ -74,5 +74,5 @@ public static class NodeNames
     public static readonly StringName Ingredient = new("Ingredient");
     public static readonly StringName PizzaSpawner = new("PizzaSpawner");
     public static readonly StringName FailureArea = new("FailureArea");
-
+    public static readonly StringName AddIngredientArea = new("AddIngredientArea");
 }

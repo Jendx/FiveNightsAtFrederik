@@ -10,4 +10,6 @@ public partial class Ingredient : BaseCarriableItem, IStashable
 {
     [Export]
     public IngredientTypes Type { get; set; }
+
+    public int Count { get; set; } = 1;
 }

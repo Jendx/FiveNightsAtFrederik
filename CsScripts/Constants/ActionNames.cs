@@ -7,6 +7,9 @@ public static class ActionNames
     // Actions 
     public static readonly StringName Use = new("Use");
     public static readonly StringName Drop = new("Drop");
+    public static readonly StringName Scroll_UP = new("Scroll_UP");
+    public static readonly StringName Scroll_DOWN = new("Scroll_DOWN");
+    public static readonly StringName Submit = new("Submit");
 
     // Movement
     public static readonly StringName Move_Left = new("Move_Left");

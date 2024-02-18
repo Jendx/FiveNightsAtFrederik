@@ -148,7 +148,7 @@ emission = Color(0, 0.92549, 0, 1)
 [node name="SodaMinigame" instance=ExtResource("1_fc2qd")]
 script = ExtResource("2_cjuce")
 
-[node name="Mug" type="MeshInstance3D" parent="." index="2"]
+[node name="Mug" type="MeshInstance3D" parent="." index="0"]
 transform = Transform3D(0.204354, 0, -0.204354, 0, 0.224, 0, 0.204354, 0, 0.204354, 0, 0.207198, 0)
 transparency = 0.65
 mesh = SubResource("ArrayMesh_lb5yo")
@@ -179,7 +179,7 @@ collision_mask = 16
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mug/Drink/Foam/FoamBody3D" index="0"]
 shape = SubResource("ConcavePolygonShape3D_mmxuj")
 
-[node name="DrinkTopLimitArea" type="Area3D" parent="." index="3"]
+[node name="DrinkTopLimitArea" type="Area3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.285, 0)
 visible = false
 collision_layer = 16
@@ -194,7 +194,7 @@ mesh = SubResource("BoxMesh_cxma2")
 skeleton = NodePath("../../../DrinkWinLimitArea/CollisionShape3D")
 surface_material_override/0 = SubResource("StandardMaterial3D_beuf5")
 
-[node name="DrinkWinLimitArea" type="Area3D" parent="." index="4"]
+[node name="DrinkWinLimitArea" type="Area3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2642, 0)
 visible = false
 collision_layer = 16
@@ -208,14 +208,46 @@ shape = SubResource("BoxShape3D_4470m")
 mesh = SubResource("BoxMesh_gaj5v")
 surface_material_override/0 = SubResource("StandardMaterial3D_nasgl")
 
-[node name="FoamRaiseTimer" type="Timer" parent="." index="5"]
+[node name="FoamRaiseTimer" type="Timer" parent="." index="3"]
 wait_time = 4.0
 one_shot = true
 
-[node name="FoamShrinkingTimer" type="Timer" parent="." index="6"]
+[node name="FoamShrinkingTimer" type="Timer" parent="." index="4"]
 one_shot = true
 
-[node name="DrinkSpawner" parent="." index="7" instance=ExtResource("3_g16r6")]
+[node name="DrinkSpawner" parent="." index="5" instance=ExtResource("3_g16r6")]
 spawnOnReady = false
 autoRespawn = false
 carryableItemTemplateScene = ExtResource("3_faa7p")
+
+[node name="MinigameCamera_MinigameHud#MinigameCamera_SubViewport_MinigameHud#MinigameCamera_MinigameHud#Label2" type="Label" parent="MinigameCamera/SubViewport/MinigameHud" index="0"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -282.0
+offset_top = -16.0
+offset_right = -3.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "To fill a cup hold: Left mouse button"
+
+[node name="MinigameCamera_MinigameHud#MinigameCamera_SubViewport_MinigameHud#MinigameCamera_MinigameHud#Label3" type="Label" parent="MinigameCamera/SubViewport/MinigameHud" index="1"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -361.0
+offset_top = -9.0
+offset_right = -3.0
+offset_bottom = 144.0
+grow_horizontal = 0
+text = "You have to fill the cap with the drinlk
+If you go over the endge, the minigame resets!
+
+To win, get the liquid into the green area.
+If foam is not rising and liquid is in green area
+You win and get the full cup!"
