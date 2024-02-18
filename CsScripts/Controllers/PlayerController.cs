@@ -83,6 +83,11 @@ public class PlayerController
 
     public void UpdateLookAtObject(RayCast3D rayCast)
     {
+        if(player.IsHoldingItem)
+        {
+            return;
+        }
+         
         var collidingObject = rayCast.GetCollider();
 
         var isValidObject = collidingObject is not null;
@@ -142,7 +147,7 @@ public class PlayerController
             player.CurrentStateSpeed = PlayerSpeeds.Crouch;
             nextAnimation = PlayerAnimationStates.Idle;
         }
-
+        
         if (!Mathf.IsEqualApprox(currentHeight, targetHeight, 0.1f))
         {
             currentHeight = Mathf.Lerp(player.CollisionMesh.Scale.Y, targetHeight, (float)PlayerSpeeds.CrouchTransition * (float)delta);
@@ -190,7 +195,8 @@ public class PlayerController
 
         const float rechargeRate = 0.2f;
         player.CurrentStamina += player.CurrentStamina < (float)SprintThresholds.Low ? rechargeRate : rechargeRate + 0.1f;
-        nextAnimation = PlayerAnimationStates.Idle;
+
+        nextAnimation = PlayerAnimationStates.Idle; 
     }
 
     /// <summary>
@@ -245,5 +251,21 @@ public class PlayerController
     public void StopUsing() {
         usableObject?.OnEndUse();
         player.IsUsing = false;
+    }
+
+    /// <summary>
+    /// Handles animations of held items. If they have any animations player should react to
+    /// </summary>
+    internal void HandleHeldItemAnimations()
+    {
+        if (usableObject is IAnimated<PlayerAnimationStates?> animatableItem)
+        {
+            var nextAnimatableObjectAnimation = animatableItem.HandleAnimations();
+
+            if (nextAnimatableObjectAnimation is not null)
+            {
+                nextAnimation = nextAnimatableObjectAnimation.Value;
+            }
+        }
     }
 }

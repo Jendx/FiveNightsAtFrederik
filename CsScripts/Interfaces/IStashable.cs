@@ -2,4 +2,6 @@
 
 public interface IStashable
 {
+    public bool IsStashed { get; set; }
+    public void Stash();
 }

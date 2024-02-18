@@ -13,7 +13,8 @@ config_version=5
 config/name="Pět nocí u Frederika"
 run/main_scene="res://scenes/level/level.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+run/max_fps=60
+config/icon="res://icon.png"
 
 [display]
 
