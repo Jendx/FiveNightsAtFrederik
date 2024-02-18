@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=27 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
 [ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_qsgvn"]
 [ext_resource type="PackedScene" uid="uid://dca4iajlg18cr" path="res://scenes/level/props/Camera_System/2D/Camera_switch_buttons.tscn" id="7_j0von"]
-[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="7_tqghg"]
+[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/3D/security_cam.glb" id="7_tqghg"]
 [ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/MrDuck/MrDuck.tscn" id="9_jp5rx"]
 [ext_resource type="PackedScene" uid="uid://bu6mr7xhtuulk" path="res://scenes/Enemy/AmericanoBug/AmericanBug.tscn" id="10_0u43u"]
 [ext_resource type="PackedScene" uid="uid://djyuwual7g6b4" path="res://scenes/player/3D/Gun/Gun.tscn" id="11_jipue"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dhqcpkxwawdge" path="res://scenes/player/3D/Basket/basket.tscn" id="13_nsjbx"]
 [ext_resource type="PackedScene" uid="uid://cx78f5yanshxx" path="res://scenes/player/3D/CarryableItem/Pizza/CarryableItem_Pizza.tscn" id="13_scj51"]
 [ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/StashableItem/Stashable_item.tscn" id="14_d2bv4"]
+[ext_resource type="PackedScene" uid="uid://by3qntk8txqdo" path="res://scenes/level/Minigames/Soda/SodaMinigame.tscn" id="16_wgp4f"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -210,6 +211,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.87719, 0.571123, 0)
 
 [node name="StashableItem2" parent="." instance=ExtResource("14_d2bv4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19979, 0.344787, 0.627099)
+
+[node name="SodaMinigame" parent="." instance=ExtResource("16_wgp4f")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 27.4319, 0.871287, 11.5546)
 
 [node name="Gun" parent="." instance=ExtResource("11_jipue")]
 transform = Transform3D(-3.78552e-08, 0.866025, -0.5, -1, -4.37114e-08, 0, -2.18557e-08, 0.5, 0.866025, 1.72609, 0.882666, 0.404736)

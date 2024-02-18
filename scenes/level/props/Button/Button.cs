@@ -44,11 +44,6 @@ public partial class Button : Node, IButton, IPlayerUsable
 		audioPlayer = this.TryGetNode<AudioStreamPlayer>(NodeNames.UseAudio.ToString(), nameof(audioPlayer));
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-	{
-	}
-
 	public async void OnBeginUse()
 	{
 		if (isOnCoolDown)
