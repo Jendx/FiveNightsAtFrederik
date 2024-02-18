@@ -3,6 +3,7 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.scenes.player.Enums;
 using Godot;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 /// <summary>
 /// Basket holds n items
 /// </summary>
-public partial class Basket : BaseHoldableItem
+public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 {
 	[Export]
 	private const int maxCapacity = 3;
@@ -23,6 +24,7 @@ public partial class Basket : BaseHoldableItem
 	{
 		basketArea = this.TryGetNode<Area3D>(NodeNames.BasketArea, nameof(basketArea));
 		base._Ready();
+
 		basketArea.BodyEntered += BasketArea_BodyEntered;
 	}
 
@@ -32,22 +34,64 @@ public partial class Basket : BaseHoldableItem
    /// <param name="body"></param>
 	private void BasketArea_BodyEntered(Node3D body)
 	{
-		var item = body.TryConvertTo<IStashable>();
+		if(IsHeld)
+		{
+			return;
+		}
+
+		var item = body.TryConvertTo<StashableItem>();
 		if (item is null || itemsInBasket.Contains(item) || itemsInBasket.Count >= maxCapacity)
 		{
 			return;
 		}
 		
-		AddItemToBox((BaseCarriableItem)item);
+		AddItemToBox(item);
 	}
 
-	private void AddItemToBox(BaseCarriableItem body)
+	public override void OnBeginUse()
 	{
-		itemsInBasket.Add((IStashable)body);
+		if (player.IsCarryingItem)
+		{
+			return;
+		}
 
-		GD.Print(body.Name + "ENTERED");
-		body.Freeze = true;
-		body.Reparent(this);
-		body.SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+		Freeze = true;
+		Reparent(player.EquipableBasketPositionMarker);
+
+		GlobalPosition = player.EquipableBasketPositionMarker.GlobalPosition;
+		Rotation = Vector3.Zero;
+		player.IsHoldingItem = true;
+		IsHeld = true;
+		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+	}
+
+	private void AddItemToBox(StashableItem carriableItem)
+	{
+		itemsInBasket.Add(carriableItem);
+		carriableItem.Stash();
+		GD.Print(carriableItem.Name + "ENTERED");
+		carriableItem.Freeze = true;
+		carriableItem.Reparent(this);
+		carriableItem.SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+		carriableItem.OnItemPickedUp += BaseCarriableItem_ItemPickedUp;
+	}
+
+	private void BaseCarriableItem_ItemPickedUp(BaseCarriableItem item)
+	{
+		if (item is IStashable stashableItem)
+		{
+			item.OnItemPickedUp -= BaseCarriableItem_ItemPickedUp;
+			itemsInBasket.Remove(stashableItem);
+		}
+	}
+
+	public PlayerAnimationStates? HandleAnimations()
+	{
+		if (IsHeld)
+		{
+			return PlayerAnimationStates.Box;
+		}
+
+		return null;
 	}
 }

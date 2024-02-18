@@ -1,5 +1,6 @@
 using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
+using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using Godot;
 using System.Linq;
@@ -9,12 +10,18 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 [GlobalClass]
 public partial class StashableItem : BaseCarriableItem, IStashable
 {
-	[Export]
-	public bool IsDecayable { get; set; }
+	public bool IsStashed { get; set; }
 
-	[Export]
-	public bool IsBreakable { get; set; }
+	public void Stash()
+	{
+		Drop();
+		IsStashed = true; 
+	}
 
-	[Export]
-	public bool IsUsed { get; set; }
+	protected override void Drop()
+	{
+		Reparent(originalParent);
+		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, true);
+		base.Drop();
+	}
 }

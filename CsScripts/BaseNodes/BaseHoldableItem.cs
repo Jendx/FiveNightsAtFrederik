@@ -51,6 +51,11 @@ public partial class BaseHoldableItem : RigidBody3D, IPlayerUsable
     /// </summary>
     public virtual void OnBeginUse()
     {
+        if (player.IsCarryingItem)
+        {
+            return;
+        }
+
         Freeze = true;
         Reparent(player.EquipableItemPositionMarker);
 

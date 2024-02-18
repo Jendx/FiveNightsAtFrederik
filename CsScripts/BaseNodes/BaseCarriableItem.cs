@@ -20,6 +20,9 @@ public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
     [Export]
     public MeshInstance3D MeshInstance { get; set; }
 
+    public delegate void PickedUpEventHandler(BaseCarriableItem item);
+    public event PickedUpEventHandler OnItemPickedUp;
+
     private Vector3 direction;
     private Player player;
     private const float Speed = 0.001f;
@@ -66,7 +69,7 @@ public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
         }
     }
 
-    private void Drop()
+    protected virtual void Drop()
     {
         Freeze = false;
         IsHeld = false;
@@ -80,9 +83,8 @@ public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
         IsHeld = true;
         Freeze = true;
         player.IsCarryingItem = true;
-
-        Reparent(originalParent);
-        SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, true);
+  
+        OnItemPickedUp?.Invoke(this);
     }
 
     public void OnEndUse()

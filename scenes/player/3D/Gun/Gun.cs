@@ -3,6 +3,7 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
+using FiveNightsAtFrederik.scenes.player.Enums;
 using FiveNightsAtFrederik.Scenes.Player._3D.Gun.Enums;
 using Godot;
 using Godot.Collections;
@@ -10,10 +11,12 @@ using System.Threading.Tasks;
 
 namespace FiveNightsAtFrederik.Scenes.Player;
 
-public partial class Gun : BaseHoldableItem
+public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 {
+	public AnimationTree AnimationTree { get; private set; }
+
 	[Export]
-	private const int reloadTime = 1;
+	private const float reloadTime = 3.3f;
 
 	// Cooldown between shots
 	[Export]
@@ -31,10 +34,12 @@ public partial class Gun : BaseHoldableItem
 	private RayCast3D rayCast;
 	private Timer fireCooldownTimer;
 	private Timer automaticReloadTimer;
-
 	private bool isOnFireCooldown;
 	private bool isLoaded = true;
 	private bool isReloading;
+	private bool isShooting;
+	private GunAnimationStates currentAnimation = GunAnimationStates.Idle;
+	private GunAnimationStates nextAnimation;
 
 	public override void _Ready()
 	{
@@ -42,7 +47,12 @@ public partial class Gun : BaseHoldableItem
 		audioPlayer = this.TryGetNode<AudioStreamPlayer3D>(NodeNames.AudioPlayer.ToString(), nameof(audioPlayer));
 		rayCast = this.TryGetNode<RayCast3D>(NodeNames.RayCast, nameof(rayCast));
 		fireCooldownTimer = this.TryGetNode<Timer>(NodeNames.DelayTimer, nameof(fireCooldownTimer));
-		fireCooldownTimer.Timeout += () => isOnFireCooldown = false;
+		AnimationTree = this.TryGetNode<AnimationTree>(NodeNames.AnimationTree, nameof(AnimationTree));
+		fireCooldownTimer.Timeout += () =>
+		{
+			isOnFireCooldown = false;
+			isShooting = false;
+		};
 
 		automaticReloadTimer = this.TryGetNode<Timer>(NodeNames.AutomaticReloadTimer, nameof(automaticReloadDelay));
 		automaticReloadTimer.Timeout += async () =>
@@ -77,12 +87,12 @@ public partial class Gun : BaseHoldableItem
 
 		// Stop automaticReloadTimer so when player drops the gun, it is not reloaded
 		automaticReloadTimer.Stop();
-
+		IsInteractionUIDisplayed = true;
 		Reparent(originalParent);
-		player.IsHoldingItem = false;
 		IsHeld = false;
 		Freeze = false;
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, true);
+		player.IsHoldingItem = false;
 	}
 
 	/// <summary>
@@ -94,7 +104,7 @@ public partial class Gun : BaseHoldableItem
 		{
 			return;
 		}
-
+		
 		audioPlayer.Stream = gunSounds[isLoaded ? GunSounds.Shoot : GunSounds.ShootEmpty];
 		audioPlayer.Play();
 
@@ -109,6 +119,7 @@ public partial class Gun : BaseHoldableItem
 		}
 
 		isOnFireCooldown = true;
+		isShooting = true;
 		fireCooldownTimer.Start(fireRate);
 		// after little delay reload gun, if it is still held
 		automaticReloadTimer.Start(automaticReloadDelay);
@@ -117,16 +128,71 @@ public partial class Gun : BaseHoldableItem
 	private async Task Reload()
 	{
 		// TODO: Add & Play reload Animation
-
-		audioPlayer.Stream = gunSounds[GunSounds.Reload];
-		audioPlayer.Play();
-
 		isReloading = true;
+		audioPlayer.PlayStream(gunSounds[GunSounds.Reload]); 	
 		var timer = GetTree().CreateTimer(reloadTime);
 		await ToSignal(timer, "timeout");
-		isReloading = false;
 
+		isReloading = false;
 		isLoaded = true;
 		return;
+	}
+
+	public override void OnBeginUse()
+	{
+		player.UpdateCrosshairState(HudCrosshairStates.Aim);
+		IsInteractionUIDisplayed = false;
+		if(player.IsCarryingItem)
+		{
+			return;
+		}
+		Freeze = true;
+		Reparent(player.EquipableItemPositionMarker);
+
+		GlobalPosition = player.EquipableItemPositionMarker.GlobalPosition;
+		Rotation = Vector3.Zero;
+		player.IsHoldingItem = true;
+		IsHeld = true;
+		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+	}
+
+	public void UpdateGunAnimation()
+	{
+		if (currentAnimation == nextAnimation)
+		{
+			return;
+		}
+
+		AnimationTree.Set(currentAnimation.GetDescription(), false);
+
+		currentAnimation = nextAnimation;
+
+		AnimationTree.Set(currentAnimation.GetDescription(), true);
+	}
+
+	public PlayerAnimationStates? HandleAnimations()
+	{
+		if (isReloading)
+		{
+			nextAnimation = GunAnimationStates.Reload;
+			UpdateGunAnimation();
+			return PlayerAnimationStates.Reload;
+		}
+
+		if (isShooting)
+		{
+			nextAnimation = GunAnimationStates.Shoot;
+			UpdateGunAnimation();
+			return PlayerAnimationStates.Shoot;
+		}
+
+		if (IsHeld)
+		{
+			nextAnimation = GunAnimationStates.Idle;
+			UpdateGunAnimation();
+			return PlayerAnimationStates.IdleArmed;
+		}
+		
+		return null;
 	}
 }
