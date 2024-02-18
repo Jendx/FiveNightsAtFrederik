@@ -24,6 +24,7 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
 	{
 		basketArea = this.TryGetNode<Area3D>(NodeNames.BasketArea, nameof(basketArea));
 		base._Ready();
+
 		basketArea.BodyEntered += BasketArea_BodyEntered;
 	}
 
@@ -33,14 +34,18 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
    /// <param name="body"></param>
 	private void BasketArea_BodyEntered(Node3D body)
 	{
-		GD.Print(body.Name + "ENTERED");
-		var item = body.TryConvertTo<IStashable>();
+		if(IsHeld)
+		{
+			return;
+		}
+
+		var item = body.TryConvertTo<StashableItem>();
 		if (item is null || itemsInBasket.Contains(item) || itemsInBasket.Count >= maxCapacity)
 		{
 			return;
 		}
 		
-		AddItemToBox((BaseCarriableItem)item);
+		AddItemToBox(item);
 	}
 
 	public override void OnBeginUse()
@@ -60,19 +65,28 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
 	}
 
-	private void AddItemToBox(BaseCarriableItem body)
+	private void AddItemToBox(StashableItem carriableItem)
 	{
-		itemsInBasket.Add((IStashable)body);
+		itemsInBasket.Add(carriableItem);
+		carriableItem.Stash();
+		GD.Print(carriableItem.Name + "ENTERED");
+		carriableItem.Freeze = true;
+		carriableItem.Reparent(this);
+		carriableItem.SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+		carriableItem.OnItemPickedUp += BaseCarriableItem_ItemPickedUp;
+	}
 
-		GD.Print(body.Name + "ENTERED");
-		body.Freeze = true;
-		body.Reparent(this);
-		body.SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
+	private void BaseCarriableItem_ItemPickedUp(BaseCarriableItem item)
+	{
+		if (item is IStashable stashableItem)
+		{
+			item.OnItemPickedUp -= BaseCarriableItem_ItemPickedUp;
+			itemsInBasket.Remove(stashableItem);
+		}
 	}
 
 	public PlayerAnimationStates? HandleAnimations()
 	{
-
 		if (IsHeld)
 		{
 			return PlayerAnimationStates.Box;
