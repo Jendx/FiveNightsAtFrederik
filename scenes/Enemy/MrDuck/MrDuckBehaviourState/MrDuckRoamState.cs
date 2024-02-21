@@ -27,6 +27,7 @@ public class MrDuckRoamState : MrDuckBaseState
 
     public override void HandleBehaviour()
     {
+        // If the TargetDesiredDistance is > duck is switching & we need to generate new point to go to
         if (mrDuck.NavigationAgent.TargetDesiredDistance > roamTargetDesiredDistance)
         {
             mrDuck.NavigationAgent.TargetDesiredDistance = roamTargetDesiredDistance;

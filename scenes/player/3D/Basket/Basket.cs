@@ -39,7 +39,7 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
 			return;
 		}
 
-		var item = body.TryConvertTo<StashableItem>();
+		var item = body.TryConvertTo<Ingredient>();
 		if (item is null || itemsInBasket.Contains(item) || itemsInBasket.Count >= maxCapacity)
 		{
 			return;
@@ -65,7 +65,7 @@ public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?
 		SetCollisionLayerValue((int)CollisionLayers.PlayerCollideable, false);
 	}
 
-	private void AddItemToBox(StashableItem carriableItem)
+	private void AddItemToBox(Ingredient carriableItem)
 	{
 		itemsInBasket.Add(carriableItem);
 		carriableItem.Stash();

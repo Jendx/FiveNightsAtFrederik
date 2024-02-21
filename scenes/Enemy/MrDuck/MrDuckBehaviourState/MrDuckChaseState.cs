@@ -1,7 +1,6 @@
 ﻿using FiveNightsAtFrederik.CsScripts.Controllers;
 using FiveNightsAtFrederik.CsScripts.Enums;
 using FiveNightsAtFrederik.CsScripts.Extensions;
-using FiveNightsAtFrederik.CsScripts.Helpers;
 using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourFactory.Abstraction;
 using FiveNightsAtFrederik.scenes.Enemy.MrDuck.BehaviourState.Enums;
 using FiveNightsAtFrederik.Scenes.Player;
@@ -29,13 +28,13 @@ public class MrDuckChaseState : MrDuckBaseState
 
     public override void HandleBehaviour()
     {
-        mrDuck.NavigationAgent.TargetDesiredDistance = 2.5f;
+        mrDuck.NavigationAgent.TargetDesiredDistance = 1.3f;
 
         // If player is in sight the duck will follow the player
         // If not the duck will go to last know player position
         if (mrDuck.sight.IsPlayerInSight)
         {
-            audioPlayer.PitchScale = MathF.Max(0.1f, MathFHelper.Map(mrDuck.NavigationAgent.DistanceToTarget(), .0f, 7, 1.5f, 3.2f));
+            audioPlayer.PitchScale = MathF.Max(0.1f, Mathf.Remap(mrDuck.NavigationAgent.DistanceToTarget(), .0f, 7, 3.2f, 1.5f));
             audioPlayer.PlayStream(audioTracks[EnemySounds.Chase]);
             mrDuck.NavigationAgent.TargetPosition = player.GlobalPosition;
             mrDuck.ChaseCooldownTimer.Stop();

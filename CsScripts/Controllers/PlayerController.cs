@@ -17,8 +17,6 @@ public class PlayerController
     private Vector3 velocity = new();
     private IPlayerUsable? usableObject;
     private PlayerAnimationStates nextAnimation;
-    private readonly string[] forbiddenSprintPressedActions = new[] { ActionNames.Move_Left.ToString(), ActionNames.Move_Backwards.ToString(), ActionNames.Move_Right.ToString() };
-    
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     private readonly float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();

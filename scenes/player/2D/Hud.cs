@@ -10,10 +10,10 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 
 public partial class Hud : Control
 {
-	private TextureRect crosshair;
-	private ProgressBar staminaBar;
-	private Player player;
-	private StyleBoxFlat style;
+	private TextureRect? crosshair;
+	private ProgressBar? staminaBar;
+    private Player? player;
+    private StyleBoxFlat? style;
 
 	[Export]
 	[ExportGroup("Dictionary<HudCrosshairStates, AudioStreamMp3> EnumValues: 0:Point, 1:Use, 2:Aim")]
@@ -23,14 +23,13 @@ public partial class Hud : Control
 	{
 		crosshair = this.TryGetNode<TextureRect>(NodeNames.Crosshair, nameof(crosshair));
 		staminaBar = this.TryGetNode<ProgressBar>(NodeNames.StaminaBar, nameof(staminaBar));
-		player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {GroupNames.playerGroup}");
+		player = GetTree().GetNodesInGroup(GroupNames.PlayerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {GroupNames.PlayerGroup}");
 		style = new StyleBoxFlat();
 
-		player.OnPlayerUpdateCrosshairTexture += OnPlayerUpdateCrosshairTexture;
 		staminaBar.Visible = false;
 	}
 
-	private void OnPlayerUpdateCrosshairTexture(HudCrosshairStates crosshairStates)
+	public void UpdateCrosshairTexture(HudCrosshairStates crosshairStates)
 	{
 		crosshair.Texture = defaultCrosshairTexture[crosshairStates];
 	}
@@ -49,7 +48,3 @@ public partial class Hud : Control
 		staminaBar.Value = player.CurrentStamina;
 	}
 }
-
-
-
-

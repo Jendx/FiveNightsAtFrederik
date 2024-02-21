@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cx78f5yanshxx"]
+
+[ext_resource type="Script" path="res://scenes/level/Minigames/PizzaCrafting/CarriablePizza.cs" id="1_fltkm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o4g7a"]
+albedo_color = Color(0.996078, 0.678431, 0.27451, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rop53"]
+material = SubResource("StandardMaterial3D_o4g7a")
+top_radius = 0.26
+bottom_radius = 0.26
+height = 0.01
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_etyyl"]
+size = Vector3(0.545566, 0.0252002, 0.525957)
+
+[node name="CarriablePizza" type="RigidBody3D"]
+collision_layer = 7
+collision_mask = 7
+freeze = true
+script = ExtResource("1_fltkm")
+Mesh = SubResource("CylinderMesh_rop53")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00225227, 0)
+shape = SubResource("BoxShape3D_etyyl")
+
+[node name="CarriableItemMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00225227, 0)
+mesh = SubResource("CylinderMesh_rop53")
+skeleton = NodePath("../CollisionShape3D")

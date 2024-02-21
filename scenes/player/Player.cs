@@ -81,6 +81,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 
 	private PlayerController PlayerController;
 	private RayCast3D RayCast;
+	private Hud hud;
 	private PlayerAnimationStates currentAnimation;
 	private float currentStamina = (float)SprintThresholds.Max;
 	private bool isInputDisabled;
@@ -89,8 +90,6 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
-
-	public void UpdateCrosshairState(HudCrosshairStates newHudState) => OnPlayerUpdateCrosshairTexture?.Invoke(newHudState);
 
 	public override void _Ready()
 	{
@@ -102,10 +101,13 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		CarryableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker, nameof(CarryableItemPositionMarker));
 		EquipableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_GunPosition, nameof(EquipableItemPositionMarker));
 		EquipableBasketPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_BasketPosition, nameof(EquipableBasketPositionMarker));
+        hud = Camera.TryGetNode<Hud>(NodeNames.Camera_HUD, nameof(hud));
 		PlayerController = new PlayerController(this);
 	}
 
-	public override void _PhysicsProcess(double delta)
+    public void UpdateCrosshairState(HudCrosshairStates newHudState) => hud?.UpdateCrosshairTexture(newHudState);
+
+    public override void _PhysicsProcess(double delta)
 	{
 		if (Input.IsActionJustPressed(ActionNames.DEBUG_TOGGLEMOUSE))
 		{
@@ -164,4 +166,8 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		Camera.LookAt(enemyPosition);
 		isInputDisabled = true;
 	}
+
+    public void HideHud() => hud.Hide();
+
+    public void ShowHud() => hud.Show();
 }

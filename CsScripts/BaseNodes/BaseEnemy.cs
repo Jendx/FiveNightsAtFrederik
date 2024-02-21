@@ -60,7 +60,7 @@ public partial class BaseEnemy : CharacterBody3D
 
     public override void _Ready()
     {
-        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+        player = GetTree().GetNodesInGroup(GroupNames.PlayerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
         NavigationAgent = this.TryGetNode<NavigationAgent3D>(NodeNames.NavigationAgent, nameof(NavigationAgent));
         LookForwardMarker = this.TryGetNode<Marker3D>(NodeNames.LookForwardPosition, nameof(LookForwardMarker));
         idleTimer = this.TryGetNode<Timer>(NodeNames.IdleTimer, nameof(idleTimer));
