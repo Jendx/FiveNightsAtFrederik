@@ -4,10 +4,13 @@ namespace FiveNightsAtFrederik.CsScripts.Constants;
 
 public static class NodeNames
 {
-    //Button
+    // Button
     public static readonly StringName UseAudio = new("UseAudio");
+    
+    // CarriableItem
+    public static readonly StringName CarriableItemMesh = new("CarriableItemMesh");
 
-    //CameraSystem
+    // CameraSystem
     public static readonly StringName CameraSystemViewport = new("CameraSystemViewport");
     public static readonly StringName CameraView = new("CameraView");
     public static readonly StringName CameraSystemViewArea = new("CameraView/CameraSystemViewArea");
@@ -20,6 +23,7 @@ public static class NodeNames
     public static readonly StringName Camera_EquipableItemPosition = new("EquipableItemPosition");
     public static readonly StringName Camera_GunPosition = new("hands/Hands_rig/Skeleton3D/GunBone/EquipableItemPosition");
     public static readonly StringName Camera_BasketPosition = new("hands/Hands_rig/Skeleton3D/GunBone/EquipableBasketPosition");
+    public static readonly StringName Camera_HUD = new("HUD");
 
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");
@@ -59,6 +63,7 @@ public static class NodeNames
     // Minigames
     public static readonly StringName MinigameCamera = new("MinigameCamera");
     public static readonly StringName MinigameInteractionCollision = new("MinigameInteractionBody/MinigameInteractionCollision");
+    public static readonly StringName MinigameHud = new("MinigameCamera/MinigameHud");
 
     // Soda
     public static readonly StringName Mug = new("Mug");
@@ -78,4 +83,6 @@ public static class NodeNames
     public static readonly StringName PizzaSpawner = new("PizzaSpawner");
     public static readonly StringName FailureArea = new("FailureArea");
     public static readonly StringName AddIngredientArea = new("AddIngredientArea");
+    public static readonly StringName SelectedIngredientText = new("MinigameCamera/MinigameHud/SelectedIngredientText");
+    public static readonly StringName NoIngredientsLabel = new("MinigameCamera/MinigameHud/NoIngredientsLabel");
 }

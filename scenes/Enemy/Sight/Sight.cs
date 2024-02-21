@@ -21,7 +21,7 @@ public partial class Sight : Node3D
 
 	public override void _Ready()
 	{
-		player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player.Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+		player = GetTree().GetNodesInGroup(GroupNames.PlayerGroup.ToString()).FirstOrDefault() as Player.Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
 		rayCast = this.TryGetNode<RayCast3D>(NodeNames.RayCast, nameof(rayCast));
 		sightArea = this.TryGetNode<Area3D>(NodeNames.VisionArea, nameof(sightArea));
 		recastTimer = this.TryGetNode<Timer>(NodeNames.RecastTimer, nameof(recastTimer));

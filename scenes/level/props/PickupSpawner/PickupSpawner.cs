@@ -1,3 +1,4 @@
+using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 
@@ -21,20 +22,20 @@ public partial class PickupSpawner : Node3D
     private bool autoRespawn = true;
 
     [Export]
-    private PackedScene? carryableItemTemplateScene;
+    private PackedScene? carriableItemTemplateScene;
     
-    private CarryableItem? currentItem;
+    private BaseCarriableItem? currentItem;
     private bool isObjectAwayFromSpawn;
 
     public override void _Ready()
     {
-        carryableItemTemplateScene = carryableItemTemplateScene ?? throw new System.Exception($"Node: {Name} does not have {nameof(carryableItemTemplateScene)} set!");
+        carriableItemTemplateScene = carriableItemTemplateScene ?? throw new System.Exception($"Node: {Name} does not have {nameof(carriableItemTemplateScene)} set!");
         if (!spawnOnReady)
         {
             return;
         }
 
-        currentItem = carryableItemTemplateScene?.Instantiate() as CarryableItem;
+        currentItem = carriableItemTemplateScene?.Instantiate() as BaseCarriableItem;
         AddChild(currentItem);
     }
 
@@ -50,19 +51,23 @@ public partial class PickupSpawner : Node3D
 
         if (autoRespawn)
         {
-            TrySpawnItem();
+            TrySpawnItem<CarriableItem>();
         }
     }
 
-    public CarryableItem? TrySpawnItem()
+    public TItem? TrySpawnItem<TItem>() where TItem : BaseCarriableItem
     {
         if (isObjectAwayFromSpawn)
         {
-            currentItem = carryableItemTemplateScene?.Instantiate() as CarryableItem;
+            currentItem = carriableItemTemplateScene?.Instantiate() as TItem;
+            if (currentItem is null)
+            {
+                GD.PrintErr($"PickupSpawner: {Name} failed to spawn item of type {nameof(TItem)}");
+            }
 
             AddChild(currentItem);
         }
 
-        return currentItem;
+        return (TItem?)currentItem;
     }
 }

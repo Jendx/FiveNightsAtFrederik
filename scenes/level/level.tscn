@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=32 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]
@@ -11,9 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/MrDuck/MrDuck.tscn" id="9_jp5rx"]
 [ext_resource type="PackedScene" uid="uid://bu6mr7xhtuulk" path="res://scenes/Enemy/AmericanoBug/AmericanBug.tscn" id="10_0u43u"]
 [ext_resource type="PackedScene" uid="uid://djyuwual7g6b4" path="res://scenes/player/3D/Gun/Gun.tscn" id="11_jipue"]
-[ext_resource type="PackedScene" uid="uid://kop7avw15nny" path="res://scenes/level/props/PickupSpawner/PickupSpawner.tscn" id="12_ibpqg"]
 [ext_resource type="PackedScene" uid="uid://dhqcpkxwawdge" path="res://scenes/player/3D/Basket/basket.tscn" id="13_nsjbx"]
-[ext_resource type="PackedScene" uid="uid://cx78f5yanshxx" path="res://scenes/player/3D/CarryableItem/Pizza/CarryableItem_Pizza.tscn" id="13_scj51"]
 [ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="14_d2bv4"]
 [ext_resource type="PackedScene" uid="uid://by3qntk8txqdo" path="res://scenes/level/Minigames/Soda/SodaMinigame.tscn" id="16_wgp4f"]
 [ext_resource type="PackedScene" uid="uid://d0bf8yggruo8l" path="res://scenes/level/Minigames/PizzaCrafting/PizzaCraftingMinigame.tscn" id="17_ufe0o"]
@@ -79,14 +77,29 @@ polygons = [PackedInt32Array(4, 3, 0), PackedInt32Array(0, 3, 1), PackedInt32Arr
 agent_radius = 0.2
 edge_max_error = 0.71
 
-[sub_resource type="PrismMesh" id="PrismMesh_e0ms5"]
-size = Vector3(0.07, 0.07, 0.07)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0wu26"]
+albedo_color = Color(1, 0.0588235, 1, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_g7xgh"]
-radius = 0.07
-height = 0.07
+[sub_resource type="SphereMesh" id="SphereMesh_v2pad"]
+material = SubResource("StandardMaterial3D_0wu26")
+radius = 0.15
+height = 0.15
 
-[node name="lvl1" type="Node3D"]
+[sub_resource type="SphereMesh" id="SphereMesh_yt31u"]
+radius = 0.1
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyvgd"]
+albedo_color = Color(0, 0.356863, 0.407843, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_ra0d5"]
+material = SubResource("StandardMaterial3D_xyvgd")
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_0msns"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="lvl1" type="Node3D" groups=["Levels"]]
 
 [node name="Enviroment" type="Node" parent="."]
 
@@ -181,10 +194,6 @@ transform = Transform3D(0.999922, 0, 0.0125137, 0, 1, 0, -0.0125137, 0, 0.999922
 [node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.3189, 1.16493, 0.114175)
 
-[node name="PickupSpawner" parent="." instance=ExtResource("12_ibpqg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.31158, 0.6195, 3.70455)
-carryableItemTemplateScene = ExtResource("13_scj51")
-
 [node name="LightsControl" type="Node3D" parent="."]
 script = ExtResource("1_ldrlg")
 
@@ -226,22 +235,28 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 27.431
 [node name="PizzaCraftingMinigame" parent="." instance=ExtResource("17_ufe0o")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 27.5487, 0.854553, 13.6823)
 
-[node name="Ingredient" parent="." node_paths=PackedStringArray("MeshInstance") instance=ExtResource("14_d2bv4")]
+[node name="Ingredient" parent="." instance=ExtResource("14_d2bv4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.1417, 1.04963, 14.1025)
-MeshInstance = NodePath("MeshInstance3D2")
+PizzaDisplayMesh = SubResource("SphereMesh_v2pad")
+Mesh = SubResource("SphereMesh_yt31u")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ingredient"]
-mesh = SubResource("PrismMesh_e0ms5")
+[node name="CarriableItemMesh" parent="Ingredient" index="0"]
+mesh = SubResource("SphereMesh_yt31u")
 
-[node name="Ingredient2" parent="." node_paths=PackedStringArray("MeshInstance") instance=ExtResource("14_d2bv4")]
+[node name="Ingredient2" parent="." instance=ExtResource("14_d2bv4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.1417, 1.04963, 14.7918)
-MeshInstance = NodePath("../Ingredient/MeshInstance3D2")
+Type = 2
+PizzaDisplayMesh = SubResource("PrismMesh_ra0d5")
+Mesh = SubResource("PrismMesh_0msns")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ingredient2"]
-mesh = SubResource("SphereMesh_g7xgh")
+[node name="CarriableItemMesh" parent="Ingredient2" index="0"]
+mesh = SubResource("PrismMesh_0msns")
 
 [node name="Gun" parent="." instance=ExtResource("11_jipue")]
 transform = Transform3D(-3.78552e-08, 0.866025, -0.5, -1, -4.37114e-08, 0, -2.18557e-08, 0.5, 0.866025, 1.72609, 0.882666, 0.404736)
 
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]
+
+[editable path="Ingredient"]
+[editable path="Ingredient2"]

@@ -1,5 +1,6 @@
 ﻿using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Extensions;
+using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 using System.Linq;
@@ -7,22 +8,23 @@ using System.Threading.Tasks;
 
 namespace FiveNightsAtFrederik.CsScripts.BaseNodes;
 
-public abstract partial class BaseMinigame : Node3D
+public abstract partial class BaseMinigame : Node3D, IPlayerUsable
 {
+    public bool IsInteractionUIDisplayed { get; set; } = true;
+
     protected bool isActive;
     protected Player? player;
     protected Camera3D? minigameCamera;
     protected CollisionShape3D? interactionCollision;
-
-    protected BaseMinigame()
-    {
-    }
+    protected Control? minigameHud;
 
     public override void _Ready()
     {
-        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+        player = GetTree().GetNodesInGroup(GroupNames.PlayerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
         minigameCamera = this.TryGetNode<Camera3D>(NodeNames.MinigameCamera, nameof(minigameCamera));
         interactionCollision = this.TryGetNode<CollisionShape3D>(NodeNames.MinigameInteractionCollision, nameof(interactionCollision));
+        minigameHud = this.TryGetNode<Control>(NodeNames.MinigameHud, nameof(minigameHud));
+        minigameHud.Hide();
     }
 
     /// <summary>
@@ -35,10 +37,12 @@ public abstract partial class BaseMinigame : Node3D
         minigameCamera.Current = false;
 
         player.Camera.Current = true;
+        minigameHud.Hide();
+        player.ShowHud();
     }
 
     protected abstract void ResetMinigame();
-    protected abstract void TryWin();
+    protected abstract void FinishMinigame();
 
     public virtual void OnBeginUse()
     {
@@ -47,6 +51,9 @@ public abstract partial class BaseMinigame : Node3D
 
         player.Camera.Current = false;
         _ = ActivateMinigame();
+
+        minigameHud.Show();
+        player.HideHud();
     }
 
     public virtual void OnEndUse()

@@ -3,6 +3,7 @@ using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
+using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 
 namespace FiveNightsAtFrederik.scenes.level;
@@ -93,7 +94,7 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
     /// <summary>
     /// Checks if all conditions for win is met & creates new object for player to deliver
     /// </summary>
-    protected override void TryWin()
+    protected override void FinishMinigame()
     {
         // If the foamRisingTimerWaitTime is zero & foam is not shrinking then the drink's volume is not changing && is in Win Area => Can be "submitted" 
         var isDrinkLevelChanging = foamRaisingTimerWaitTime > 0 || isFoamShrinking;
@@ -102,7 +103,7 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
             mug.Visible = false;
             interactionCollision.Disabled = true;
 
-            drinkSpawner.TrySpawnItem();
+            drinkSpawner.TrySpawnItem<CarriableItem>();
             ResetMinigame();
             LeaveMinigame();
         }
@@ -159,7 +160,7 @@ public partial class SodaMinigame : BaseMinigame, IPlayerUsable
             HandleFilling(drink, drinkFillRate, 0.4f);
         }
 
-        TryWin();
+        FinishMinigame();
     }
 
     /// <summary>

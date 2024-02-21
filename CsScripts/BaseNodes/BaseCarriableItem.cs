@@ -1,5 +1,5 @@
 ﻿using FiveNightsAtFrederik.CsScripts.Constants;
-using FiveNightsAtFrederik.CsScripts.Enums;
+using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
@@ -17,21 +17,36 @@ public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
     [Export]
     public CollisionShape3D? CollisionShape { get; set; }
 
+    /// <summary>
+    /// Sets mesh that should be used. To update call UpdateCurrentDisplayedMesh
+    /// </summary>
     [Export]
-    public MeshInstance3D? MeshInstance { get; set; }
+    public Mesh? Mesh { get; set; }
 
     public delegate void PickedUpEventHandler(BaseCarriableItem item);
     public event PickedUpEventHandler OnItemPickedUp;
 
     private Player? player;
     protected Node? originalParent;
+    protected MeshInstance3D? carriableMeshInstance;
+
     private Vector3 direction;
     private const float Speed = 0.001f;
     private const float MaxDistance = 1.5f;
 
     public override void _Ready()
     {
-        player = GetTree().GetNodesInGroup(GroupNames.playerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}"); ;
+        player = GetTree().GetNodesInGroup(GroupNames.PlayerGroup.ToString()).FirstOrDefault() as Player ?? throw new NativeMemberNotFoundException($"Node: {Name} failed to find {nameof(player)} at {NodeNames.PlayerInRoot}");
+
+        if (GetChildren().Count == 0)
+        {
+            carriableMeshInstance = new() { Name = NodeNames.CarriableItemMesh.ToString() };
+            AddChild(carriableMeshInstance);
+        }
+
+        carriableMeshInstance ??= this.TryGetNode<MeshInstance3D>(NodeNames.CarriableItemMesh, nameof(carriableMeshInstance));
+        carriableMeshInstance.Mesh = Mesh;
+
         originalParent = GetParent();
     }
 
@@ -69,6 +84,15 @@ public partial class BaseCarriableItem : RigidBody3D, IPlayerUsable
         }
     }
 
+    /// <summary>
+    /// Changes displayed mesh of meshInstance
+    /// </summary>
+    /// <param name="mesh">If null will use Mesh property</param>
+    public void UpdateCurrentDisplayedMesh(Mesh? mesh = null)
+    {
+        carriableMeshInstance.Mesh = mesh ?? Mesh;
+    }
+    
     protected virtual void Drop()
     {
         Freeze = false;
