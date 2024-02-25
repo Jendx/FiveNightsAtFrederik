@@ -4179,7 +4179,7 @@ bones/46/rotation = Quaternion(0.708123, -0.064692, -0.271196, 0.648713)
 bones/47/scale = Vector3(1, 1, 1)
 
 [node name="GunBone" type="BoneAttachment3D" parent="Camera/hands/Hands_rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.961636, -0.211731, 0.174431, 0.268, -0.860876, 0.432514, 0.058587, 0.462669, 0.884593, -2.40674, 2.79517, 0.0448655)
+transform = Transform3D(-0.961636, -0.21173, 0.174431, 0.267999, -0.860876, 0.432515, 0.0585872, 0.46267, 0.884593, -2.40674, 2.79517, 0.0448681)
 bone_name = "hand.R"
 bone_idx = 27
 
