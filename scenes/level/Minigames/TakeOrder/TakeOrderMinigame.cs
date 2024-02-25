@@ -34,6 +34,7 @@ public partial class TakeOrderMinigame : Node3D, IPlayerUsable
 
     public void StartRinging()
     {
+        audioPlayer.MaxDistance = 40;
         audioPlayer.PlayStream(Ringtone);
         isRinging = true;
         IsInteractionUIDisplayed = true;
@@ -48,7 +49,7 @@ public partial class TakeOrderMinigame : Node3D, IPlayerUsable
 
         isRinging = false;
         IsInteractionUIDisplayed = false;
-        audioPlayer.
+        audioPlayer.MaxDistance = 20;
         audioPlayer.PlayStream(orderRecordings[OrderController.CurrentOrder]);
     }
 
