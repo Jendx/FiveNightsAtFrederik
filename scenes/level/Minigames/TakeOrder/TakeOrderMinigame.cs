@@ -19,8 +19,8 @@ public partial class TakeOrderMinigame : Node3D, IPlayerUsable
     [Export]
     private Dictionary<PizzaType, AudioStreamMP3> orderRecordings = new();
    
-    private AudioStreamPlayer3D audioPlayer;
     private readonly Random random = new();
+    private AudioStreamPlayer3D audioPlayer;
     private bool isRinging;
 
     public override void _Ready()
