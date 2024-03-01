@@ -1,14 +1,15 @@
 ﻿using FiveNightsAtFrederik.CsScripts.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace FiveNightsAtFrederik.CsScripts.Attributes;
 
 public class IngredientsAttribute : Attribute
 {
-    private IngredientTypes[] ingredients;
+    public List<IngredientTypes> ingredients = new();
 
     public IngredientsAttribute(params IngredientTypes[] ingredients)
     {
-        this.ingredients = ingredients;
+        this.ingredients = new(ingredients);
     }
 }

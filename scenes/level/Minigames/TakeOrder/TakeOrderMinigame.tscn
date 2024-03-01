@@ -1,10 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqsjx4stcsdkp"]
+[gd_scene load_steps=8 format=3 uid="uid://bqsjx4stcsdkp"]
 
 [ext_resource type="Script" path="res://scenes/level/Minigames/TakeOrder/TakeOrderMinigame.cs" id="2_06kgu"]
 [ext_resource type="Texture2D" uid="uid://ddgoyvo6gnoy4" path="res://scenes/level/map/map_colormap_2.png" id="2_ouvfo"]
 [ext_resource type="AudioStream" uid="uid://oko21236f06n" path="res://scenes/level/Minigames/TakeOrder/Sounds/Ringtone.mp3" id="2_yb0d5"]
-[ext_resource type="AudioStream" uid="uid://ca8xq0jcr5yt3" path="res://scenes/level/Minigames/TakeOrder/Sounds/Order_BearPizza.mp3" id="3_uigxu"]
-[ext_resource type="AudioStream" uid="uid://bi06o8hlutisv" path="res://scenes/level/Minigames/TakeOrder/Sounds/Order_DucksChoice.mp3" id="4_cpd6i"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dv8k0"]
 resource_name = "Material.010"
@@ -52,10 +50,6 @@ size = Vector3(0.517241, 0.13, 0.38)
 [node name="TakeOrderMinigame" type="Node3D"]
 script = ExtResource("2_06kgu")
 Ringtone = ExtResource("2_yb0d5")
-orderRecordings = {
-0: ExtResource("3_uigxu"),
-1: ExtResource("4_cpd6i")
-}
 
 [node name="Phone" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.067086, 0)

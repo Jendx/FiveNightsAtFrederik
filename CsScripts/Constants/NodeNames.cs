@@ -4,6 +4,12 @@ namespace FiveNightsAtFrederik.CsScripts.Constants;
 
 public static class NodeNames
 {
+    // Generic
+    public static readonly StringName AudioPlayer = new("AudioPlayer");
+    public static readonly StringName RayCast = new("RayCast");
+    public static readonly StringName PlayerInRoot = new("player");
+    public static readonly StringName Sight = new("Sight");
+
     // Button
     public static readonly StringName UseAudio = new("UseAudio");
     
@@ -46,12 +52,6 @@ public static class NodeNames
     // American Bug
     public static readonly StringName BugActivationTimer = new("BugActivationTimer");
 
-    // Generic
-    public static readonly StringName AudioPlayer = new("AudioPlayer");
-    public static readonly StringName RayCast = new("RayCast");
-    public static readonly StringName PlayerInRoot = new("player");
-    public static readonly StringName Sight = new("Sight");
-
     // Gun
     public static readonly StringName DelayTimer = new("DelayTimer");
     public static readonly StringName AutomaticReloadTimer = new("AutomaticReloadTimer");
@@ -85,4 +85,12 @@ public static class NodeNames
     public static readonly StringName AddIngredientArea = new("AddIngredientArea");
     public static readonly StringName SelectedIngredientText = new("MinigameCamera/MinigameHud/SelectedIngredientText");
     public static readonly StringName NoIngredientsLabel = new("MinigameCamera/MinigameHud/NoIngredientsLabel");
+
+    // Pizza expedition
+    public static readonly StringName SubmitArea = new("SubmitArea");
+    public static readonly StringName ReparentPositionMarker = new("ReparentPositionMarker");
+
+    // Win Screen
+    public static readonly StringName TotalValue = new("ColorRect/TotalValueDisplay");
+    public static readonly StringName WinLabel = new("ColorRect/WinLabel");
 }
