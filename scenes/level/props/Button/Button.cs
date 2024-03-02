@@ -1,4 +1,3 @@
-using FiveNightsAtFrederik.CsScripts.BaseNodes;
 using FiveNightsAtFrederik.CsScripts.Constants;
 using FiveNightsAtFrederik.CsScripts.Extensions;
 using FiveNightsAtFrederik.CsScripts.Interfaces;
@@ -16,7 +15,7 @@ public partial class Button : Node, IButton, IPlayerUsable
 	public float DelayLength { get; set; }
 
 	[Export]
-	public InteractableNode3D? UsableNode { get; set; } 
+	public Node? UsableNode { get; set; } 
 
 	[Export]
 	private BaseUsableParameters? parameters;
@@ -36,7 +35,7 @@ public partial class Button : Node, IButton, IPlayerUsable
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-		if (UsableNode is null) 
+		if (UsableNode is null or not IIndirectlyUsable<BaseUsableParameters>) 
 		{
 			GD.PrintErr($"{Name} UsableNode Is null and won't be executed");
 		}
@@ -54,7 +53,7 @@ public partial class Button : Node, IButton, IPlayerUsable
 		isOnCoolDown = true;
 
 		audioPlayer?.TrySetAndPlayStream(SwitchOnAudio);
-        UsableNode?.OnBeginUse(parameters);
+        (UsableNode as IIndirectlyUsable<BaseUsableParameters>)?.OnBeginUse(parameters);
 
 		if (DelayLength != default)
 		{
@@ -68,6 +67,6 @@ public partial class Button : Node, IButton, IPlayerUsable
 	public void OnEndUse()
 	{
         audioPlayer?.TrySetAndPlayStream(SwitchOffAudio);
-        UsableNode?.OnEndUse(parameters);
+        (UsableNode as IIndirectlyUsable<BaseUsableParameters>)?.OnEndUse(parameters);
 	}
 }
