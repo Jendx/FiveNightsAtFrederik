@@ -4091,7 +4091,7 @@ collision_mask = 3
 collide_with_areas = true
 debug_shape_custom_color = Color(1, 0.219608, 0.462745, 1)
 
-[node name="HUD" parent="Camera" instance=ExtResource("2_xb5ik")]
+[node name="Hud" parent="Camera" instance=ExtResource("2_xb5ik")]
 top_level = true
 mouse_filter = 2
 metadata/_edit_use_anchors_ = true

@@ -29,7 +29,7 @@ public static class NodeNames
     public static readonly StringName Camera_EquipableItemPosition = new("EquipableItemPosition");
     public static readonly StringName Camera_GunPosition = new("hands/Hands_rig/Skeleton3D/GunBone/EquipableItemPosition");
     public static readonly StringName Camera_BasketPosition = new("hands/Hands_rig/Skeleton3D/GunBone/EquipableBasketPosition");
-    public static readonly StringName Camera_HUD = new("HUD");
+    public static readonly StringName Camera_Hud = new("Hud");
 
     // Hud
     public static readonly StringName Crosshair = new("Crosshair");

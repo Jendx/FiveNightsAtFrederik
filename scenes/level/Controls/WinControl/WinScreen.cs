@@ -24,6 +24,7 @@ public partial class WinScreen : Control
         if (totalValue < 0)
         {
             winLabel.Text = "YOU WIN, DID NOT!";
+            totalValueLabel.LabelSettings.FontColor = FrederikColors.Red;
         }
 
         Show();
