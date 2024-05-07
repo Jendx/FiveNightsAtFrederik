@@ -101,13 +101,13 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		CarryableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker, nameof(CarryableItemPositionMarker));
 		EquipableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_GunPosition, nameof(EquipableItemPositionMarker));
 		EquipableBasketPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_BasketPosition, nameof(EquipableBasketPositionMarker));
-        hud = Camera.TryGetNode<Hud>(NodeNames.Camera_HUD, nameof(hud));
+		hud = Camera.TryGetNode<Hud>(NodeNames.Camera_HUD, nameof(hud));
 		PlayerController = new PlayerController(this);
 	}
 
-    public void UpdateCrosshairState(HudCrosshairStates newHudState) => hud?.UpdateCrosshairTexture(newHudState);
+	public void UpdateCrosshairState(HudCrosshairStates newHudState) => hud?.UpdateCrosshairTexture(newHudState);
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		if (Input.IsActionJustPressed(ActionNames.DEBUG_TOGGLEMOUSE))
 		{
@@ -167,7 +167,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		isInputDisabled = true;
 	}
 
-    public void HideHud() => hud.Hide();
+	public void HideHud() => hud.Hide();
 
-    public void ShowHud() => hud.Show();
+	public void ShowHud() => hud.Show();
 }

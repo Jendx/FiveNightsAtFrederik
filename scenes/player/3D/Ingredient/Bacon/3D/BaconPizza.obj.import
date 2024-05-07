@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ooclkd42xhw5"
+path="res://.godot/imported/BaconPizza.obj-2f159b436a0ca4efc0c842dd3f7cf853.mesh"
+
+[deps]
+
+files=["res://.godot/imported/BaconPizza.obj-2f159b436a0ca4efc0c842dd3f7cf853.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Bacon/3D/BaconPizza.obj"
+dest_files=["res://.godot/imported/BaconPizza.obj-2f159b436a0ca4efc0c842dd3f7cf853.mesh", "res://.godot/imported/BaconPizza.obj-2f159b436a0ca4efc0c842dd3f7cf853.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

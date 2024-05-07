@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhf44ht8r1s5q"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_xwcqm"]
+[ext_resource type="ArrayMesh" uid="uid://cwrqogstmwgn7" path="res://scenes/player/3D/Ingredient/MeatBalls/3D/MeatBallsPizza.obj" id="2_wwkxn"]
+[ext_resource type="ArrayMesh" uid="uid://ju21i4m72gc3" path="res://scenes/player/3D/Ingredient/MeatBalls/3D/MeatBallsWorld.obj" id="3_van5p"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bplf8"]
+size = Vector3(0.348633, 0.148062, 0.530273)
+
+[node name="Ingredient" instance=ExtResource("1_xwcqm")]
+Type = 7
+PizzaDisplayMesh = ExtResource("2_wwkxn")
+Mesh = ExtResource("3_van5p")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("3_van5p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0711012, 0)
+shape = SubResource("BoxShape3D_bplf8")

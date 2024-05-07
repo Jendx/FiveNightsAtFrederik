@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcg2nd46niygq"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_7xvfw"]
+[ext_resource type="ArrayMesh" uid="uid://ooclkd42xhw5" path="res://scenes/player/3D/Ingredient/Bacon/3D/BaconPizza.obj" id="2_7nm74"]
+[ext_resource type="ArrayMesh" uid="uid://bvlhbxgs5cuod" path="res://scenes/player/3D/Ingredient/Bacon/3D/BaconWorld.obj" id="2_x42es"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_io2dg"]
+size = Vector3(0.163086, 0.0355225, 0.260193)
+
+[node name="Ingredient" instance=ExtResource("1_7xvfw")]
+PizzaDisplayMesh = ExtResource("2_7nm74")
+Mesh = ExtResource("2_x42es")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("2_x42es")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00292969, 0.00750732, 0.0129089)
+shape = SubResource("BoxShape3D_io2dg")

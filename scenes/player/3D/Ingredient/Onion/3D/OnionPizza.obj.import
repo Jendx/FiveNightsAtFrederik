@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://pjjg5wt725h1"
+path="res://.godot/imported/OnionPizza.obj-473becce85e38236f17a76e03cfe5324.mesh"
+
+[deps]
+
+files=["res://.godot/imported/OnionPizza.obj-473becce85e38236f17a76e03cfe5324.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Onion/3D/OnionPizza.obj"
+dest_files=["res://.godot/imported/OnionPizza.obj-473becce85e38236f17a76e03cfe5324.mesh", "res://.godot/imported/OnionPizza.obj-473becce85e38236f17a76e03cfe5324.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,8 +1,9 @@
-[gd_scene load_steps=66 format=3 uid="uid://bqmuhi78lc7mt"]
+[gd_scene load_steps=67 format=3 uid="uid://bqmuhi78lc7mt"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_khwmd"]
 [ext_resource type="PackedScene" uid="uid://vps54mweee7u" path="res://scenes/player/2D/Hud.tscn" id="2_xb5ik"]
 [ext_resource type="PackedScene" uid="uid://cav2ewutq4q72" path="res://scenes/player/3D/Hands/hands.glb" id="3_fin5y"]
+[ext_resource type="AudioStream" uid="uid://b85crceumcq5j" path="res://scenes/player/Sounds/GameOver.ogg" id="4_0kqqi"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6nyor"]
 radius = 0.357074
@@ -15,7 +16,7 @@ volumetric_fog_enabled = true
 volumetric_fog_density = 0.2075
 volumetric_fog_albedo = Color(0.174028, 0.174028, 0.174028, 1)
 
-[sub_resource type="Animation" id="Animation_ou8vj"]
+[sub_resource type="Animation" id="Animation_lqp3l"]
 resource_name = "boxstart"
 length = 0.25
 tracks/0/type = "position_3d"
@@ -390,7 +391,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0271824, 0.708087, -0.0575358, 0.703253)
 
-[sub_resource type="Animation" id="Animation_ci8ky"]
+[sub_resource type="Animation" id="Animation_wtgj5"]
 resource_name = "grab"
 length = 0.75
 tracks/0/type = "position_3d"
@@ -765,7 +766,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0271824, 0.708087, -0.0575358, 0.703253)
 
-[sub_resource type="Animation" id="Animation_xvoxo"]
+[sub_resource type="Animation" id="Animation_usafr"]
 resource_name = "idle"
 length = 1.125
 tracks/0/type = "rotation_3d"
@@ -1140,7 +1141,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0271824, 0.708087, -0.0575358, 0.703253)
 
-[sub_resource type="Animation" id="Animation_62i3r"]
+[sub_resource type="Animation" id="Animation_0akx1"]
 resource_name = "jumpscared"
 length = 1.04167
 tracks/0/type = "position_3d"
@@ -1515,7 +1516,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0271824, 0.708087, -0.0575358, 0.703253)
 
-[sub_resource type="Animation" id="Animation_o7423"]
+[sub_resource type="Animation" id="Animation_31sw2"]
 resource_name = "press"
 length = 0.5
 tracks/0/type = "position_3d"
@@ -1890,7 +1891,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0330711, 0.0124698, 0.0250202, 0.999062)
 
-[sub_resource type="Animation" id="Animation_h3233"]
+[sub_resource type="Animation" id="Animation_saiq5"]
 resource_name = "reload"
 length = 3.20833
 tracks/0/type = "position_3d"
@@ -2265,7 +2266,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0651181, -0.687803, 0.214287, 0.690484)
 
-[sub_resource type="Animation" id="Animation_x8ld6"]
+[sub_resource type="Animation" id="Animation_eoa4r"]
 resource_name = "shoot"
 length = 0.375
 tracks/0/type = "position_3d"
@@ -2640,7 +2641,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0651181, -0.687803, 0.214287, 0.690484)
 
-[sub_resource type="Animation" id="Animation_51a8u"]
+[sub_resource type="Animation" id="Animation_yfd4j"]
 resource_name = "boxhold-loop"
 length = 2.5
 loop_mode = 1
@@ -3016,7 +3017,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0271824, 0.708087, -0.0575358, 0.703253)
 
-[sub_resource type="Animation" id="Animation_4vnai"]
+[sub_resource type="Animation" id="Animation_6yi67"]
 resource_name = "idlegun-loop"
 loop_mode = 1
 tracks/0/type = "position_3d"
@@ -3391,7 +3392,7 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0651181, -0.687803, 0.214287, 0.690484)
 
-[sub_resource type="Animation" id="Animation_yl5hu"]
+[sub_resource type="Animation" id="Animation_s2spb"]
 resource_name = "running-loop"
 loop_mode = 1
 tracks/0/type = "position_3d"
@@ -3766,18 +3767,18 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, -0.0271824, 0.708087, -0.0575358, 0.703253)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_mxaxa"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gwln2"]
 _data = {
-"boxhold": SubResource("Animation_51a8u"),
-"boxstart": SubResource("Animation_ou8vj"),
-"grab": SubResource("Animation_ci8ky"),
-"idle": SubResource("Animation_xvoxo"),
-"idlegun": SubResource("Animation_4vnai"),
-"jumpscared": SubResource("Animation_62i3r"),
-"press": SubResource("Animation_o7423"),
-"reload": SubResource("Animation_h3233"),
-"running": SubResource("Animation_yl5hu"),
-"shoot": SubResource("Animation_x8ld6")
+"boxhold": SubResource("Animation_yfd4j"),
+"boxstart": SubResource("Animation_lqp3l"),
+"grab": SubResource("Animation_wtgj5"),
+"idle": SubResource("Animation_usafr"),
+"idlegun": SubResource("Animation_6yi67"),
+"jumpscared": SubResource("Animation_0akx1"),
+"press": SubResource("Animation_31sw2"),
+"reload": SubResource("Animation_saiq5"),
+"running": SubResource("Animation_s2spb"),
+"shoot": SubResource("Animation_eoa4r")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fy6wc"]
@@ -4079,10 +4080,9 @@ fov = 90.0
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00324202, -0.197, -0.00895756)
-shadow_enabled = true
 distance_fade_enabled = true
 spot_range = 17.2534
-spot_angle = 33.1497
+spot_angle = 72.2891
 
 [node name="RayCast" type="RayCast3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, -4.46947e-08, -1, 0, 1.02249, -4.37114e-08, 0, 0, -0.0637127)
@@ -4179,7 +4179,7 @@ bones/46/rotation = Quaternion(0.708123, -0.064692, -0.271196, 0.648713)
 bones/47/scale = Vector3(1, 1, 1)
 
 [node name="GunBone" type="BoneAttachment3D" parent="Camera/hands/Hands_rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.961636, -0.211731, 0.174431, 0.268, -0.860876, 0.432514, 0.058587, 0.462669, 0.884593, -2.40674, 2.79517, 0.0448655)
+transform = Transform3D(-0.961636, -0.21173, 0.174431, 0.267999, -0.860876, 0.432515, 0.0585872, 0.46267, 0.884593, -2.40674, 2.79517, 0.0448681)
 bone_name = "hand.R"
 bone_idx = 27
 
@@ -4192,7 +4192,7 @@ transform = Transform3D(0.97398, -0.163528, -0.156919, -0.226381, -0.734928, -0.
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Camera/hands")
 libraries = {
-"": SubResource("AnimationLibrary_mxaxa")
+"": SubResource("AnimationLibrary_gwln2")
 }
 tree_root = SubResource("AnimationNodeStateMachine_nt53e")
 anim_player = NodePath("../Camera/hands/AnimationPlayer")
@@ -4209,5 +4209,10 @@ parameters/conditions/IsShooting = false
 [node name="UseDelayTimer" type="Timer" parent="."]
 wait_time = 0.6
 one_shot = true
+
+[node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0kqqi")
+volume_db = 15.581
+pitch_scale = 0.67
 
 [editable path="Camera/hands"]

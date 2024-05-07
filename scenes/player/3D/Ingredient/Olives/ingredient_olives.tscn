@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5yqmudwj0pye"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_k51w2"]
+[ext_resource type="ArrayMesh" uid="uid://bafjni4n3fkpd" path="res://scenes/player/3D/Ingredient/Olives/3D/OlivesWorld.obj" id="2_1b50s"]
+[ext_resource type="ArrayMesh" uid="uid://cse4ub2bvvqw6" path="res://scenes/player/3D/Ingredient/Olives/3D/OlivesPizza.obj" id="2_6mxqc"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1e5ro"]
+height = 0.184324
+radius = 0.0810455
+
+[node name="Ingredient" instance=ExtResource("1_k51w2")]
+Type = 5
+PizzaDisplayMesh = ExtResource("2_6mxqc")
+Mesh = ExtResource("2_1b50s")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("2_1b50s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0944383, 0)
+shape = SubResource("CylinderShape3D_1e5ro")
