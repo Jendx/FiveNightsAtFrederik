@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=37 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]
@@ -15,7 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="14_d2bv4"]
 [ext_resource type="PackedScene" uid="uid://by3qntk8txqdo" path="res://scenes/level/Minigames/Soda/SodaMinigame.tscn" id="16_wgp4f"]
 [ext_resource type="PackedScene" uid="uid://bqsjx4stcsdkp" path="res://scenes/level/Minigames/TakeOrder/TakeOrderMinigame.tscn" id="16_xphea"]
+[ext_resource type="PackedScene" uid="uid://b6vheyrolslb3" path="res://scenes/level/Minigames/PizzaExpedition/PizzaExpedition.tscn" id="17_p1ehp"]
 [ext_resource type="PackedScene" uid="uid://d0bf8yggruo8l" path="res://scenes/level/Minigames/PizzaCrafting/PizzaCraftingMinigame.tscn" id="17_ufe0o"]
+[ext_resource type="PackedScene" uid="uid://cl8mch0pglrm1" path="res://scenes/level/Controls/WinControl/WinScreen.tscn" id="18_215nm"]
 
 [sub_resource type="Environment" id="Environment_rp7tx"]
 background_mode = 1
@@ -98,6 +100,13 @@ material = SubResource("StandardMaterial3D_xyvgd")
 size = Vector3(0.1, 0.1, 0.1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_0msns"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_brjqp"]
+material = SubResource("StandardMaterial3D_xyvgd")
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_0n66a"]
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="lvl1" type="Node3D" groups=["Levels"]]
@@ -253,14 +262,34 @@ Mesh = SubResource("PrismMesh_0msns")
 [node name="CarriableItemMesh" parent="Ingredient2" index="0"]
 mesh = SubResource("PrismMesh_0msns")
 
+[node name="Ingredient3" parent="." instance=ExtResource("14_d2bv4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.1417, 1.04963, 14.7918)
+Type = 2
+PizzaDisplayMesh = SubResource("PrismMesh_brjqp")
+Mesh = SubResource("PrismMesh_0n66a")
+
+[node name="CarriableItemMesh" parent="Ingredient3" index="0"]
+mesh = SubResource("PrismMesh_0msns")
+
 [node name="Gun" parent="." instance=ExtResource("11_jipue")]
 transform = Transform3D(-3.78552e-08, 0.866025, -0.5, -1, -4.37114e-08, 0, -2.18557e-08, 0.5, 0.866025, 1.72609, 0.882666, 0.404736)
 
 [node name="TakeOrderMinigame" parent="." instance=ExtResource("16_xphea")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8775, 0.842981, 0.888875)
 
+[node name="PizzaExpedition" parent="." instance=ExtResource("17_p1ehp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.452, 0.808873, -10.1168)
+
+[node name="Button2" parent="." node_paths=PackedStringArray("UsableNode") instance=ExtResource("4_ec2ve")]
+transform = Transform3D(0.14, 0, 0, 0, 0.14, 0, 0, 0, 0.14, 20.2676, 0.853889, -12.2228)
+UsableNode = NodePath("../PizzaExpedition")
+
+[node name="WinScreen" parent="." instance=ExtResource("18_215nm")]
+visible = false
+
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]
 
 [editable path="Ingredient"]
 [editable path="Ingredient2"]
+[editable path="Ingredient3"]

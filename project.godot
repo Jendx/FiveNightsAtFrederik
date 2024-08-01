@@ -27,7 +27,8 @@ project/assembly_name="FiveNightsAtFrederik"
 [file_customization]
 
 folder_colors={
-"res://scenes/Enemy/": "red"
+"res://scenes/Enemy/": "red",
+"res://scenes/level/Controls/": "teal"
 }
 
 [filesystem]

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace FiveNightsAtFrederik.CsScripts.Enums;
+﻿namespace FiveNightsAtFrederik.CsScripts.Enums;
 
 public enum HudCrosshairStates
 {
