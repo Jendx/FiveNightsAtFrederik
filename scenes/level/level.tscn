@@ -193,7 +193,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175864, 0.230025, -3.52577)
 transform = Transform3D(0.999922, 0, 0.0125137, 0, 1, 0, -0.0125137, 0, 0.999922, 21.7684, 0.293166, 0.634852)
 
 [node name="AmericanBug" parent="." instance=ExtResource("10_0u43u")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.3189, 1.16493, 0.114175)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16.6153, 0.548396, 0.114175)
 
 [node name="LightsControl" type="Node3D" parent="."]
 script = ExtResource("1_ldrlg")
