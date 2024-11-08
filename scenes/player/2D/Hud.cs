@@ -39,10 +39,10 @@ public partial class Hud : Control
 		staminaBar.Visible = player.CurrentStamina < (float)SprintThresholds.Max;
 		style.BgColor = player.CurrentStamina switch
 		{
-			< (float)SprintThresholds.Low => new Color(0xe2433eff),
-			< (float)SprintThresholds.Middle => new Color(0xff9c3cff),
-			_ => new Color(0x898da2ff)
-		};
+			< (float)SprintThresholds.Low => FrederikColors.Red,
+			< (float)SprintThresholds.Middle => FrederikColors.Orange,
+			_ => FrederikColors.White
+        };
 
 		staminaBar.AddThemeStyleboxOverride("fill", style);
 		staminaBar.Value = player.CurrentStamina;

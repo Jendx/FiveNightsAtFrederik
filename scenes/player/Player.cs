@@ -101,7 +101,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		CarryableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_CarryableItemPositionMarker, nameof(CarryableItemPositionMarker));
 		EquipableItemPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_GunPosition, nameof(EquipableItemPositionMarker));
 		EquipableBasketPositionMarker = Camera.TryGetNode<Marker3D>(NodeNames.Camera_BasketPosition, nameof(EquipableBasketPositionMarker));
-		hud = Camera.TryGetNode<Hud>(NodeNames.Camera_HUD, nameof(hud));
+        hud = Camera.TryGetNode<Hud>(NodeNames.Camera_Hud, nameof(hud));
 		PlayerController = new PlayerController(this);
 	}
 

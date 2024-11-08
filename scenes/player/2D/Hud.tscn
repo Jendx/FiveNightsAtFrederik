@@ -8,16 +8,16 @@
 [ext_resource type="Texture2D" uid="uid://b03l4jy8j58ts" path="res://scenes/player/Textures/Crosshair_Use/Crosshair_Hand_3.png" id="6_odn4h"]
 [ext_resource type="Texture2D" uid="uid://n71f2hgen8wg" path="res://scenes/player/Textures/Crosshair_Use/Crosshair_Hand_4.png" id="7_erbpb"]
 
-[sub_resource type="AnimatedTexture" id="AnimatedTexture_qjjdt"]
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_6lq2u"]
 frames = 4
 frame_0/texture = ExtResource("4_ckg8w")
-frame_0/duration = 0.12
+frame_0/duration = 0.1
 frame_1/texture = ExtResource("5_vyd2o")
-frame_1/duration = 0.12
+frame_1/duration = 0.1
 frame_2/texture = ExtResource("6_odn4h")
-frame_2/duration = 0.11
+frame_2/duration = 0.1
 frame_3/texture = ExtResource("7_erbpb")
-frame_3/duration = 0.11
+frame_3/duration = 0.1
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -32,7 +32,7 @@ mouse_filter = 1
 script = ExtResource("1_olt72")
 defaultCrosshairTexture = {
 0: ExtResource("1_aixlq"),
-1: SubResource("AnimatedTexture_qjjdt"),
+1: SubResource("AnimatedTexture_6lq2u"),
 2: ExtResource("4_3atcw")
 }
 

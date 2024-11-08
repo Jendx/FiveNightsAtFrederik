@@ -190,12 +190,6 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
             return;
         }
 
-        //selectedIngredientIndex = Math.Clamp(selectedIngredientIndex, 0, availableIngredients.Count - 1);
-        //availableIngredients[selectedIngredientIndex].Count = selectedIngredient.Count;
-        //availableIngredients[selectedIngredientIndex].Mesh = selectedIngredient.Mesh;
-        //availableIngredients[selectedIngredientIndex].PizzaDisplayMesh = selectedIngredient.PizzaDisplayMesh;
-        //availableIngredients[selectedIngredientIndex].Type = selectedIngredient.Type;
-
         selectedIngredientIndex += direction;
         if (selectedIngredientIndex == availableIngredients.Count)
         {
@@ -207,6 +201,7 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
             selectedIngredientIndex = availableIngredients.Count - 1;
         }
 
+        selectedIngredientIndex = Math.Clamp(selectedIngredientIndex, 0, availableIngredients.Count - 1);
         selectedIngredient.Count = availableIngredients[selectedIngredientIndex].Count;
         selectedIngredient.Mesh = availableIngredients[selectedIngredientIndex].Mesh;
         selectedIngredient.PizzaDisplayMesh = availableIngredients[selectedIngredientIndex].PizzaDisplayMesh;

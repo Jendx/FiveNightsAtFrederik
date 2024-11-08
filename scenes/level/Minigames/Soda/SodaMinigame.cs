@@ -6,7 +6,7 @@ using FiveNightsAtFrederik.CsScripts.Scenes.Level.Props;
 using FiveNightsAtFrederik.Scenes.Player;
 using Godot;
 
-namespace FiveNightsAtFrederik.scenes.level;
+namespace FiveNightsAtFrederik.scenes.level.Minigames.Soda;
 
 public partial class SodaMinigame : BaseMinigame, IPlayerUsable
 {
