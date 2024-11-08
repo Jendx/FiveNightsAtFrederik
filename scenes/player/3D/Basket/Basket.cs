@@ -15,10 +15,15 @@ namespace FiveNightsAtFrederik.Scenes.Player;
 public partial class Basket : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 {
 	[Export]
-	private const int maxCapacity = 3;
+	private int maxCapacity = 3;
 
 	private Area3D basketArea;
-	private List<IStashable> itemsInBasket = new(maxCapacity);
+	private readonly List<IStashable> itemsInBasket;
+
+    public Basket()
+    {
+        itemsInBasket = new List<IStashable>();
+    }
 
 	public override void _Ready()
 	{

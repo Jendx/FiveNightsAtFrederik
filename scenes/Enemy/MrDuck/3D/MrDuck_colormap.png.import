@@ -2,13 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bm67eqmuugx25"
+uid="uid://dm4crcyagub6j"
 path.s3tc="res://.godot/imported/MrDuck_colormap.png-079b16379301da033885284ac3682258.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={}
 
 [deps]
 

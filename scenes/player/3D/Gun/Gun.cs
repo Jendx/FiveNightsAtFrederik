@@ -16,14 +16,14 @@ public partial class Gun : BaseHoldableItem, IAnimated<PlayerAnimationStates?>
 	public AnimationTree AnimationTree { get; private set; }
 
 	[Export]
-	private const float reloadTime = 3.3f;
+	private float reloadTime = 3.3f;
 
 	// Cooldown between shots
 	[Export]
-	private const float fireRate = 0.2f;
+	private float fireRate = 0.2f;
 
 	[Export]
-	private const float automaticReloadDelay = 0.9f;
+	private float automaticReloadDelay = 0.9f;
 
 	[Export]
 	[ExportGroup("Dictionary<GunSounds, AudioStreamMp3> EnumValues: 0:Shoot, 1:Reload")]
