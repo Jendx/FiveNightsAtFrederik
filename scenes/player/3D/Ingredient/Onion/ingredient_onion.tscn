@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1rqik5tdxuk0"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_fksoa"]
+[ext_resource type="ArrayMesh" uid="uid://pjjg5wt725h1" path="res://scenes/player/3D/Ingredient/Onion/3D/OnionPizza.obj" id="2_yyclf"]
+[ext_resource type="ArrayMesh" uid="uid://cv2d500r0g7s3" path="res://scenes/player/3D/Ingredient/Onion/3D/OnionWorld.obj" id="3_js7ks"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3ebd5"]
+radius = 0.0687574
+
+[node name="Ingredient" instance=ExtResource("1_fksoa")]
+Type = 10
+PizzaDisplayMesh = ExtResource("2_yyclf")
+Count = 4
+Mesh = ExtResource("3_js7ks")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("3_js7ks")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0679139, 0)
+shape = SubResource("SphereShape3D_3ebd5")

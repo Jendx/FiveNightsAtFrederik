@@ -1,8 +1,9 @@
-[gd_scene load_steps=55 format=3 uid="uid://bqmuhi78lc7mt"]
+[gd_scene load_steps=56 format=3 uid="uid://bqmuhi78lc7mt"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_khwmd"]
 [ext_resource type="PackedScene" uid="uid://vps54mweee7u" path="res://scenes/player/2D/Hud.tscn" id="2_xb5ik"]
 [ext_resource type="PackedScene" uid="uid://cav2ewutq4q72" path="res://scenes/player/3D/Hands/hands.glb" id="3_fin5y"]
+[ext_resource type="AudioStream" uid="uid://b85crceumcq5j" path="res://scenes/player/Sounds/GameOver.ogg" id="4_0kqqi"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6nyor"]
 radius = 0.357074
@@ -314,10 +315,9 @@ fov = 90.0
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00324202, -0.197, -0.00895756)
-shadow_enabled = true
 distance_fade_enabled = true
 spot_range = 17.2534
-spot_angle = 33.1497
+spot_angle = 72.2891
 
 [node name="RayCast" type="RayCast3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, -4.46947e-08, -1, 0, 1.02249, -4.37114e-08, 0, 0, -0.0637127)
@@ -338,6 +338,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.20552)
 transform = Transform3D(-0.165, 0, -2.49143e-08, 0, 0.165, 0, 2.49143e-08, 0, -0.165, 0, -1.17186, 0.0690549)
 
 [node name="Skeleton3D" parent="Camera/hands/Hands_rig" index="0"]
+bones/0/position = Vector3(0.413024, 6.44618, 0.164906)
 bones/0/rotation = Quaternion(0.503524, 0.497867, 0.502418, -0.496154)
 bones/1/rotation = Quaternion(-0.469249, 0.652362, -0.37795, 0.459764)
 bones/2/rotation = Quaternion(0.382213, 0.321678, 0.0368944, 0.865492)
@@ -351,7 +352,7 @@ bones/5/scale = Vector3(1, 1, 1)
 bones/6/rotation = Quaternion(0.62282, -0.0112647, 0.0333245, 0.781574)
 bones/7/rotation = Quaternion(0.893859, 0.0221454, -0.0464961, 0.445381)
 bones/8/position = Vector3(0.00432806, 0.0648094, 0.0596526)
-bones/8/rotation = Quaternion(-0.0211592, 0.857115, 0.374384, 0.35319)
+bones/8/rotation = Quaternion(-0.0211592, 0.857115, 0.374384, 0.353189)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/rotation = Quaternion(0.307537, 0.291196, 0.381213, 0.821768)
 bones/10/rotation = Quaternion(0.0225172, -0.154757, 0.498997, 0.852376)
@@ -369,15 +370,18 @@ bones/17/scale = Vector3(1, 1, 1)
 bones/18/rotation = Quaternion(0.633067, -0.0621049, -0.0026302, 0.771597)
 bones/19/rotation = Quaternion(-0.0449551, 0.691112, -0.19091, 0.695626)
 bones/19/scale = Vector3(1, 1, 1)
-bones/20/rotation = Quaternion(0.44669, -0.0576719, 0.000760112, 0.892828)
+bones/20/rotation = Quaternion(0.44669, -0.0576719, 0.000760106, 0.892828)
 bones/20/scale = Vector3(1, 1, 1)
 bones/21/rotation = Quaternion(0.822913, 0.0578745, 0.13407, 0.549081)
 bones/21/scale = Vector3(1, 1, 1)
 bones/22/rotation = Quaternion(0.708123, 0.064692, 0.271196, 0.648713)
+bones/23/position = Vector3(4.86417, 4.67008, 0.194681)
+bones/23/rotation = Quaternion(0.0195514, 0.245602, -0.242235, 0.938413)
 bones/23/scale = Vector3(1, 1, 1)
+bones/24/position = Vector3(-0.413024, 6.44618, 0.164906)
 bones/24/rotation = Quaternion(0.503524, -0.497867, -0.502418, -0.496154)
 bones/25/rotation = Quaternion(-0.469248, -0.652362, 0.37795, 0.459764)
-bones/26/rotation = Quaternion(0.270448, 0.0543107, 0.00808972, 0.961168)
+bones/26/rotation = Quaternion(0.270448, 0.0543107, 0.00808971, 0.961168)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/rotation = Quaternion(0.0998639, -0.0232308, -0.0176645, 0.994573)
 bones/27/scale = Vector3(1, 1, 1)
@@ -411,10 +415,12 @@ bones/44/scale = Vector3(1, 1, 1)
 bones/45/rotation = Quaternion(0.822913, -0.0578744, -0.13407, 0.549081)
 bones/45/scale = Vector3(1, 1, 1)
 bones/46/rotation = Quaternion(0.708123, -0.064692, -0.271196, 0.648713)
+bones/47/position = Vector3(-4.86417, 4.67008, 0.194681)
+bones/47/rotation = Quaternion(0.0195514, -0.245602, 0.242235, 0.938413)
 bones/47/scale = Vector3(1, 1, 1)
 
 [node name="GunBone" type="BoneAttachment3D" parent="Camera/hands/Hands_rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.961636, -0.21173, 0.174431, 0.267999, -0.860876, 0.432515, 0.0585872, 0.46267, 0.884593, -2.40674, 2.79517, 0.0448681)
+transform = Transform3D(-0.961636, -0.21173, 0.174431, 0.267999, -0.860876, 0.432514, 0.0585874, 0.462669, 0.884593, -2.40674, 2.79517, 0.0448658)
 bone_name = "hand.R"
 bone_idx = 27
 
@@ -441,5 +447,10 @@ parameters/conditions/IsShooting = false
 [node name="UseDelayTimer" type="Timer" parent="."]
 wait_time = 0.6
 one_shot = true
+
+[node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0kqqi")
+volume_db = 15.581
+pitch_scale = 0.67
 
 [editable path="Camera/hands"]

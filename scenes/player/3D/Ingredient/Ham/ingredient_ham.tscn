@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://du61ngsjilx3w"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_tmrqv"]
+[ext_resource type="ArrayMesh" uid="uid://b2gx4ngep55ta" path="res://scenes/player/3D/Ingredient/Ham/3D/HamPizza.obj" id="2_luvfp"]
+[ext_resource type="ArrayMesh" uid="uid://0as4o3pj61rk" path="res://scenes/player/3D/Ingredient/Ham/3D/HamWorld.obj" id="3_38cvx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fp6kl"]
+size = Vector3(0.146912, 0.0976563, 0.222412)
+
+[node name="Ingredient" instance=ExtResource("1_tmrqv")]
+Type = 4
+PizzaDisplayMesh = ExtResource("2_luvfp")
+Mesh = ExtResource("3_38cvx")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("3_38cvx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00326538, 0.00292969, 0)
+shape = SubResource("BoxShape3D_fp6kl")

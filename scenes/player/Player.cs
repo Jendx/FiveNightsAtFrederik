@@ -105,9 +105,9 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		PlayerController = new PlayerController(this);
 	}
 
-    public void UpdateCrosshairState(HudCrosshairStates newHudState) => hud?.UpdateCrosshairTexture(newHudState);
+	public void UpdateCrosshairState(HudCrosshairStates newHudState) => hud?.UpdateCrosshairTexture(newHudState);
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		if (Input.IsActionJustPressed(ActionNames.DEBUG_TOGGLEMOUSE))
 		{
@@ -167,7 +167,7 @@ public partial class Player : CharacterBody3D, IMovableCharacter
 		isInputDisabled = true;
 	}
 
-    public void HideHud() => hud.Hide();
+	public void HideHud() => hud.Hide();
 
-    public void ShowHud() => hud.Show();
+	public void ShowHud() => hud.Show();
 }

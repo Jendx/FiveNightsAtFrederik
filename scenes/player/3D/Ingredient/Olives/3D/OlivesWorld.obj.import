@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bafjni4n3fkpd"
+path="res://.godot/imported/OlivesWorld.obj-013df030f44d76419276e543b7109063.mesh"
+
+[deps]
+
+files=["res://.godot/imported/OlivesWorld.obj-013df030f44d76419276e543b7109063.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Olives/3D/OlivesWorld.obj"
+dest_files=["res://.godot/imported/OlivesWorld.obj-013df030f44d76419276e543b7109063.mesh", "res://.godot/imported/OlivesWorld.obj-013df030f44d76419276e543b7109063.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

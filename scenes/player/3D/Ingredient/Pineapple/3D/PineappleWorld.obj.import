@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://piysb5dx6i3u"
+path="res://.godot/imported/PineappleWorld.obj-dbf335f6d3a5bb0daa09fc9091850d79.mesh"
+
+[deps]
+
+files=["res://.godot/imported/PineappleWorld.obj-dbf335f6d3a5bb0daa09fc9091850d79.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Pineapple/3D/PineappleWorld.obj"
+dest_files=["res://.godot/imported/PineappleWorld.obj-dbf335f6d3a5bb0daa09fc9091850d79.mesh", "res://.godot/imported/PineappleWorld.obj-dbf335f6d3a5bb0daa09fc9091850d79.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

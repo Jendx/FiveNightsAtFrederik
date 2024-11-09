@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bks3nspamvwgl"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_h2kta"]
+[ext_resource type="ArrayMesh" uid="uid://jidcoui82wec" path="res://scenes/player/3D/Ingredient/Sausage/3D/SausagePizza.obj" id="2_lnrf1"]
+[ext_resource type="ArrayMesh" uid="uid://cqqdld6hx11xv" path="res://scenes/player/3D/Ingredient/Sausage/3D/SausageWorld.obj" id="3_dknw4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jggpp"]
+radius = 0.0435137
+height = 0.603896
+
+[node name="Ingredient" instance=ExtResource("1_h2kta")]
+Type = 2
+PizzaDisplayMesh = ExtResource("2_lnrf1")
+Mesh = ExtResource("3_dknw4")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("3_dknw4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_jggpp")

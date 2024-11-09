@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cwrqogstmwgn7"
+path="res://.godot/imported/MeatBallsPizza.obj-0d71a036f4e483764ccdf0c8b65738db.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MeatBallsPizza.obj-0d71a036f4e483764ccdf0c8b65738db.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/MeatBalls/3D/MeatBallsPizza.obj"
+dest_files=["res://.godot/imported/MeatBallsPizza.obj-0d71a036f4e483764ccdf0c8b65738db.mesh", "res://.godot/imported/MeatBallsPizza.obj-0d71a036f4e483764ccdf0c8b65738db.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

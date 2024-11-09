@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://rb833g2y34p8"
+path="res://.godot/imported/MozzarellaPizza.obj-62b180fa5447201c9366513f43ca255e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MozzarellaPizza.obj-62b180fa5447201c9366513f43ca255e.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Mozzarella/3D/MozzarellaPizza.obj"
+dest_files=["res://.godot/imported/MozzarellaPizza.obj-62b180fa5447201c9366513f43ca255e.mesh", "res://.godot/imported/MozzarellaPizza.obj-62b180fa5447201c9366513f43ca255e.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

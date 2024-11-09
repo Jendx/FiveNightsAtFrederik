@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://0as4o3pj61rk"
+path="res://.godot/imported/HamWorld.obj-c7465f441b0096c921993d100cdd9564.mesh"
+
+[deps]
+
+files=["res://.godot/imported/HamWorld.obj-c7465f441b0096c921993d100cdd9564.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Ham/3D/HamWorld.obj"
+dest_files=["res://.godot/imported/HamWorld.obj-c7465f441b0096c921993d100cdd9564.mesh", "res://.godot/imported/HamWorld.obj-c7465f441b0096c921993d100cdd9564.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://eisdbx0sep7e"
+path="res://.godot/imported/MozzarellaWorld.obj-54bc81a2d0ad56fb30c0eaa9b0a48749.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MozzarellaWorld.obj-54bc81a2d0ad56fb30c0eaa9b0a48749.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Mozzarella/3D/MozzarellaWorld.obj"
+dest_files=["res://.godot/imported/MozzarellaWorld.obj-54bc81a2d0ad56fb30c0eaa9b0a48749.mesh", "res://.godot/imported/MozzarellaWorld.obj-54bc81a2d0ad56fb30c0eaa9b0a48749.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

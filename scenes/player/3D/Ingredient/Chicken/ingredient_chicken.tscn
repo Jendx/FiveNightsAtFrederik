@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxxhef4dr6b8i"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_n61or"]
+[ext_resource type="ArrayMesh" uid="uid://cnk1dr816302o" path="res://scenes/player/3D/Ingredient/Chicken/3D/ChickenWorld.obj" id="2_eqvxu"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_slbc8"]
+points = PackedVector3Array(0.104358, 0.0155084, 0.0496974, 0.0226937, -0.0143292, -0.0491652, 0.00168062, -0.0183363, -0.0446584, -0.16113, 0.0115439, -0.0128864, 0.0937504, 0.0501149, -0.0163056, 0.098743, -0.0414225, 0.0185545, -0.16113, -0.0167526, 0.0153967, 0.00152459, 0.03529, 0.037925, 0.119607, -0.0291522, -0.034737, 0.0865805, 0.0319494, -0.0454978, 0.0353545, -0.0227529, 0.0470652, -0.0189955, -0.0386976, -0.0195938, -0.156402, -0.0167526, -0.017602, 0.124455, 0.0336863, 0.0191147, 0.120329, -0.0248288, 0.0372082, -0.00230928, -0.0396736, 0.0220082, -0.16113, 0.0115439, 0.0153967, 0.0303824, 0.0477203, -0.0155082, 0.129646, 0.0202782, -0.0214166, 0.0180514, 0.0353859, -0.0402531, 0.0974123, 0.0455096, 0.0269706, 0.0100979, 0.0148884, 0.0468423, 0.0984799, -0.0325937, -0.0425215, 0.022609, 0.0148881, -0.049057, 0.0299047, 0.0472641, 0.0172232, 0.0949669, -0.0153032, -0.0516546, 0.117131, 0.0198746, -0.0429079, 0.0871159, -0.0316556, 0.0435161, 0.0995056, -0.0417304, -0.0164937, 0.0144786, -0.0354053, -0.0367894, 0.128949, -0.0202438, 0.0191129, -0.156402, 0.0115439, -0.017602)
+
+[node name="Ingredient" instance=ExtResource("1_n61or")]
+Type = 6
+PizzaDisplayMesh = ExtResource("2_eqvxu")
+Count = 1
+Mesh = ExtResource("2_eqvxu")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("2_eqvxu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+shape = SubResource("ConvexPolygonShape3D_slbc8")

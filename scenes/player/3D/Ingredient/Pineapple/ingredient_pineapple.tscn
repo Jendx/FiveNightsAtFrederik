@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://eavds562as81"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_kgy7t"]
+[ext_resource type="ArrayMesh" uid="uid://dgipl3dktltu8" path="res://scenes/player/3D/Ingredient/Pineapple/3D/PineapplePizza.obj" id="2_fg1cc"]
+[ext_resource type="ArrayMesh" uid="uid://piysb5dx6i3u" path="res://scenes/player/3D/Ingredient/Pineapple/3D/PineappleWorld.obj" id="3_rg8dv"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_v1ae5"]
+height = 0.185987
+radius = 0.0803159
+
+[node name="Ingredient" instance=ExtResource("1_kgy7t")]
+Type = 14
+PizzaDisplayMesh = ExtResource("2_fg1cc")
+Mesh = ExtResource("3_rg8dv")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("3_rg8dv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.092963, 0)
+shape = SubResource("CylinderShape3D_v1ae5")

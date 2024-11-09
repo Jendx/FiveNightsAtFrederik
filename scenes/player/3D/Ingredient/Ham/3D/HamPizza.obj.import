@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b2gx4ngep55ta"
+path="res://.godot/imported/HamPizza.obj-7b74e0950a611eaed3d4d723af6b9ade.mesh"
+
+[deps]
+
+files=["res://.godot/imported/HamPizza.obj-7b74e0950a611eaed3d4d723af6b9ade.mesh"]
+
+source_file="res://scenes/player/3D/Ingredient/Ham/3D/HamPizza.obj"
+dest_files=["res://.godot/imported/HamPizza.obj-7b74e0950a611eaed3d4d723af6b9ade.mesh", "res://.godot/imported/HamPizza.obj-7b74e0950a611eaed3d4d723af6b9ade.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwpi8pguy5bov"]
+
+[ext_resource type="PackedScene" uid="uid://6xro5l6j3j15" path="res://scenes/player/3D/Ingredient/Ingredient.tscn" id="1_o2e6g"]
+[ext_resource type="ArrayMesh" uid="uid://bymods27qpl42" path="res://scenes/player/3D/Ingredient/Salami/3D/SalamiPizza.obj" id="2_745uf"]
+[ext_resource type="ArrayMesh" uid="uid://chq2603we8l2e" path="res://scenes/player/3D/Ingredient/Salami/3D/SalamiWorld.obj" id="3_btyq5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mecs5"]
+radius = 0.068811
+height = 0.421102
+
+[node name="Ingredient" instance=ExtResource("1_o2e6g")]
+Type = 5
+PizzaDisplayMesh = ExtResource("2_745uf")
+Count = 5
+Mesh = ExtResource("3_btyq5")
+
+[node name="CarriableItemMesh" parent="." index="0"]
+mesh = ExtResource("3_btyq5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_mecs5")
