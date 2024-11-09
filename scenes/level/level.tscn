@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://btq6y6cvl11kx"]
+[gd_scene load_steps=42 format=3 uid="uid://btq6y6cvl11kx"]
 
 [ext_resource type="PackedScene" uid="uid://bqmuhi78lc7mt" path="res://scenes/player/player.tscn" id="1_2vk4x"]
 [ext_resource type="Script" path="res://scenes/level/LightsControl.gd" id="1_ldrlg"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dc14cff5i2kww" path="res://scenes/level/props/Button/button.tscn" id="4_ec2ve"]
 [ext_resource type="PackedScene" uid="uid://byoe5jone6oqx" path="res://scenes/level/props/Camera_System/Camera_System.tscn" id="5_qsgvn"]
 [ext_resource type="PackedScene" uid="uid://dca4iajlg18cr" path="res://scenes/level/props/Camera_System/2D/Camera_switch_buttons.tscn" id="7_j0von"]
-[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/3D/security_cam.glb" id="7_tqghg"]
+[ext_resource type="PackedScene" uid="uid://bd34sk33qn1f3" path="res://scenes/level/props/SecurityCamera/SecurityCamera.tscn" id="7_tqghg"]
 [ext_resource type="PackedScene" uid="uid://bw7y0o07aaeu3" path="res://scenes/Enemy/MrDuck/MrDuck.tscn" id="9_jp5rx"]
 [ext_resource type="PackedScene" uid="uid://bu6mr7xhtuulk" path="res://scenes/Enemy/AmericanoBug/AmericanBug.tscn" id="10_0u43u"]
 [ext_resource type="PackedScene" uid="uid://djyuwual7g6b4" path="res://scenes/player/3D/Gun/Gun.tscn" id="11_jipue"]
@@ -93,16 +93,6 @@ agent_radius = 0.2
 edge_max_error = 0.71
 
 [sub_resource type="PrismMesh" id="PrismMesh_0msns"]
-size = Vector3(0.1, 0.1, 0.1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyvgd"]
-albedo_color = Color(0, 0.356863, 0.407843, 1)
-
-[sub_resource type="PrismMesh" id="PrismMesh_brjqp"]
-material = SubResource("StandardMaterial3D_xyvgd")
-size = Vector3(0.1, 0.1, 0.1)
-
-[sub_resource type="PrismMesh" id="PrismMesh_0n66a"]
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="lvl1" type="Node3D" groups=["Levels"]]
@@ -290,12 +280,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.855397, 15)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.2941, 0.854583, 14.829)
 Count = 4
 
-[node name="Ingredient13" parent="." instance=ExtResource("14_d2bv4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.1417, 1.04963, 14.7918)
-Type = 2
-PizzaDisplayMesh = SubResource("PrismMesh_brjqp")
-Mesh = SubResource("PrismMesh_0n66a")
-
 [node name="Gun2" parent="." instance=ExtResource("11_jipue")]
 transform = Transform3D(-3.78552e-08, 0.866025, -0.5, -1, -4.37114e-08, 0, -2.18557e-08, 0.5, 0.866025, 1.72609, 0.882666, 0.404736)
 
@@ -311,6 +295,9 @@ UsableNode = NodePath("../PizzaExpedition")
 
 [node name="WinScreen" parent="." instance=ExtResource("18_215nm")]
 visible = false
+
+[node name="Ingredient13" parent="." instance=ExtResource("16_lcy8k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4068, 0.854639, 14.8884)
 
 [connection signal="OnRaycastCollide" from="player" to="CameraSystemControl" method="Player_onRayCastColided"]
 [connection signal="timeout" from="LightsControl/LightSelectionTimer" to="LightsControl" method="_on_light_timer_timeout"]
