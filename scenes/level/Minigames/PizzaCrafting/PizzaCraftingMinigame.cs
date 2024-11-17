@@ -31,7 +31,6 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
 
     private float foamRaisingTimerWaitTime;
     private float pizzaValue;
-    private const float radius = 0.14f;
     private const float maxDistanceFromCenter = 0.23f;
     private const int successfullPlacementValue = 10;
     private const int failurePlacementValue = 3;
@@ -54,7 +53,8 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
         addIngredientArea.BodyEntered += AddIngredientArea_BodyEntered;
         pizzaSpawner.OnObjectLeftSpawnArea += () =>
         {
-            Visible = true;
+            dough.Visible = true;
+            targetMesh.Visible = true;
             interactionCollision.Disabled = false;
         };
 
@@ -67,6 +67,7 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
     /// </summary>
     private void PlaceIngredient()
     {
+        const float PlacedIngredientOffsetPizza = 0.01f;
         var placedIngredient = new Ingredient()
         {
             Mesh = selectedIngredient.Mesh,
@@ -78,7 +79,7 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
             Position = new Vector3()
             {
                 X = selectedIngredient.Position.X,
-                Y = 0.01f,
+                Y = selectedIngredient.Position.Y + PlacedIngredientOffsetPizza,
                 Z = selectedIngredient.Position.Z
             }
         };
@@ -101,12 +102,13 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
     /// </summary>
     private void ResetIngredient()
     {
+        const float IngredientSpawnOffset = 0.124f;
         selectedIngredient.GravityScale = 0;
         selectedIngredient.LinearVelocity = Vector3.Zero;
         selectedIngredient.Position = new Vector3()
         {
             X = dough.Position.X,
-            Y = 0.124f,
+            Y = dough.Position.Y + IngredientSpawnOffset,
             Z = dough.Position.Z
         };
     }
@@ -132,6 +134,7 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
         PlaceIngredient();
 
         // Set new targetPosition & refresh
+        const float radius = 0.14f;
         targetMesh.Position = Vector3Helper.GetRandomPositionInCircle(dough.Position, targetMesh.Position.Y, radius);
         ResetIngredient();
     }
@@ -274,11 +277,12 @@ public partial class PizzaCraftingMinigame : BaseMinigame, IPlayerUsable
     {
         var pizza = pizzaSpawner.TrySpawnItem<CarriablePizza>();
         pizza.Reparent(GetTree().GetNodesInGroup(GroupNames.Levels.ToString()).FirstOrDefault());
-        pizza.GlobalPosition = GlobalPosition;
+        pizza.GlobalPosition = dough.GlobalPosition;
         pizza.Value = pizzaValue;
         pizza.AddIngredients(placedIngredients);
 
-        Visible = false;
+        dough.Visible = false;
+        targetMesh.Visible = false;
         interactionCollision.Disabled = true;
 
         ResetMinigame();

@@ -61,7 +61,7 @@ public abstract partial class BaseMinigame : Node3D, IPlayerUsable
     }
 
     /// <summary>
-    /// Activates minigame after small offset So there is not misinput
+    /// Activates minigame after small offset So there is no misinput
     /// </summary>
     /// <returns></returns>
     protected async Task ActivateMinigame()
