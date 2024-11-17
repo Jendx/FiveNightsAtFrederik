@@ -21,7 +21,7 @@ public static class Vector3Helper
         {
             X = centerOfCircle.X + radius * Mathf.Cos(random.Next(minAngle, maxAngle)),
             Y = y,
-            Z = centerOfCircle.Y + radius * Mathf.Sin(random.Next(minAngle, maxAngle))
+            Z = centerOfCircle.Z + radius * Mathf.Sin(random.Next(minAngle, maxAngle))
         };
     }
 
